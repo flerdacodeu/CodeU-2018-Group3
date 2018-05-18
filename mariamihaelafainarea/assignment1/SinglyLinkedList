@@ -1,0 +1,194 @@
+import java.util.Scanner;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author maria
+ */
+public class SinglyLinkedList<T> {
+    //a class to test the problem !!!!
+    private SinglyLinkedListNode<T> first = null;
+    
+    public static class Books {
+        private String nume;
+
+        public Books(final String nume) {
+            this.nume = nume;
+        }
+
+        public Books() {
+        }
+        @Override
+        public String toString() {
+            return this.nume;
+        }
+
+    }
+    //Romanian explanation
+    //aici stiu ca tinem un bat
+    //care sa fie de lungime k
+    //si sa se mute de la inceput la sfarsit astfel incat
+    //daca tb sa scot un elem, doua,trei de la inceput
+    //sa ma mut doar cu batul mai la dreapta.
+    //batul va fi format de fapt din doi pointeri
+    //un pointer first si unul last
+
+    //English Explanation
+    //i need two pointers : first and last
+    //the first pointer is set on the first elem
+    //only when the last pointer came to the k + 1 -th position
+    //the first pointer will be incremented.
+    //In this way the first pointer
+    //will indicate at the end of the algorithm
+    //the kth element from the end to the beggining !
+
+    //i need a generic LinkedList
+    //Singly LinkedList
+    class SinglyLinkedListNode<T> {
+        private T value;
+        private SinglyLinkedListNode next;
+        public T getValue() {
+            return value;
+        }
+        public SinglyLinkedListNode getNext() {
+            return next;
+        }
+        public void setNext(SinglyLinkedListNode next) {
+            this.next = next;
+        }
+        public void setValue(T value) {
+            this.value = value;
+        } 
+        SinglyLinkedListNode() {
+        }
+        SinglyLinkedListNode(final T value, final SinglyLinkedListNode next) {
+            this.value = value;
+            this.next = next;
+        }
+    }
+    public SinglyLinkedListNode<T> getFirst() {
+        return first;
+    }
+    public void setFirst(SinglyLinkedListNode<T> first) {
+        this.first = first;
+    }
+    public SinglyLinkedList() {
+    }
+    final void insert(final T val) {
+        //insert an element to the end of the list
+        SinglyLinkedListNode<T> aux = first;
+        if (first == null) {
+            first = new SinglyLinkedListNode<>(val, null);
+        } else {
+            while (aux.next != null) {
+                aux = aux.next;
+            }
+            aux.next = new SinglyLinkedListNode<T>(val, null);
+            System.out.println("inserted");
+        }
+    }
+    final void addFirst(final T val) {
+        if (first == null) {
+            first = new SinglyLinkedListNode<>(val, null);
+        } else {
+            SinglyLinkedListNode<T> aux = new SinglyLinkedListNode<>(val, first);
+            first = aux;
+        }
+    }
+    final void addLast(final T val) {
+        insert(val);
+    }
+    final void remove(int index) {
+        //remove from a specific position
+        SinglyLinkedListNode<T> aux = first;
+        //first has the index == 0
+        if (first != null) {
+            while (index > 1 && aux != null) {
+                aux = aux.next;
+                index--;
+            }
+            aux.next = aux.next.next;
+        }
+    }
+    final void removeFirst() {
+        if (first != null) {
+            first = first.next;
+        }
+    }
+    final void removeLast() {
+        if (first == null) {
+            return;
+        } else if (first != null && first.next == null) {
+            first = null;
+        } else {
+            SinglyLinkedListNode<T> aux = first;
+            while (aux.next.next != null) {
+                aux = aux.next;
+            }
+            aux.next = null;
+            //make a bound untill the element before the last elem and the null
+        }
+
+    }
+    final void printElems() {
+        SinglyLinkedListNode<T> aux = first;
+        while (aux != null) {
+            System.out.println(aux.value + " ");
+            aux = aux.next;
+        }
+    }
+    final T getKthLastElem(final int k) {
+        //I keep the two pointers
+        //it is like a bar that
+        //keep a distance between the start and the end of it
+        SinglyLinkedListNode<T> copyOfFirst = first;
+        SinglyLinkedListNode<T> pointerToALast = first;
+        try {
+            int index = 1;
+            while (pointerToALast != null && index < k) {
+                pointerToALast = pointerToALast.next;
+                index++;
+            }
+            //construct the bar
+            while (pointerToALast.next != null) {
+                //once the distance is set you can increment both
+                copyOfFirst = copyOfFirst.next;
+                pointerToALast = pointerToALast.next;
+            }
+            return copyOfFirst.value;
+        } catch (NullPointerException e) {
+            System.out.println("There are less than " + k + " " + "elements in the list");
+            return null;
+        }
+    }
+    public static void main(final String[] args) {
+        //i have created a random object to test it
+        SinglyLinkedList<Books> bookShelf = new SinglyLinkedList<Books>();
+        System.out.println("Insert name of the books once per line");
+        System.out.println("If you have finished, insert \"#\"");
+        Scanner sc = new Scanner(System.in);
+        String whatRead = sc.nextLine();
+        while (!whatRead.equals("#")) {
+            bookShelf.insert(new Books(whatRead));
+            whatRead = sc.nextLine();
+        }
+        System.out.println("Do you want to find any element from the end? yes/no");
+        String response = sc.nextLine();
+        if (response.toLowerCase().equals("yes")) {
+            System.out.println("Insert the number !");
+            int nr = sc.nextInt();
+            System.out.println("This is what you want: ");
+            System.out.println(bookShelf.getKthLastElem(nr));
+        } else {
+            System.out.println("Unrecognized option!");
+        }
+        System.out.println("Bye !");
+    }
+}
+
+
