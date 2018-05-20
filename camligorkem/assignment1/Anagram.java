@@ -153,7 +153,6 @@ public class Anagram {
                     check[j]=true;
                     break;
                 }
-                System.out.println(i +" " +j);
             }
             if(!anagramFound)
                 return false;
