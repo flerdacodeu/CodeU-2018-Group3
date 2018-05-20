@@ -39,7 +39,7 @@ public class Anagram {
             System.out.println("Do you want comparison to be case sensitive? (Write true if you want case sensitive false otw:");
             boolean caseSensitive = scan.nextBoolean();
             findAnagram(s1,s2,caseSensitive);
-            System.out.println("Do you want to find anagram? (enter 1 to find anagram, or anything else to exit)");
+            System.out.println("Do you want to find anagram? (enter 1 to find anagram, or any other integer to exit)");
             option = scan.nextInt();
             scan.nextLine();
         }while(option==1);
