@@ -1,25 +1,19 @@
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Q1Anagram {
     public static void main(String... args){
-        System.out.println(checkAnagram("","",true));
-        System.out.println(checkAnagram("Fourth of July","Joyful Fourth",true));
-        System.out.println(checkAnagram("Fourth of July!","Joyful Fourth",true));
-        System.out.println(checkAnagram("Fourth of July","Joyful Fourth?",true));
-        System.out.println(checkAnagram("Forth of July","Joyful Fourth",true));
-        System.out.println(checkAnagram("Forth of July","Joyful fourth",true));
-        System.out.println(checkAnagram("Fourth of July","joyful fourth",false));
-        System.out.println(checkAnagram("Fourth of July","joyful forth",false));
+
     }
 
     /**
-     * Checks if two given sentences are anagrams (case sensitive)
+     * Checks if two given sentences are anagrams
      * @param sentence1
      * @param sentence2
-     * @param caseSensitive true =c ase sensitive check; false = case insensitive check
+     * @param caseSensitive true =case sensitive check; false = case insensitive check
      * @return true, if they are anagrams; false, otherwise
      */
-    private static boolean checkAnagram(String sentence1, String sentence2, boolean caseSensitive){
+    static boolean checkAnagram(String sentence1, String sentence2, boolean caseSensitive){
         sentence1 = normalizeString(sentence1);
         sentence2 = normalizeString(sentence2);
 
@@ -58,6 +52,45 @@ public class Q1Anagram {
             }else {
                 // Remove c from the map, because all occurrences are used
                 characters.remove(c);
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Checks if each word in sentence1 is an anagram of one of the words sentence2
+     * @param sentence1
+     * @param sentence2
+     * @param caseSensitive true =case sensitive check; false = case insensitive check
+     * @return true, if they are anagrams; false, otherwise
+     */
+    static boolean checkAnagramWordByWord(String sentence1, String sentence2, boolean caseSensitive){
+        String[] words1 = sentence1.split(" ");
+        String[] words2 = sentence2.split(" ");
+        boolean[] used = new boolean[words2.length];
+
+        for(String word1: words1){
+            if(word1.equals("")){
+                //Ignore empty strings
+                continue;
+            }
+            boolean anagramFound = false;
+            for(int i=0; i<words2.length;i++){
+                if(!used[i] && checkAnagram(word1,words2[i],caseSensitive)){
+                    // An anagram for word1 was found
+                    anagramFound = true;
+                    used[i] = true;
+                    break;
+                }
+            }
+            if(!anagramFound){
+                return false;
+            }
+        }
+        // Check, if all words in sentence2 had anagrams in sentence1
+        for(int i=0; i<used.length; i++){
+            if (!words2[i].equals("") && !used[i]){ //Ignore empty words
+                return false;
             }
         }
         return true;

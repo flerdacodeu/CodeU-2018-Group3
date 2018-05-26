@@ -4,7 +4,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class Q1AnagramTest {
-
     @Test
     public void testEmptyString(){
         assertTrue(Q1Anagram.checkAnagram("","",true));
@@ -23,6 +22,8 @@ public class Q1AnagramTest {
         assertFalse(Q1Anagram.checkAnagramWordByWord("a","",false));
         assertFalse(Q1Anagram.checkAnagramWordByWord("","a",true));
         assertFalse(Q1Anagram.checkAnagramWordByWord("","a",false));
+        assertTrue(Q1Anagram.checkAnagramWordByWord(" a a"," a  a ",true));
+        assertTrue(Q1Anagram.checkAnagramWordByWord("a  a","a a",true));
     }
 
     @Test
