@@ -1,58 +1,58 @@
-import java.util.AbstractMap;
-import java.util.Map;
+import java.util.Optional;
 
 public class Q2SingleLinkedList {
     public static void main(String... args) {
-        int listLength = 10;
-        Node<Integer> list = createLinkedList(0,listLength);
-        for(int k=0; k < listLength; k++){
-            System.out.println("k="+k+"\t -> "+getKthLastElement(list,k).toString());
+        int listLength = 10000;
+        Node<Integer> list = createLinkedList(listLength);
+        for (int k = -5; k < listLength + 5; k++) {
+            int finalK = k;
+            Optional<Node<Integer>> result = getKthLastElement(list, k);
+            result.ifPresent(integerNode -> System.out.println("k=" + finalK + "\t -> " + integerNode.getContent()));
+            if (!result.isPresent()) {
+                System.out.println("k=" + finalK + "\t -> error");
+            }
         }
     }
 
     /**
-     * Creates a new SingleLinkedList with count elements using recursion
-     * @param value content of the first node
+     * Creates a new SingleLinkedList with count elements
+     *
      * @param count Number of elements in the new SingleLinkedList
      * @return new SingleLinkedList, if count > 0, else it will return null
      */
-    private static Node<Integer> createLinkedList(int value, int count) {
+    private static Node<Integer> createLinkedList(int count) {
         if(count <= 0){
             return null;
         }
-        System.out.println("Value: "+value +"\tPosition from last: "+count);
-        if(count == 1){
-            return  new Node<>(value,null);
+        Node<Integer> head = new Node<>(count-1, null);
+        for(int i=count-1; i > 0; i--){
+            head = new Node<>(i-1,head);
         }
-        return new Node<>(value, createLinkedList(++value,--count));
+        return head;
     }
 
     /**
-     * Gets the kth to the last element of a given SingleLinkedList
+     * Gets the kth to the last node of a given SingleLinkedList
+     *
      * @param head First element in the SingleLinkedList
      * @param k
      * @param <T> Type of the content of the SingleLinkedList
-     * @return Content of the kth to the last element
+     * @return Optional with Content of the kth to the last element or an empty Optional if k < 0 or k > length of the list
      */
-    private static <T extends Object> T getKthLastElement(Node<T> head, int k) {
-        return getKthLastElementRecursive(head, k).getKey();
-    }
-
-    /**
-     * Gets the kth to the last element of a given SingleLinkedList using recursion
-     * @param head First element in the SingleLinkedList
-     * @param k
-     * @param <T> Type of the content of the SingleLinkedList
-     * @return Content of the kth to the last element and the level of the "recursive rise"
-     */
-    private static <T extends Object> Map.Entry<T, Integer> getKthLastElementRecursive(Node<T> head, int k) {
-        if (head.getNext() == null) {
-            return new AbstractMap.SimpleEntry<>(head.getContent(), 0);
+    private static <T> Optional<Node<T>> getKthLastElement(Node<T> head, int k) {
+        Node<T> last = head;
+        if (k < 0) {
+            return Optional.empty();
         }
-        Map.Entry<T, Integer> result = getKthLastElementRecursive(head.getNext(), k);
-        if (result.getValue() == k) {
-            return result;
+        for (int i = 0; i < k; i++) {
+            if (last.getNext() == null) {
+                return Optional.empty();
+            }
+            last = last.getNext();
         }
-        return new AbstractMap.SimpleEntry<>(head.getContent(), result.getValue() + 1);
+        for (; last.getNext() != null; last = last.getNext()) {
+            head = head.getNext();
+        }
+        return Optional.of(head);
     }
 }
