@@ -14,9 +14,12 @@ public class Q2SingleLinkedList {
      * Creates a new SingleLinkedList with count elements using recursion
      * @param value content of the first node
      * @param count Number of elements in the new SingleLinkedList
-     * @return new SingleLinkedList
+     * @return new SingleLinkedList, if count > 0, else it will return null
      */
     private static Node<Integer> createLinkedList(int value, int count) {
+        if(count <= 0){
+            return null;
+        }
         System.out.println("Value: "+value +"\tPosition from last: "+count);
         if(count == 1){
             return  new Node<>(value,null);
