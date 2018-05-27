@@ -12,6 +12,10 @@ import java.util.Scanner;
 *      Case 2: Sentences containing same letters and same number of words are anagrams
 *      "good morning" and "gdoomorning " ->  not anagram, "good morning" and "gdoo morning" -> anagram
 *      Case 3: Sentences contains same number of words AND each word in S1 has a corresponding anagram in S2 are anagram.
+*      Case 4: For the above sentences solutions consider multiple spaces as separating empty strings. Therefore, "sr es"
+*      and "es  sr" would return NOT anagram. But we might also want the multiple spaces between sentences not considered
+*      as empty strings so that "es sr" and "es      sr"  would return a result anagram.
+*
 *
 *    Remark 1: In isSentenceAnagram "abc cdf" and "acd cbf" is anagram whereas it is not in isSentenceFullAnagram
 *
@@ -22,8 +26,10 @@ import java.util.Scanner;
 *       for sentence anagram.
 *       - If assumption 3 - case3 is preferred: use isAnagram for word anagram and use isSentenceFullAnagram
 *       for sentence anagram.
+*       - If assumption 3 - case4 is preferred: use isAnagram for word anagram and use isSentenceFullAnagram2
+ *       for sentence anagram.
 *
-*   Remark 3: In the code for sentence anagram isSentenceFullAnagram is used but other approach is implemented as well.
+*   Remark 3: In the code for sentence anagram isSentenceFullAnagram2 is used but other approach is implemented as well.
 * */
 public class Anagram {
 
@@ -39,7 +45,7 @@ public class Anagram {
             System.out.println("Do you want comparison to be case sensitive? (Write true if you want case sensitive false otw:");
             boolean caseSensitive = scan.nextBoolean();
             findAnagram(s1,s2,caseSensitive);
-            System.out.println("Do you want to find anagram? (enter 1 to find anagram, or any other integer to exit)");
+            System.out.println("Do you want to find anagram? (enter 1 to find anagram, or anything else to exit)");
             option = scan.nextInt();
             scan.nextLine();
         }while(option==1);
@@ -66,7 +72,7 @@ public class Anagram {
         // if either s1 or s2 has space char then at least one of them is sentence
         // Sentence Anagram
         if(s1.contains(" ") || s2.contains(" ")){
-            res = isSentenceFullAnagram(s1,s2);
+            res = isSentenceFullAnagram2(s1,s2);
         }
         else{  // word Anagram
             res= isAnagram(s1,s2);
@@ -160,5 +166,21 @@ public class Anagram {
         }
         return true;
     }
+
+    /**
+     * Finds if the given two strings are anagram or not.
+     * Can be used for sentence anagrams for assumption 3 case 4.
+     * @param s1 : string 1
+     * @param s2 : string 2
+     * @return returns true if two string are anagrams, false otw.
+     */
+    public static boolean isSentenceFullAnagram2(String s1, String s2){
+        //Using regex we delete the multiple spaces next to each other and leave only one space
+        s1 = s1.replaceAll("\\s+"," ");
+        s2 = s2.replaceAll("\\s+"," ");
+        boolean res =isSentenceFullAnagram(s1,s2);
+        return res;
+      }
+
 }
 
