@@ -81,7 +81,7 @@ public class Q2 {
 			System.out.println("K cannot be negative");
 		}
 		else {
-			if(K > N) {
+			if(K >= N) {
 				System.out.println("K is too large");
 			}
 			else {
