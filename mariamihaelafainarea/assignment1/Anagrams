@@ -15,8 +15,10 @@ import jdk.nashorn.internal.runtime.ScriptRuntime;
  *
  * @author maria
  */
+ //solved the problem. This comment is just to solve the request 
+ //changes necessary
 public class Anagrams {
-   
+//again. something for test
    
     private Boolean findIfAnagramWords(String text1,String text2) {
         //I'm verifying the two words
