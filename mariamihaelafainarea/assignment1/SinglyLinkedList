@@ -66,8 +66,6 @@ public class SinglyLinkedList<T> {
     public void setFirst(SinglyLinkedListNode<T> first) {
         this.first = first;
     }
-    public SinglyLinkedList() {
-    }
     final void insert(final T val) {
         //insert an element to the end of the list
         SinglyLinkedListNode<T> aux = first;
