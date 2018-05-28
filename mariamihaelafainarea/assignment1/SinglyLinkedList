@@ -29,15 +29,6 @@ public class SinglyLinkedList<T> {
         }
 
     }
-    //Romanian explanation
-    //aici stiu ca tinem un bat
-    //care sa fie de lungime k
-    //si sa se mute de la inceput la sfarsit astfel incat
-    //daca tb sa scot un elem, doua,trei de la inceput
-    //sa ma mut doar cu batul mai la dreapta.
-    //batul va fi format de fapt din doi pointeri
-    //un pointer first si unul last
-
     //English Explanation
     //i need two pointers : first and last
     //the first pointer is set on the first elem
@@ -147,7 +138,7 @@ public class SinglyLinkedList<T> {
         SinglyLinkedListNode<T> copyOfFirst = first;
         SinglyLinkedListNode<T> pointerToALast = first;
         try {
-            int index = 1;
+            int index = 0;
             while (pointerToALast != null && index < k) {
                 pointerToALast = pointerToALast.next;
                 index++;
