@@ -15,19 +15,32 @@ import java.util.StringTokenizer;
 /**
  *
  * @author laura
+ * This program will read from input file N pairs of words or sentences and check if they are anagrams. 
+ * Input file format:
+ *	N - pairs to be read
+ *	the following N lines format: 
+ *		a number (0 or 1 or 2) meaning which test to use: case sensitive, 
+ *			case insensitive, phrases with case insensitive
+ *		if the number was 0 or 1 the program will read 2 more words to be tested
+ *		if the number was 2 the program will read on the same line the first 
+ *			sentence and on the next line the second sentence to be compared
  */
+
 public class Q1 {
 	
 	public static final String INPUT_FILE = "anagrams";
+	
+	// number of pairs to be checked for being anagrams
+	static int N;
 	
 	static boolean caseSensitiveAnagrams(String s1, String s2) {
 		System.out.println(s1 + " " + s2);
 		if(s1.length() != s2.length())
 			return false;
 		
-		// 58 = 122('z') - 65('A')
-		int letters_occurrences[] = new int[57];
-		for(int i = 0 ; i < 57; i++)
+		// 58 = 122('z') - 65('A') + 1
+		int letters_occurrences[] = new int[58];
+		for(int i = 0 ; i < 58; i++)
 			letters_occurrences[i] = 0;
 		for(int i = 0; i < s1.length(); i++) {
 			letters_occurrences[122 - (int)s1.charAt(i)]++;
@@ -41,9 +54,7 @@ public class Q1 {
 		return true;
 	}
 	
-	public static void main(String[] args) {
-		int N, K;
-		
+	static getResult() {
 		try {
 			Scanner sc = new Scanner(new BufferedReader(new FileReader(
 				INPUT_FILE)));
@@ -114,7 +125,9 @@ public class Q1 {
 		} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
-		
-		
+	}
+	
+	public static void main(String[] args) {
+		getResult();
 	}
 }
