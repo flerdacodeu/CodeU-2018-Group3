@@ -64,8 +64,6 @@ public class SinglyLinkedList<T> {
         public void setValue(T value) {
             this.value = value;
         } 
-        SinglyLinkedListNode() {
-        }
         SinglyLinkedListNode(final T value, final SinglyLinkedListNode next) {
             this.value = value;
             this.next = next;
