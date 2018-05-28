@@ -11,7 +11,6 @@ import java.util.Scanner;
  * @author maria
  */
 public class SinglyLinkedList<T> {
-    //done the changes
     //a class to test the problem !!!!
     private SinglyLinkedListNode<T> first = null;
     
@@ -66,6 +65,8 @@ public class SinglyLinkedList<T> {
     }
     public void setFirst(SinglyLinkedListNode<T> first) {
         this.first = first;
+    }
+    public SinglyLinkedList() {
     }
     final void insert(final T val) {
         //insert an element to the end of the list
@@ -137,7 +138,7 @@ public class SinglyLinkedList<T> {
         SinglyLinkedListNode<T> copyOfFirst = first;
         SinglyLinkedListNode<T> pointerToALast = first;
         try {
-            int index = 1;
+            int index = 0;
             while (pointerToALast != null && index < k) {
                 pointerToALast = pointerToALast.next;
                 index++;
