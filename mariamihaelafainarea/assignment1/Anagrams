@@ -33,10 +33,7 @@ public class Anagrams {
             } else {
                 nrIntrari = table.get(text1.charAt(i)) + 1;
                 table.put(text1.charAt(i),nrIntrari);
-            }
-            Iterator it = table.entrySet().iterator();
-           
-         
+            }     
             
         }
          for (Map.Entry<Character, Integer> entry : table.entrySet()) {
