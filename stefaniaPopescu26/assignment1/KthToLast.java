@@ -12,7 +12,7 @@ public class KthToLast {
         private Node next;
 
         public Node() {
-            this(0);
+            this(null);
         }
 
         public Node(Object data) {
@@ -48,10 +48,15 @@ public class KthToLast {
         }
 
         public boolean isEmpty() {
-            return head.getNext() == null;
+            return head == null;
         }
 
         public void add(T data) {
+
+            if (isEmpty()){
+                head.setData(data);
+                return;
+            }
 
             Node current = head;
 
@@ -83,10 +88,6 @@ public class KthToLast {
         }
 
         public Node getHead(){
-
-            if (isEmpty())
-                return null;
-
             return head;
         }
 
@@ -149,6 +150,7 @@ public class KthToLast {
 
         List.remove('c');
 
-        System.out.println(instance.getKthToLast(List, 2));
+        System.out.println(instance.getKthToLast(List, 5));
     }
 }
+
