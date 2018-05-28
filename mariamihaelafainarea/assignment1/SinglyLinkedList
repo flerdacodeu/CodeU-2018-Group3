@@ -10,7 +10,9 @@ import java.util.Scanner;
  *
  * @author maria
  */
+//i cannot get rid of request changes thing. 
 public class SinglyLinkedList<T> {
+//i cannot get rid of request changes thing. 
     //a class to test the problem !!!!
     private SinglyLinkedListNode<T> first = null;
     
