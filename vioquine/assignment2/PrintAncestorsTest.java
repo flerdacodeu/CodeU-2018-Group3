@@ -1,16 +1,18 @@
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Tests for the PrintAncestors method getAncestors
+ */
 public class PrintAncestorsTest {
 
-    BinaryTreeNode<Integer> root;
+    private BinaryTreeNode<Integer> root;
 
     @Before
     public void init() {
