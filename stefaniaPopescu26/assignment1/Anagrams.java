@@ -50,6 +50,9 @@ public class Anagrams {
     }
 
     private String[] getWords(String str) {
+        /*
+            The returned array contains sorted words.
+         */
         int i = 0;
 
         StringTokenizer st = new StringTokenizer(str, ",.!? ");
@@ -91,8 +94,20 @@ public class Anagrams {
         return (s1.equals(s2));
     }
 
+    private String[] transformArrays(String[] words) {
+        for (int i = 0; i < words.length; i++) {
+            if (!caseSensitiveON)
+                words[i] = words[i].toLowerCase();
+
+            char[] c = words[i].toCharArray();
+            Arrays.sort(c);
+            words[i] = String.copyValueOf(c);
+        }
+
+        return words;
+    }
+
     public boolean solve() {
-        int i, j;
         readInput();
 
         if (!caseSensitiveON) {
@@ -117,24 +132,22 @@ public class Anagrams {
         if (words1.length != words2.length)
             return false;
 
-        for (i = 0; i < words1.length; i++) {
-            for (j = 0; j < words2.length; j++) {
-                if (areAnagrams(words1[i], words2[j]))
-                    break;
-            }
-            if (j == words2.length) {
+        /*
+            This loop checks if the second sentence contains a word that
+            has the letters in the same order as they are in the first sentence.
+         */
+        for (int i = 0; i < words2.length; i++) {
+            if (sentence1.contains(words2[i]))
                 return false;
-            } else {
-                words1[i] = "";
-                words2[j] = "";
-            }
         }
 
-        for (i = 0; i < words1.length; i++)
-            if (words1[i] != "" || words2[i] != "")
-                return false;
+        words1 = transformArrays(words1);
+        words2 = transformArrays(words2);
 
-        return true;
+        Arrays.sort(words1);
+        Arrays.sort(words2);
+
+        return Arrays.equals(words1, words2);
     }
 
     public static void main(String[] args) {
