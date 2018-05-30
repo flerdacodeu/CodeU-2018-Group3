@@ -4,35 +4,35 @@
  */
 
 public class KthToLast {
-    class Node{
+    class Node<T>{
         /*
             This is the structure that is stored in the list.
          */
-        private Object data;
-        private Node next;
+        private T data;
+        private Node<T> next;
 
         public Node() {
             this(null);
         }
 
-        public Node(Object data) {
+        public Node(T data) {
             this.data = data;
             next = null;
         }
 
-        public Object getData() {
+        public T getData() {
             return data;
         }
 
-        public void setData(Object data) {
+        public void setData(T data) {
             this.data = data;
         }
 
-        public Node getNext() {
+        public Node<T> getNext() {
             return next;
         }
 
-        public void setNext(Node next) {
+        public void setNext(Node<T> next) {
             this.next = next;
         }
     }
@@ -41,7 +41,7 @@ public class KthToLast {
         /*
             This is the list structure.
          */
-        private Node head;
+        private Node<T> head;
 
         public MyLinkedList() {
             head = new Node();
@@ -58,7 +58,7 @@ public class KthToLast {
                 return;
             }
 
-            Node current = head;
+            Node<T> current = head;
 
             while (current.getNext() != null) {
                 current = current.getNext();
@@ -69,8 +69,8 @@ public class KthToLast {
 
         public void remove(T data){
 
-            Node current = head.getNext();
-            Node prev = head;
+            Node<T> current = head.getNext();
+            Node<T> prev = head;
 
             if (!isEmpty()){
 
@@ -87,14 +87,14 @@ public class KthToLast {
             }
         }
 
-        public Node getHead(){
+        public Node<T> getHead(){
             return head;
         }
 
         public String toString() {
 
             String listString = "";
-            Node current = head;
+            Node<T> current = head;
 
             while (current.getNext() != null) {
                 current = current.getNext();
@@ -113,8 +113,8 @@ public class KthToLast {
             end of the list, the left one reached the Kth to last element in the list.
          */
 
-        Node left = List.getHead();
-        Node right = List.getHead();
+        Node<Object> left = List.getHead();
+        Node<Object> right = List.getHead();
         int distance = 0;
 
         while(distance < k && right.getNext() != null) {
@@ -150,6 +150,6 @@ public class KthToLast {
 
         List.remove('c');
 
-        System.out.println(instance.getKthToLast(List, 5));
+        System.out.println(instance.getKthToLast(List, 0));
     }
 }
