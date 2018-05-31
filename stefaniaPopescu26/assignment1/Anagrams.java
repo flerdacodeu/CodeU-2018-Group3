@@ -132,15 +132,6 @@ public class Anagrams {
         if (words1.length != words2.length)
             return false;
 
-        /*
-            This loop checks if the second sentence contains a word that
-            has the letters in the same order as they are in the first sentence.
-         */
-        for (int i = 0; i < words2.length; i++) {
-            if (sentence1.contains(words2[i]))
-                return false;
-        }
-
         words1 = transformArrays(words1);
         words2 = transformArrays(words2);
 
