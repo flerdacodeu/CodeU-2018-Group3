@@ -1,4 +1,5 @@
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -15,13 +16,15 @@ import jdk.nashorn.internal.runtime.ScriptRuntime;
  *
  * @author maria
  */
- //solved the problem. This comment is just to solve the request 
- //changes necessary
-public class Anagrams {
-//again. something for test
-   
-    private Boolean findIfAnagramWords(String text1,String text2) {
+public class Anagrams {   
+    private boolean findIfAnagramWords(String text1,String text2) {
         //I'm verifying the two words
+        //I store each letter and the number of the occurences 
+        //in a hashmap , for the first word
+        //for the second i iterate throught its letters
+        //and decrement the occurences in the hashamp
+        //at the end if the hashmap do not have
+        //occurences any more everything is fine 
          HashMap<Character, Integer> table = new HashMap<Character, Integer>();
          //If the number of letters is not okey.. stop the process
          //they can't be anagrams
@@ -29,9 +32,6 @@ public class Anagrams {
             return false;
         }
         int length = text1.length();
-       //i store each letter
-       //and i keep in the hashmap also the number of entrances,
-       //the number of occurences of that letter
         for (int i = 0; i < length; i++) {
             int numberEntrances = 0;
             if (table.get(text1.charAt(i)) == null) {  
@@ -43,103 +43,79 @@ public class Anagrams {
             }     
             
         }
-        //then i iterate through the letters of the other word
-        //and i check is the current letter
-        //is also in the hashmap
-        //and i update the number of occurences from hashmap
-        //untill the end of the searching 
         for (int i = 0; i < length; i++) {
             int numberEntrances = 0 ;
             if (table.get(text2.charAt(i)) == null) {
                 return false;
-            }
-            
+            }       
             numberEntrances = table.get(text2.charAt(i));
-
             numberEntrances--;
-            
             table.replace(text2.charAt(i),numberEntrances);
-
         }
-        //if the hashmap is empty of occurences
-        //everything is okey
         for (Character c : table.keySet()) {
             if(table.get(c) != 0) {
                 return false;
             }
         }
-        return true;
-      
+        return true;   
     }
    
-    private Boolean findIfAnagramSentences(String[] words,String[] words2) {
+    private boolean findIfAnagramSentences(String[] words,String[] words2) {
         //We have to compare senteces
         //So we compare first the number of words
+        //i store each word sorted into a hashMap
+        //and verify if the number of occurences of the words
+        //in the first sentence is the same 
+        //as in the second sentence.
+        //+ i verify for each word if it doesn't have
+        //a pair in the first sentece but the partener
+        //is an anagram of it.
          HashMap<String, Integer> table2 = new HashMap<>();
         if (words.length != words2.length) {
-            //if the number isn't okey ...the senteces aren't anagrams
             return false;
         }
         for (int i = 0; i < words.length; i++) {
-            //store each word from the first sentence in a hashmap
+            char[] chars = words[i].toCharArray();
+            Arrays.sort(chars);
+            String cuvant = new String(chars);
             if (table2.get(words[i]) == null ) {
-                table2.put(words[i], 1);
+                table2.put(cuvant, 1);
             } else {
                 //every time it is repeated
                 //i increment the number of entries
-                int numberEntrances = table2.get(words[i]);
+                int numberEntrances = table2.get(cuvant);
                 numberEntrances++;
-                table2.replace(words[i], numberEntrances);
+                table2.replace(cuvant, numberEntrances);
             } 
         }
         for (int i = 0; i < words2.length; i++) {
-            //then iterate through the second sentence
-            //and search for every word
-            Boolean isOkey = false;
-            String anagrama = null;
-            for (String c : table2.keySet()) {
-                //when i'm searching for a word
-                //i keep in mind that it can exist
-                //in the first sentece
-                //but not in this form
-                //but in an anagram
-                if ( findIfAnagramWords(words2[i], c) ) {
-                    isOkey = true;
-                    anagrama = c;
-                }
+            boolean isOkey = false;
+            char[] chars = words2[i].toCharArray();
+            Arrays.sort(chars);
+            String cuvant = new String(chars);
+            if (table2.containsKey(cuvant)) {
+                isOkey = true;
             }
             if ( isOkey == false ) {
-                //if only one word doesn't fit any other anagram in 
-                //the previous sentece
-                //it is not an anagram
                 return false;
             } else {
-                //if i found that word or an anagram of it
-                //i decrease the number of occurences from
-                //the hashmap
-                int numberEntrances = table2.get(anagrama);
+                int numberEntrances = table2.get(cuvant);
                 numberEntrances--;
-                table2.replace(anagrama, numberEntrances);
+                table2.replace(cuvant, numberEntrances);
             } 
             
         }
-        //if everything in hashmap is clean
-        //the sentences are anagrams.
         for (String c : table2.keySet()) {
             if(table2.get(c) != 0) {
                 return false;
             }
         }
-        return true;
-        
+       
+        return true;        
     }
-    public Boolean decideTheOperation(String x, String y) {
+    public boolean decideTheOperation(String x, String y) {
         //This method decides if we have to compare two words
         //or two sentences. 
-        //If the length of the array of strings is just 1 
-        //we are comparing two words
-        //else
-        //there are many words in a sentece.
         String[] words1 = x.split("\\s+");
         String[] words2 = y.split("\\s+");
         if (words1.length != words2.length) {
