@@ -10,10 +10,7 @@ import java.util.Scanner;
  *
  * @author maria
  */
-//i cannot get rid of request changes thing. 
 public class SinglyLinkedList<T> {
-//i cannot get rid of request changes thing. 
-    //a class to test the problem !!!!
     private SinglyLinkedListNode<T> first = null;
     
     public static class Books {
@@ -31,7 +28,6 @@ public class SinglyLinkedList<T> {
         }
 
     }
-    //English Explanation
     //i need two pointers : first and last
     //the first pointer is set on the first elem
     //only when the last pointer came to the k + 1 -th position
@@ -40,8 +36,6 @@ public class SinglyLinkedList<T> {
     //will indicate at the end of the algorithm
     //the kth element from the end to the beggining !
 
-    //i need a generic LinkedList
-    //Singly LinkedList
     class SinglyLinkedListNode<T> {
         private T value;
         private SinglyLinkedListNode next;
@@ -99,11 +93,21 @@ public class SinglyLinkedList<T> {
         SinglyLinkedListNode<T> aux = first;
         //first has the index == 0
         if (first != null) {
-            while (index > 1 && aux != null) {
-                aux = aux.next;
-                index--;
+            if (index == 0) {
+                first = first.next;
+            } else {
+                while (index > 1 && aux.next != null) {
+                    aux = aux.next;
+                    System.out.println("UP: " + aux.value);
+                    index--;
+                }
+                if (aux.next != null && index > 0) {
+                    aux.next = aux.next.next;
+                } else {
+                    System.out.println("The element on that index "
+                            + "doesn't exist !");
+                }
             }
-            aux.next = aux.next.next;
         }
     }
     final void removeFirst() {
