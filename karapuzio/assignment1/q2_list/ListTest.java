@@ -44,4 +44,14 @@ public class ListTest {
         Double value = linkedList.findTheKthLastElement(6);
         Assert.fail("Test doesn't work correct.");
     }
+
+    @Test
+    public void checkCorrectAnswer() throws FindListElemException{
+        LinkedList<String> linkedList = new LinkedList<>();
+        linkedList.push("Lol");
+        linkedList.push("Kek");
+        linkedList.push("Chebureck");
+        String value = linkedList.findTheKthLastElement(1);
+        Assert.assertTrue(value.equals("Kek"));
+    }
 }
