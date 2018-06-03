@@ -1,3 +1,4 @@
+package assignment_1;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -23,12 +24,13 @@ import java.util.logging.Logger;
 public class Q2 {
 	
 	public static final String INPUT_FILE = "in";
+        static int N;
 	
-	static class MyList {
-		Object obj;
+	static class MyList<T> {
+		T obj;
 		MyList next;
 		
-		void addLast(Object n) {
+		void addLast(T n) {
 			if(this.obj == null){
 				this.obj = n;
 				return;
@@ -55,11 +57,34 @@ public class Q2 {
 			}
 			return result + aux.obj;
 		}
+                
+                T kToLast(int K) {
+                    MyList<T> aux = this;
+                    if(K < 0) {
+                            System.out.println("K cannot be negative");
+                            return null;
+                    }
+                    else {
+                            if(K >= N) {
+                                    System.out.println("K is too large");
+                                    return null;
+                            }
+                            else {
+                                    for(int i = 1; i < N - K; i++) {
+                                            aux = aux.next;
+                                    }
+                                    System.out.println(aux.obj);
+                                    return aux.obj;
+                            }
+                    }
+                }
+                
+                
 	}
 	
 	public static void main(String[] args) {
 		MyList list = new MyList();
-		int N, K;
+                int K;
 		
 		try {
 			Scanner sc = new Scanner(new BufferedReader(new FileReader(
@@ -75,21 +100,7 @@ public class Q2 {
 			}
 		
 		//System.out.println(list);
-		
-		MyList aux = list;
-		if(K < 0) {
-			System.out.println("K cannot be negative");
-		}
-		else {
-			if(K >= N) {
-				System.out.println("K is too large");
-			}
-			else {
-				for(int i = 1; i < N - K; i++) {
-					aux = aux.next;
-				}
-				System.out.println(aux.obj);
-			}
-		}
+                System.out.println(list.kToLast(K));
 	}
 }
+ 
