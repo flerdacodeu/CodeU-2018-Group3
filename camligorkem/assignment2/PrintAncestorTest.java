@@ -61,6 +61,4 @@ public class PrintAncestorTest {
         // if key is duplicate in tree it will return the ancestors of first found one (closer to the root)
         assertEquals(Arrays.asList(1),dupTree.getAncestor(dupTree.getRoot(),2));
     }
-
-
 }
