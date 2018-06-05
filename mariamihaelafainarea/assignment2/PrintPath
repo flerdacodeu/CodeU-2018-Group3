@@ -11,20 +11,20 @@ import java.util.Stack;
  *
  * @author maria
  */
-public class PrintPath {  
+public class PrintPath<T> {  
     private Node first;
     //store the path in myStack
     private Stack<Node> myStack;
     public class Node {
-        private int key;
+        private T key;
         private Node left,right;
-        public Node(int key, Node left, Node right) {
+        public Node(T key, Node left, Node right) {
             this.key = key;
             this.left = left;
             this.right = right;
         }
     }
-    private boolean pathExists (Node root,int x) {
+    private boolean pathExists (Node root,T x) {
         //this method go recursively
         //through the entire tree
         //and if it get to the wrong way
@@ -38,7 +38,7 @@ public class PrintPath {
         //because i need to print the path from the
         //destination to the source
         myStack.add(root);
-        if (root.key == x) {
+        if (root.key.equals(x)) {
             return true;
         } else {
             //use recursively the same function
@@ -56,7 +56,7 @@ public class PrintPath {
             System.out.println(myStack.pop().key);
         }
     }
-    public void testFunction(final int x) {
+    public void testFunction(final T x) {
         //reinitialize the stack and
         //find if the node really exists in here
         myStack = new Stack<>();
@@ -67,7 +67,7 @@ public class PrintPath {
         }
     }
     public static void main(String[] args) {
-        PrintPath low = new PrintPath();
+        PrintPath<Integer> low = new PrintPath<Integer>();
         low.first = low.new Node(4, null, null);
         low.first.left = low.new Node(5, null, null);
         low.first.right = low.new Node(3, null, null);
