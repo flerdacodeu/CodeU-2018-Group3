@@ -1,0 +1,99 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author maria
+ */
+public class LowestAncestor {
+    
+    Node first;
+    //these parameters help me find
+    //if the two values searched were found
+    boolean param1 = false;
+    boolean param2 = false;
+    
+    public class Node {
+        int key;
+        Node left,right;
+
+        public Node(int key, Node left, Node right) {
+            this.key = key;
+            this.left = left;
+            this.right = right;
+        }
+    }
+    private Node findLowestAncestor(int x,Node root,int y){
+        //it is a recursive searching
+        //of the x,y.
+        if (root == null) {
+            return null;
+        }
+        if (root.key == x) {
+            param1 = true;        
+        }
+        if (root.key == y) {
+            param2 = true;
+        }
+        Node left = findLowestAncestor(x, root.left, y); 
+        Node right = findLowestAncestor(x, root.right, y); 
+        if(root.key == x || root.key == y){
+            return root;
+        }
+        //if there is nothing in here propagate root.
+        if(left != null && right != null){
+            return root;
+        }
+        if (left != null ) {
+            return left;
+        }
+        else if (right != null) {
+           return right;
+       }
+        return null;
+    }
+    public void isARealAncestor(int x,int y) {
+        //this functions and param1,param2 verifies if "findLowstAncestor"
+        //is correct because it can happen
+        //to have an x or an y that do not exists
+        //in the tree.     
+        param1 = false;
+        param2 = false;
+        Node result = findLowestAncestor(x, first, y);
+        if (result == null || !(param1 == true && param2 == true)) {
+            System.out.println("I haven't found what you've been looking!");
+        } else if (param1 == true && param2 == true){
+        System.out.println("Lowest ancestor of " 
+                + x + " and " + y + " is: " + result.key);
+        }
+
+    }
+    public static void main(String[] args) {
+        LowestAncestor low = new LowestAncestor();
+        low.first = low.new Node(4, null, null);
+        low.first.left = low.new Node(5, null, null);
+        low.first.right = low.new Node(3, null, null);
+        low.first.left.left = low.new Node(8, null, null);
+        low.first.left.right = low.new Node(9, null, null);
+        low.first.right.left = low.new Node(1, null, null);
+        low.first.right.right = low.new Node(15, null, null);
+        low.first.right.right.right = low.new Node(7, null, null);
+        //             4
+        //           /   \
+        //          5     3
+        //         / \   / \
+        //        8   9 1   15
+        //                   \
+        //                    7
+        low.isARealAncestor(5, 5);
+        low.isARealAncestor(92, 91);
+        low.isARealAncestor(5, 0);
+        low.isARealAncestor(8, 9);
+        low.isARealAncestor(5, 15);
+        low.isARealAncestor(1, 7);
+    }
+    
+}
