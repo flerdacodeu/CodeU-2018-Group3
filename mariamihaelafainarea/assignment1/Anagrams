@@ -1,0 +1,164 @@
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Scanner;
+import jdk.nashorn.internal.runtime.ScriptRuntime;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author maria
+ */
+public class Anagrams {   
+    private boolean findIfAnagramWords(String text1,String text2) {
+        //I'm verifying the two words
+        //I store each letter and the number of the occurences 
+        //in a hashmap , for the first word
+        //for the second i iterate throught its letters
+        //and decrement the occurences in the hashamp
+        //at the end if the hashmap do not have
+        //occurences any more everything is fine 
+         HashMap<Character, Integer> table = new HashMap<Character, Integer>();
+         //If the number of letters is not okey.. stop the process
+         //they can't be anagrams
+        if (text1.length() != text2.length()) {
+            return false;
+        }
+        int length = text1.length();
+        for (int i = 0; i < length; i++) {
+            int numberEntrances = 0;
+            if (table.get(text1.charAt(i)) == null) {  
+                 table.put(text1.charAt(i),1);
+                
+            } else {
+                numberEntrances = table.get(text1.charAt(i)) + 1;
+                table.put(text1.charAt(i),numberEntrances);
+            }     
+            
+        }
+        for (int i = 0; i < length; i++) {
+            int numberEntrances = 0 ;
+            if (table.get(text2.charAt(i)) == null) {
+                return false;
+            }       
+            numberEntrances = table.get(text2.charAt(i));
+            numberEntrances--;
+            table.replace(text2.charAt(i),numberEntrances);
+        }
+        for (Character c : table.keySet()) {
+            if(table.get(c) != 0) {
+                return false;
+            }
+        }
+        return true;   
+    }
+   
+    private boolean findIfAnagramSentences(String[] words,String[] words2) {
+        //We have to compare senteces
+        //So we compare first the number of words
+        //i store each word sorted into a hashMap
+        //and verify if the number of occurences of the words
+        //in the first sentence is the same 
+        //as in the second sentence.
+        //+ i verify for each word if it doesn't have
+        //a pair in the first sentece but the partener
+        //is an anagram of it.
+         HashMap<String, Integer> table2 = new HashMap<>();
+        if (words.length != words2.length) {
+            return false;
+        }
+        for (int i = 0; i < words.length; i++) {
+            char[] chars = words[i].toCharArray();
+            Arrays.sort(chars);
+            String cuvant = new String(chars);
+            if (table2.get(words[i]) == null ) {
+                table2.put(cuvant, 1);
+            } else {
+                //every time it is repeated
+                //i increment the number of entries
+                int numberEntrances = table2.get(cuvant);
+                numberEntrances++;
+                table2.replace(cuvant, numberEntrances);
+            } 
+        }
+        for (int i = 0; i < words2.length; i++) {
+            boolean isOkey = false;
+            char[] chars = words2[i].toCharArray();
+            Arrays.sort(chars);
+            String cuvant = new String(chars);
+            if (table2.containsKey(cuvant)) {
+                isOkey = true;
+            }
+            if ( isOkey == false ) {
+                return false;
+            } else {
+                int numberEntrances = table2.get(cuvant);
+                numberEntrances--;
+                table2.replace(cuvant, numberEntrances);
+            } 
+            
+        }
+        for (String c : table2.keySet()) {
+            if(table2.get(c) != 0) {
+                return false;
+            }
+        }
+       
+        return true;        
+    }
+    public boolean decideTheOperation(String x, String y) {
+        //This method decides if we have to compare two words
+        //or two sentences. 
+        String[] words1 = x.split("\\s+");
+        String[] words2 = y.split("\\s+");
+        if (words1.length != words2.length) {
+            return false;
+        }
+        if (words1.length == 1) {
+            return findIfAnagramWords(words1[0],words2[0]);
+        } else {
+            return findIfAnagramSentences(words1, words2);
+        }
+    }
+    public static void main ( String[] args) {
+        Anagrams a = new Anagrams();
+        System.out.println("What operation do you want?");
+        System.out.println("Press \"a\" if you want to compare case insensitive");
+        System.out.println("Press \"b\" if you want to compare case sensitive");
+        Scanner sc = new Scanner(System.in);
+        String response = sc.nextLine();
+        if (response.equals("a") != true && response.equals("b") != true) {
+            System.out.println("You haven't pressed a valid option. GoodBye !");
+            return;
+        }
+        System.out.println("Okey ! ");
+        System.out.println("Introduce the words/sentences on different lines");
+        System.out.println("I'm waiting ...");
+        String x = sc.nextLine();
+        String y = sc.nextLine();
+        if (response.equals("a")) {
+           
+            x = x.toLowerCase();
+            y = y.toLowerCase();
+            System.out.println("Okey! Case insensitive");
+           
+        } else if(response.equals("b")) {
+            System.out.println("Okey ! Case sensitive");
+        } else {
+            System.out.println("You haven't introduced a valid operation. GoodBye!");
+            return;
+        }
+        System.out.println(a.decideTheOperation(x, y));         
+        
+    }
+
+    
+    
+}
