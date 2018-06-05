@@ -8,46 +8,47 @@
  *
  * @author maria
  */
-public class LowestAncestor {
+public class LowestAncestor<T> {
     
-    Node first;
+    private Node first;
     //these parameters help me find
     //if the two values searched were found
-    boolean param1 = false;
-    boolean param2 = false;
+    private boolean param1 = false;
+    private boolean param2 = false;
     
     public class Node {
-        int key;
-        Node left,right;
+        private T key;
+        private Node left,right;
 
-        public Node(int key, Node left, Node right) {
+        public Node(T key, Node left, Node right) {
             this.key = key;
             this.left = left;
             this.right = right;
         }
     }
-    private Node findLowestAncestor(int x,Node root,int y){
+    private Node findLowestAncestor(T x, Node root,T y){
         //it is a recursive searching
         //of the x,y.
         if (root == null) {
             return null;
         }
-        if (root.key == x) {
+        if (root.key.equals(x)) {
             param1 = true;        
         }
-        if (root.key == y) {
+        if (root.key.equals(y)) {
             param2 = true;
         }
         Node left = findLowestAncestor(x, root.left, y); 
         Node right = findLowestAncestor(x, root.right, y); 
-        if(root.key == x || root.key == y){
+        if(root.key.equals(x) || root.key.equals(y)){
             return root;
         }
-        //if there is nothing in here propagate root.
+        //if here are both x and y propagate root.
         if(left != null && right != null){
             return root;
         }
-        if (left != null ) {
+        //propagate what is not null
+        if (left != null) {
             return left;
         }
         else if (right != null) {
@@ -55,7 +56,7 @@ public class LowestAncestor {
        }
         return null;
     }
-    public void isARealAncestor(int x,int y) {
+    public void isARealAncestor(T x,T y) {
         //this functions and param1,param2 verifies if "findLowstAncestor"
         //is correct because it can happen
         //to have an x or an y that do not exists
@@ -72,7 +73,7 @@ public class LowestAncestor {
 
     }
     public static void main(String[] args) {
-        LowestAncestor low = new LowestAncestor();
+        LowestAncestor<Integer> low = new LowestAncestor<Integer>();
         low.first = low.new Node(4, null, null);
         low.first.left = low.new Node(5, null, null);
         low.first.right = low.new Node(3, null, null);
