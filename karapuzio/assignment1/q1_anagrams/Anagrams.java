@@ -14,11 +14,10 @@ public class Anagrams{
     /**
      * The method is used for dividing sentence to word with or without reversing.
      * @param sentence is initial string.
-     * @param reverseFlag responsible for the reversing of the string.
      * @return the map with keys as words and values as count of words.
      */
-    private static Map<String, Integer> splitSentence2Word(String sentence, boolean reverseFlag){
-        String regex = "[^a-zA-Z']+";
+    private static Map<String, Integer> splitSentence2Word(String sentence){
+        String regex = "[^a-zA-Z0-9']+";
         String[] split = sentence.split(regex);
         List<String> tokens = Arrays.asList(split);
         Map<String, Integer> words = new HashMap<>();
@@ -52,7 +51,7 @@ public class Anagrams{
             StringBuilder newWord = new StringBuilder();
             for (int i = 0 ; i < 255; i++){
                 if (alphabet[i] != 0){
-                    String charAndCount =(char) i + Integer.toString(alphabet[i]);
+                    String charAndCount =(char) i + Integer.toString(alphabet[i]) + " ";
                     newWord.append(charAndCount);
                 }
             }
@@ -68,8 +67,8 @@ public class Anagrams{
      * @return true/false depending on the verification.
      */
     public static boolean check(String str1, String str2){
-        Map<String, Integer> words1 = splitSentence2Word(str1.trim(), false);
-        Map<String, Integer> words2 = splitSentence2Word(str2.trim(), true);
+        Map<String, Integer> words1 = splitSentence2Word(str1.trim());
+        Map<String, Integer> words2 = splitSentence2Word(str2.trim());
         if (words1.size() != words2.size()){
             return false;
         }

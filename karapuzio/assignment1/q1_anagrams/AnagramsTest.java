@@ -12,8 +12,8 @@ public class AnagramsTest {
 
     @Test
     public void checkOneWordAnagram() {
-        String str1 = "mama";
-        String str2 = "amam";
+        String str1 = "333mama";
+        String str2 = "amam333";
         boolean checking = anagrams.check(str1, str2);
         Assert.assertTrue(checking);
     }
