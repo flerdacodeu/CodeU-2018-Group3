@@ -1,0 +1,94 @@
+
+import java.util.Stack;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author maria
+ */
+public class PrintPath {  
+    private Node first;
+    //store the path in myStack
+    private Stack<Node> myStack;
+    public class Node {
+        private int key;
+        private Node left,right;
+        public Node(int key, Node left, Node right) {
+            this.key = key;
+            this.left = left;
+            this.right = right;
+        }
+    }
+    private boolean pathExists (Node root,int x) {
+        //this method go recursively
+        //through the entire tree
+        //and if it get to the wrong way
+        //and doesn't find what is supposed
+        //to find it stops with false.
+        
+        if (root == null) {
+            return false;
+        }
+        //all the nodes will be stored in this way.
+        //because i need to print the path from the
+        //destination to the source
+        myStack.add(root);
+        if (root.key == x) {
+            return true;
+        } else {
+            //use recursively the same function
+            //to find in which direction my node is
+            if (pathExists(root.left, x) || pathExists(root.right, x)) {
+                return true;
+            }
+        }
+        //the direction is not good
+        myStack.pop();
+        return false;
+    }
+    private void printPath() {
+        while(!myStack.empty()) {
+            System.out.println(myStack.pop().key);
+        }
+    }
+    public void testFunction(final int x) {
+        //reinitialize the stack and
+        //find if the node really exists in here
+        myStack = new Stack<>();
+        if (pathExists(first, x)) {
+            printPath();
+        } else {
+            System.out.println("There is no node like "+ x + " in here. Sorry!");
+        }
+    }
+    public static void main(String[] args) {
+        PrintPath low = new PrintPath();
+        low.first = low.new Node(4, null, null);
+        low.first.left = low.new Node(5, null, null);
+        low.first.right = low.new Node(3, null, null);
+        low.first.left.left = low.new Node(8, null, null);
+        low.first.left.right = low.new Node(9, null, null);
+        low.first.right.left = low.new Node(1, null, null);
+        low.first.right.right = low.new Node(15, null, null);
+        low.first.right.right.right = low.new Node(7, null, null);
+        //             4
+        //           /   \
+        //          5     3
+        //         / \   / \
+        //        8   9 1   15
+        //                   \
+        //                    7
+        //low.testFunction(5);
+        //low.testFunction(7);
+        //low.testFunction(9);
+        //low.testFunction(15);
+        //low.testFunction(1);
+        low.testFunction(9);
+    
+    }
+}
