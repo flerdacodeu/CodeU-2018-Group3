@@ -1,5 +1,11 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package assignment_2;
 
+import assignment_2.Ancestors.BinaryTreeNode;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -25,7 +31,55 @@ import java.util.concurrent.LinkedBlockingDeque;
  * searches the first common value.
  * 
  */
+class AncestorsTest {
 
+    void Test1() {
+
+        // build a binary tree
+        BinaryTreeNode<Integer> tree = new BinaryTreeNode<>(7);
+        tree.addLeft(3);
+        tree.addRight(4);
+        tree.addLeft(2);
+        tree.addBalanced(5, 0);
+        tree.addBalanced(8, 1);
+        tree.addBalanced(1, 1);
+        tree.addBalanced(6, 1);
+
+        // check if it was build correctly (bfs)
+        System.out.println(tree);
+
+        ArrayList<Integer> ancestors = new ArrayList<>();
+        ArrayList<Integer> solution = new ArrayList<>();
+
+        // solution given by program for Q1
+        tree.getAncestors(tree, ancestors, 6);
+
+        // edit right solution 
+        solution.add(2); solution.add(3); solution.add(7);
+
+        // check if solution given by program is the right one
+        if(solution.equals(ancestors))
+            System.out.println("getAncestors method works fine!");
+        else {
+            System.out.println("getAncestors method does not work!");
+        }
+
+        // result given by program for Q2
+        Integer result = tree.commonAncestor(6, 5);
+
+        // edit right solution
+        Integer solutionQ2 = 3;
+
+        // check if solution given by program is the right one
+        if(result.equals(solutionQ2)) {
+            System.out.println("commonAncestor method works fine!");
+        }
+        else {
+            System.out.println("commonAncestor method does not work!");
+        }
+    }
+}
+    
 public class Ancestors {
     static class BinaryTreeNode<T> {
         BinaryTreeNode left, right;
@@ -58,12 +112,11 @@ public class Ancestors {
         // add to balance tree
         // similar to bfs traversal
         void addBalanced(T newValue, int skips) { 
-            BinaryTreeNode aux = this;
             BinaryTreeNode newNode = new BinaryTreeNode(newValue);
             Queue<BinaryTreeNode> queue = new LinkedList();
-            queue.add(aux);
+            queue.add(this);
             
-            while(true) {
+            while(!queue.isEmpty()) {
                 BinaryTreeNode current = queue.poll();
                 if(current.left != null)
                     queue.add(current.left);
@@ -90,9 +143,8 @@ public class Ancestors {
         
         public String toString() {
             String s = "";
-            BinaryTreeNode aux = this;
             Queue<BinaryTreeNode> q = new LinkedList();
-            q.add(aux); 
+            q.add(this); 
             while(!q.isEmpty()) {
                 BinaryTreeNode current = q.poll();
                 if(current.left != null)
@@ -138,55 +190,6 @@ public class Ancestors {
             }
             
             return null;
-        }
-    }
-    
-    static class AncestorsTest {
-
-        void Test1() {
-            
-            // build a binary tree
-            BinaryTreeNode<Integer> tree = new BinaryTreeNode<>(7);
-            tree.addLeft(3);
-            tree.addRight(4);
-            tree.addLeft(2);
-            tree.addBalanced(5, 0);
-            tree.addBalanced(8, 1);
-            tree.addBalanced(1, 1);
-            tree.addBalanced(6, 1);
-            
-            // check if it was build correctly (bfs)
-            System.out.println(tree);
-            
-            ArrayList<Integer> ancestors = new ArrayList<>();
-            ArrayList<Integer> solution = new ArrayList<>();
-            
-            // solution given by program for Q1
-            tree.getAncestors(tree, ancestors, 6);
-            
-            // edit right solution 
-            solution.add(2); solution.add(3); solution.add(7);
-            
-            // check if solution given by program is the right one
-            if(solution.equals(ancestors))
-                System.out.println("getAncestors method works fine!");
-            else {
-                System.out.println("getAncestors method does not work!");
-            }
-            
-            // result given by program for Q2
-            Integer result = tree.commonAncestor(6, 5);
-            
-            // edit right solution
-            Integer solutionQ2 = 3;
-            
-            // check if solution given by program is the right one
-            if(result.equals(solutionQ2)) {
-                System.out.println("commonAncestor method works fine!");
-            }
-            else {
-                System.out.println("commonAncestor method does not work!");
-            }
         }
     }
     
