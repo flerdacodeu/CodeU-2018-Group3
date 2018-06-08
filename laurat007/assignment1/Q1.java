@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -30,6 +32,7 @@ import java.util.StringTokenizer;
 public class Q1 {
 	
 	public static final String INPUT_FILE = "anagrams";
+        public static final int CHARACTERS = 58;
 	
 	// number of pairs to be checked for being anagrams
 	static int N;
@@ -41,16 +44,14 @@ public class Q1 {
                 return false;
 
             // 58 = 122('z') - 65('A') + 1
-            int letters_occurrences[] = new int[58];
-            for(int i = 0 ; i < 58; i++)
-                letters_occurrences[i] = 0;
+            int letters_occurrences[] = new int[CHARACTERS];
             for(int i = 0; i < s1.length(); i++) {
                 letters_occurrences[122 - (int)s1.charAt(i)]++;
             }
             for(int i = 0; i < s1.length(); i++) {
                 letters_occurrences[122 - (int)s2.charAt(i)]--;
             }
-            for(int i = 0 ; i < 57; i++)
+            for(int i = 0 ; i < CHARACTERS; i++)
                 if(letters_occurrences[i] != 0)
                     return false;
             return true;
@@ -65,24 +66,51 @@ public class Q1 {
                 return false;
             }
 
-            // check if each word in first sentence
-            // matches any word in the second sentence
-            int exit = 0;
+            ArrayList<ArrayList<Character>> sent1 = new ArrayList<>();
+            ArrayList<ArrayList<Character>> sent2 = new ArrayList<>();
+            
+            // sort letters in each word
             for(int j = 0; j < s1.size(); j++) {
-                exit = 0;
-                for(int k = 0; k < s2.size(); k++) {
-                    if(caseSensitiveAnagrams(s1.get(j).toLowerCase(),
-                                    s2.get(k).toLowerCase())) {
-                        exit = 1;
-                        s2.remove(k);
-                        break;
-                    }
+                ArrayList<Character> word = new ArrayList<>();
+                for(int k = 0; k < s1.get(j).length(); k++) {
+                    word.add(s1.get(j).toLowerCase().charAt(k));
                 }
-                if(exit == 0) {
-                    return false;
+                Collections.sort(word);
+                sent1.add(word);
+                
+                ArrayList<Character> word2 = new ArrayList<>();
+                for(int k = 0; k < s2.get(j).length(); k++) {
+                    word2.add(s2.get(j).toLowerCase().charAt(k));
                 }
+                Collections.sort(word2);
+                sent2.add(word2);
             }
-            if(s2.isEmpty()) 
+            
+            // sort words in sentences
+            Comparator comp = new Comparator() {
+                @Override
+                public int compare(Object o1, Object o2) {
+                    ArrayList word1 = (ArrayList) o1;
+                    ArrayList word2 = (ArrayList) o2;
+                    
+                    for(int j = 0; j < word1.size(); j++) {
+                        if(j >= word2.size())
+                            return -1;
+                        if(word1.get(j).equals(word2.get(j)))
+                            continue;
+                        return Character.compare((char)word1.get(j),(char)word2.get(j));
+                    }
+                    
+                    if(word2.size()> word1.size())
+                        return 1;
+                    return 0;
+                }
+            };
+            
+            sent1.sort(comp);
+            sent2.sort(comp);
+            
+            if(sent1.equals(sent2))
                 return true;
             return false;
         }
