@@ -10,7 +10,7 @@
  */
 public class LowestAncestor<T> {
     
-    private Node first;
+    Node first;
     //these parameters help me find
     //if the two values searched were found
     private boolean param1 = false;
@@ -20,6 +20,30 @@ public class LowestAncestor<T> {
         private T key;
         private Node left,right;
 
+        public Node getRight() {
+            return right;
+        }
+
+        public void setLeft(Node left) {
+            this.left = left;
+        }
+
+        public void setKey(T key) {
+            this.key = key;
+        }
+
+        public void setRight(Node right) {
+            this.right = right;
+        }
+
+        public Node getLeft() {
+            return left;
+        }
+
+        public T getKey() {
+            return key;
+        }
+        
         public Node(T key, Node left, Node right) {
             this.key = key;
             this.left = left;
@@ -56,7 +80,7 @@ public class LowestAncestor<T> {
        }
         return null;
     }
-    public void isARealAncestor(T x,T y) {
+    public Node isARealAncestor(T x,T y) {
         //this functions and param1,param2 verifies if "findLowstAncestor"
         //is correct because it can happen
         //to have an x or an y that do not exists
@@ -66,35 +90,13 @@ public class LowestAncestor<T> {
         Node result = findLowestAncestor(x, first, y);
         if (result == null || !(param1 == true && param2 == true)) {
             System.out.println("I haven't found what you've been looking!");
+            return null;
         } else if (param1 == true && param2 == true){
         System.out.println("Lowest ancestor of " 
                 + x + " and " + y + " is: " + result.key);
+                return result;
         }
+        return null;
 
-    }
-    public static void main(String[] args) {
-        LowestAncestor<Integer> low = new LowestAncestor<Integer>();
-        low.first = low.new Node(4, null, null);
-        low.first.left = low.new Node(5, null, null);
-        low.first.right = low.new Node(3, null, null);
-        low.first.left.left = low.new Node(8, null, null);
-        low.first.left.right = low.new Node(9, null, null);
-        low.first.right.left = low.new Node(1, null, null);
-        low.first.right.right = low.new Node(15, null, null);
-        low.first.right.right.right = low.new Node(7, null, null);
-        //             4
-        //           /   \
-        //          5     3
-        //         / \   / \
-        //        8   9 1   15
-        //                   \
-        //                    7
-        low.isARealAncestor(5, 5);
-        low.isARealAncestor(92, 91);
-        low.isARealAncestor(5, 0);
-        low.isARealAncestor(8, 9);
-        low.isARealAncestor(5, 15);
-        low.isARealAncestor(1, 7);
-    }
-    
+    }    
 }
