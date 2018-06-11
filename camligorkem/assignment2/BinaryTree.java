@@ -3,7 +3,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 public class BinaryTree<T> {
-    private BinaryNode<T> root= null;
+    private BinaryNode<T> root;
 
     public BinaryTree(BinaryNode<T> root) {
         this.root = root;
@@ -78,15 +78,14 @@ public class BinaryTree<T> {
             return ancestorList;
         }
         ArrayList<T> ancestorsL = getAncestor(root.getLeft(), key);
-        ArrayList<T> ancestorsR = getAncestor(root.getRight(), key);
-        if(ancestorsL!= null || ancestorsR!=null){ // key is present in the tree
-            if(ancestorsL!=null){  // key is in the left subtree
+        if(ancestorsL!=null){  // key is in the left subtree
                 ancestorsL.add(root.getData());
                 return ancestorsL;
-            }else{      // key is in the right subtree
+        }
+        ArrayList<T> ancestorsR = getAncestor(root.getRight(), key);
+        if(ancestorsR!=null){     // key is in the right subtree
                 ancestorsR.add(root.getData());
                 return ancestorsR;
-            }
         }
         return null;
     }
@@ -117,17 +116,20 @@ public class BinaryTree<T> {
      *     Ancestors of 2 = 3, 7 and ancestors of 6 = 2,3,7 and  common ancestors are 3,7;
      *     Lowest common ancestor than should be 3.
      * Remark 2: Since in getAncestor function when a duplicate exists, it returns the ancestor result of first one found,
-     * lowerCommonAncestor function for same values doesn't make sense to use for duplicates because it won't be between the duplicate
+     * lowestCommonAncestor function for same values doesn't make sense to use for duplicates because it won't be between the duplicate
      * nodes but the first found node with itself.
      * @param key1
      * @param key2
      * @return the lowest common ancestor
      */
-    public Optional<T> lowerCommonAncestor(T key1, T key2){
+    public Optional<T> lowestCommonAncestor(T key1, T key2){
         ArrayList<T> key1Ancestors = getAncestor(root,key1);
+        if(key1Ancestors == null){
+            return Optional.empty();
+        }
         ArrayList<T> key2Ancestors = getAncestor(root,key2);
         //no common ancestors -> one of the keys doesn't exist
-        if(key1Ancestors == null || key2Ancestors==null){
+        if(key2Ancestors == null){
             return Optional.empty();
         }
         // returns empty optional one of the keys is the root - no common ancestor since one has no ancestor
@@ -138,11 +140,8 @@ public class BinaryTree<T> {
         // add them to commonAncestor list until you found one that doesn't match.
         Collections.reverse(key1Ancestors);
         Collections.reverse(key2Ancestors);
-        int size;
-        if(key1Ancestors.size() <= key2Ancestors.size())
-            size= key1Ancestors.size();
-        else
-            size=key2Ancestors.size();
+        int size = key1Ancestors.size() <= key2Ancestors.size() ? key1Ancestors.size() : key2Ancestors.size();
+        
         int i;
         for (i=0; i<size;i++){
             if( !(key1Ancestors.get(i).equals(key2Ancestors.get(i)))){
