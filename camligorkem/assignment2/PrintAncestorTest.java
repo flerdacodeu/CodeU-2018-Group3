@@ -1,12 +1,15 @@
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import java.util.Arrays;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class PrintAncestorTest {
     BinaryTree<Integer> bt;
     BinaryTree<Integer> dupTree;
     BinaryTree<Integer> emptyTree;
 
-    @org.junit.Before
+    @Before
     public void setUp() throws Exception {
         /* not the same tree as assign 2 -
                       7
@@ -33,11 +36,11 @@ public class PrintAncestorTest {
         }
     }
 
-    @org.junit.After
+    @After
     public void tearDown() throws Exception {
     }
 
-    @org.junit.Test
+    @Test
     public void testBasics() {
         // key is root - no ancestor, empty list
         assertEquals(Arrays.asList(),bt.getAncestor(bt.getRoot(),7));
@@ -51,14 +54,16 @@ public class PrintAncestorTest {
         assertEquals(null,bt.getAncestor(bt.getRoot(),-1));
     }
 
-    @org.junit.Test
+    @Test
     public void testEmpty() {
         assertEquals(null,emptyTree.getAncestor(emptyTree.getRoot(),6));
     }
 
-    @org.junit.Test
+    @Test
     public void duplicateKeyTest() {
         // if key is duplicate in tree it will return the ancestors of first found one (closer to the root)
         assertEquals(Arrays.asList(1),dupTree.getAncestor(dupTree.getRoot(),2));
     }
+
+
 }
