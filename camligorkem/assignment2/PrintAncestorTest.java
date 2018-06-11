@@ -46,7 +46,7 @@ public class PrintAncestorTest {
         assertEquals(Arrays.asList(4,7),bt.getAncestor(bt.getRoot(),1));
         assertEquals(Arrays.asList(3,7),bt.getAncestor(bt.getRoot(),2));
         assertEquals(Arrays.asList(4,7),bt.getAncestor(bt.getRoot(),8));
-        //none existant keys
+        //non-existent keys
         assertEquals(null,bt.getAncestor(bt.getRoot(),150));
         assertEquals(null,bt.getAncestor(bt.getRoot(),-1));
     }
