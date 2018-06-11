@@ -5,8 +5,6 @@ public class BinaryNode<T> {
 
     public BinaryNode(T data) {
         this.data = data;
-        left = null;
-        right = null;
     }
 
     public T getData() {
