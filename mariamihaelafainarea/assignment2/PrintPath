@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 /*
@@ -15,9 +16,43 @@ public class PrintPath<T> {
     private Node first;
     //store the path in myStack
     private Stack<Node> myStack;
+
+    public Node getFirst() {
+        return first;
+    }
+
+    public void setFirst(Node first) {
+        this.first = first;
+    }
+    
     public class Node {
         private T key;
         private Node left,right;
+
+        public Node getRight() {
+            return right;
+        }
+
+        public void setLeft(Node left) {
+            this.left = left;
+        }
+
+        public void setKey(T key) {
+            this.key = key;
+        }
+
+        public void setRight(Node right) {
+            this.right = right;
+        }
+
+        public Node getLeft() {
+            return left;
+        }
+
+        public T getKey() {
+            return key;
+        }
+        
         public Node(T key, Node left, Node right) {
             this.key = key;
             this.left = left;
@@ -51,20 +86,23 @@ public class PrintPath<T> {
         myStack.pop();
         return false;
     }
-    private void printPath() {
-        while(!myStack.empty()) {
-            System.out.println(myStack.pop().key);
-        }
-    }
-    public void testFunction(final T x) {
+ 
+    public ArrayList<Integer> testFunction(final T x) {
         //reinitialize the stack and
         //find if the node really exists in here
         myStack = new Stack<>();
+        ArrayList<T> array = new ArrayList<>();
         if (pathExists(first, x)) {
-            printPath();
+            while(!myStack.empty()) {
+                T value = myStack.pop().key;
+                array.add(value);
+                System.out.println(myStack.pop().key);
+            }
         } else {
             System.out.println("There is no node like "+ x + " in here. Sorry!");
+            return null;
         }
+        return null;
     }
     public static void main(String[] args) {
         PrintPath<Integer> low = new PrintPath<Integer>();
