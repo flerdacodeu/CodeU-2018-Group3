@@ -104,29 +104,4 @@ public class PrintPath<T> {
         }
         return null;
     }
-    public static void main(String[] args) {
-        PrintPath<Integer> low = new PrintPath<Integer>();
-        low.first = low.new Node(4, null, null);
-        low.first.left = low.new Node(5, null, null);
-        low.first.right = low.new Node(3, null, null);
-        low.first.left.left = low.new Node(8, null, null);
-        low.first.left.right = low.new Node(9, null, null);
-        low.first.right.left = low.new Node(1, null, null);
-        low.first.right.right = low.new Node(15, null, null);
-        low.first.right.right.right = low.new Node(7, null, null);
-        //             4
-        //           /   \
-        //          5     3
-        //         / \   / \
-        //        8   9 1   15
-        //                   \
-        //                    7
-        //low.testFunction(5);
-        //low.testFunction(7);
-        //low.testFunction(9);
-        //low.testFunction(15);
-        //low.testFunction(1);
-        low.testFunction(9);
-    
-    }
 }
