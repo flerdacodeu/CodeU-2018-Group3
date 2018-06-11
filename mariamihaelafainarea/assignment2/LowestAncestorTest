@@ -1,0 +1,77 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+
+/**
+ *
+ * @author maria
+ */
+public class LowestAncestorTest {
+
+    public LowestAncestor<Integer> getTree() {
+        final LowestAncestor<Integer> low = new LowestAncestor<>();
+        low.first = low.new Node(4, null, null);
+        low.first.setLeft(low.new Node(5, null, null));
+        low.first.setRight(low.new Node(3, null, null));
+        low.first.getLeft().setLeft(low.new Node(8, null, null));
+        low.first.getLeft().setRight(low.new Node(9, null, null));
+        low.first.getRight().setLeft(low.new Node(1, null, null));
+        low.first.getRight().setRight(low.new Node(15, null, null));
+        low.first.getRight().getRight().setRight(low.new Node(7, null, null));
+        //             4
+        //           /   \
+        //          5     3
+        //         / \   / \
+        //        8   9 1   15
+        //                   \
+        //                    7  
+        return low;
+    }
+    
+    @Test
+    public void testIfSameNode(){
+        
+        LowestAncestor<Integer>.Node expected = getTree().isARealAncestor(5, 5);
+        int theBigKey = expected.getKey();
+        assertEquals(5, theBigKey);
+    }
+    @Test
+    public void testIfNodesThatBothDoNotExist(){
+        LowestAncestor<Integer>.Node expected = getTree().isARealAncestor(92, 95);
+        assertEquals(null, expected);
+    }
+    @Test
+    public void testIfOneNodeDoesNotExist(){
+        LowestAncestor<Integer>.Node expected = getTree().isARealAncestor(5, 0);
+        assertEquals(null, expected);
+    }
+    @Test
+    public void testIfUsualNodes1(){
+        LowestAncestor<Integer>.Node expected = getTree().isARealAncestor(8, 9);
+        int theBigKey = expected.getKey();
+        assertEquals(5, theBigKey);
+    }
+    @Test
+    public void testIfUsualNodes2(){
+        LowestAncestor<Integer>.Node expected = getTree().isARealAncestor(5, 15);
+        int theBigKey = expected.getKey();
+        assertEquals(4, theBigKey);
+    }
+    @Test
+    public void testIfUsualNodes3(){
+        LowestAncestor<Integer>.Node expected = getTree().isARealAncestor(1, 7);
+        int theBigKey = expected.getKey();
+        assertEquals(3, theBigKey);
+    }
+    
+    
+}
