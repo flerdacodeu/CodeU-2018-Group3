@@ -32,6 +32,8 @@ import java.util.StringTokenizer;
 public class Q1 {
 	
 	public static final String INPUT_FILE = "anagrams";
+	
+        // 58 = 122('z') - 65('A') + 1
         public static final int CHARACTERS = 58;
 	
 	// number of pairs to be checked for being anagrams
@@ -43,7 +45,6 @@ public class Q1 {
             if(s1.length() != s2.length())
                 return false;
 
-            // 58 = 122('z') - 65('A') + 1
             int letters_occurrences[] = new int[CHARACTERS];
             for(int i = 0; i < s1.length(); i++) {
                 letters_occurrences[122 - (int)s1.charAt(i)]++;
