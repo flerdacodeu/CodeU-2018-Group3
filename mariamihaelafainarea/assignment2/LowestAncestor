@@ -13,9 +13,7 @@ public class LowestAncestor<T> {
     Node first;
     //these parameters help me find
     //if the two values searched were found
-    private boolean param1 = false;
-    private boolean param2 = false;
-    
+        
     public class Node {
         private T key;
         private Node left,right;
@@ -50,20 +48,20 @@ public class LowestAncestor<T> {
             this.right = right;
         }
     }
-    private Node findLowestAncestor(T x, Node root,T y){
+    private Node findLowestAncestor(T x, Node root,T y,Boolean[] params){
         //it is a recursive searching
         //of the x,y.
         if (root == null) {
             return null;
         }
         if (root.key.equals(x)) {
-            param1 = true;        
+            params[0] = new Boolean(true);        
         }
         if (root.key.equals(y)) {
-            param2 = true;
+            params[1] = new Boolean(true);        
         }
-        Node left = findLowestAncestor(x, root.left, y); 
-        Node right = findLowestAncestor(x, root.right, y); 
+        Node left = findLowestAncestor(x, root.left, y,params); 
+        Node right = findLowestAncestor(x, root.right, y,params); 
         if(root.key.equals(x) || root.key.equals(y)){
             return root;
         }
@@ -85,18 +83,18 @@ public class LowestAncestor<T> {
         //is correct because it can happen
         //to have an x or an y that do not exists
         //in the tree.     
-        param1 = false;
-        param2 = false;
-        Node result = findLowestAncestor(x, first, y);
-        if (result == null || !(param1 == true && param2 == true)) {
+        Boolean[] params = new Boolean[2];
+        params[0] = new Boolean(false);
+        params[1] = new Boolean(false);
+        Node result = findLowestAncestor(x, first, y,params);
+        if (result == null || !(params[0].equals(new Boolean(true)) && params[1].equals(new Boolean(true)))) {
             System.out.println("I haven't found what you've been looking!");
             return null;
-        } else if (param1 == true && param2 == true){
+        } else if (params[0].equals(new Boolean(true)) && params[1].equals(new Boolean(true))){
         System.out.println("Lowest ancestor of " 
                 + x + " and " + y + " is: " + result.key);
                 return result;
         }
         return null;
 
-    }    
-}
+    }
