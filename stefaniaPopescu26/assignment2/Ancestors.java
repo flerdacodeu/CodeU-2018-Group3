@@ -14,7 +14,7 @@ public class Ancestors<T> extends Tree<T>{
         Node<T> node = findNode(getRoot(), data);
 
         if (node == null) {
-            return ancestors;
+            return null;
         }
 
         node = node.getParent();
@@ -30,8 +30,13 @@ public class Ancestors<T> extends Tree<T>{
     public void printAncestors(T data) {
         Vector<Node<T>> ancestors = getAncestors(data);
 
+        if (ancestors == null) {
+            System.out.println("Node doesn't exist -> No ancestors to show");
+            return;
+        }
+
         if (ancestors.size() == 0) {
-            System.out.println("No ancestors to show");
+            System.out.println("The node is root -> No ancestors to show");
             return;
         }
 
