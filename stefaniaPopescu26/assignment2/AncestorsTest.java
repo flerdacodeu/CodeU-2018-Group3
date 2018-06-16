@@ -21,29 +21,28 @@ public class AncestorsTest {
     }
 
     @Test
-    public void testGetAncestors1() {
-        Vector<Node<Integer>> v = new Vector<>();
-        assertEquals(v, getTree().getAncestors(-1));
+    public void testGetAncestors_invalidNode() {
+        assertEquals(null, getTree().getAncestors(-1));
     }
 
     @Test
-    public void testGetAncestors2() {
+    public void testGetAncestors_rootNode() {
         Vector<Node<Integer>> v = new Vector<>();
         assertEquals(v, getTree().getAncestors(7));
     }
 
     @Test
-    public void testGetAncestors3() {
+    public void testGetAncestors_notLeafNode() {
         Vector<Node<Integer>> v;
-        v = getTree().getAncestors(8);
+        v = getTree().getAncestors(2);
         String result = "";
         for (int i = 0; i < v.size(); i++)
             result += v.get(i) + " ";
-        assertEquals("4 7 ", result);
+        assertEquals("3 7 ", result);
     }
 
     @Test
-    public void testGetAncestors4() {
+    public void testGetAncestors_leafNode() {
         Vector<Node<Integer>> v;
         v = getTree().getAncestors(1);
         String result = "";
