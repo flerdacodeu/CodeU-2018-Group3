@@ -1,10 +1,8 @@
 public class Tree<T> {
     private Node<T> root;
-    private String inorder;
 
     public Tree() {
         root = new Node<>();
-        inorder = "";
     }
 
     public Node<T> getRoot() {
@@ -12,8 +10,9 @@ public class Tree<T> {
     }
 
     public String getInorder() {
-        inorderTraversal(root);
-        return inorder;
+        StringBuilder sb = new StringBuilder();
+        inorderTraversal(root, sb);
+        return sb.toString();
     }
 
     public boolean isEmpty() {
@@ -80,12 +79,13 @@ public class Tree<T> {
         }
     }
 
-    public void inorderTraversal(Node<T> node) {
+    private void inorderTraversal(Node<T> node, StringBuilder sb) {
         if (node == null)
             return;
 
-        inorderTraversal(node.getLeft());
-        inorder += node.getData() + " ";
-        inorderTraversal(node.getRight());
+        inorderTraversal(node.getLeft(), sb);
+        sb.append(node.getData()).append(" ");
+        inorderTraversal(node.getRight(), sb);
+
     }
 }
