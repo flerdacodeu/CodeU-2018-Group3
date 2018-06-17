@@ -19,60 +19,55 @@ public class CommonAncestorTest {
     }
 
     @Test
-    public void testIsCommonAncestor1() {
+    public void testIsCommonAncestor_root() {
         assertEquals(true, getTestCA().isCommonAncestor(getTestCA().getRoot(), 1, 7));
     }
 
     @Test
-    public void testIsCommonAncestor2() {
+    public void testIsCommonAncestor_directParentForBothNodes() {
         assertEquals(true, getTestCA().isCommonAncestor(getTestCA().findNode(getTestCA().getRoot(),
                 2), 1, 6));
     }
 
     @Test
-    public void testIsCommonAncestor3() {
+    public void testIsCommonAncestor_notValidNodes() {
         assertEquals(false, getTestCA().isCommonAncestor(getTestCA().findNode(getTestCA().getRoot(),
                 2), 10, 6));
     }
 
     @Test
-    public void testIsCommonAncestor4() {
+    public void testIsCommonAncestor_oneNodeIsLCA() {
         assertEquals(true, getTestCA().isCommonAncestor(getTestCA().findNode(getTestCA().getRoot(),
                 4), 4, 8));
     }
 
     @Test
-    public void testGetCommonAncestor1() {
+    public void testGetCommonAncestor_ancestorNotRoot() {
         assertEquals((Integer) 3, getTestCA().getCommonAncestor(5, 6));
     }
 
     @Test
-    public void testGetCommonAncestor2() {
-        assertEquals((Integer) 7, getTestCA().getCommonAncestor(7, 6));
-    }
-
-    @Test
-    public void testGetCommonAncestor3() {
-        assertEquals((Integer) 7, getTestCA().getCommonAncestor(1, 8));
-    }
-
-    @Test
-    public void testGetCommonAncestor4() {
+    public void testGetCommonAncestor_oneNodeIsLCA() {
         assertEquals((Integer) 4, getTestCA().getCommonAncestor(4, 8));
     }
 
     @Test
-    public void testGetCommonAncestor5() {
-        assertEquals((Integer) null, getTestCA().getCommonAncestor(10, 6));
+    public void testGetCommonAncestor_oneNodeIsLCA_root() {
+        assertEquals((Integer) 7, getTestCA().getCommonAncestor(7, 6));
     }
 
     @Test
-    public void testGetCommonAncestor6() {
-        assertEquals((Integer) 2, getTestCA().getCommonAncestor(1, 6));
+    public void testGetCommonAncestor_twoLeaves() {
+        assertEquals((Integer) 7, getTestCA().getCommonAncestor(1, 8));
     }
 
     @Test
-    public void testGetCommonAncestor7() {
+    public void testGetCommonAncestor_directParentForBothNodes() {
+        assertEquals((Integer) 3, getTestCA().getCommonAncestor(2, 5));
+    }
+
+    @Test
+    public void testGetCommonAncestor_notValidNodes() {
         assertEquals((Integer) null, getTestCA().getCommonAncestor(-1, -2));
     }
 }
