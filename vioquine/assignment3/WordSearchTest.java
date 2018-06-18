@@ -32,8 +32,6 @@ public class WordSearchTest {
         assertEquals(expectedResult, actualResult);
     }
 
-    //TODO more tests
-
     @Test
     public void testCheckForPosition(){
         Dictionary dictionary = new Dictionary(Arrays.asList("CAR", "CARD", "CART", "CAT"));
