@@ -1,0 +1,225 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package assignment3;
+
+import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeSet;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+/**
+ *
+ * @author maria
+ */
+public class Assignment3Test {
+    @Test
+    public void test1(){
+        //2x3 matrix !
+        //simple example
+        Assignment3 a = new Assignment3();
+        Assignment3.MyDictionary dictionary =  a.new MyDictionary();
+        dictionary.insert("card");
+        dictionary.insert("cat");
+        dictionary.insert("cart");
+        dictionary.insert("car");
+        char[][] grid = new char[2][3];
+        grid[0][0] = 'a';
+        grid[0][1] = 'a';
+        grid[0][2] = 'r';
+        grid[1][0] = 't';
+        grid[1][1] = 'c';
+        grid[1][2] = 'd';
+        for(int i = 0; i < 2; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(grid[i][j] + " ");
+            }
+            System.out.println("");
+        }
+        a.initializare(grid, dictionary);
+        Set<String> s = a.manyDFSs();
+                System.out.println(s.size());
+        Iterator<String> it = s.iterator();
+        StringBuilder bigString = new StringBuilder("");
+        while (it.hasNext()) {            
+            String currentString = it.next();
+            System.out.println(currentString);
+            bigString.append(currentString);
+            bigString.append(" ");
+        }
+        bigString.deleteCharAt(bigString.length()-1);
+        System.out.println(bigString);
+        assertEquals(bigString.toString(),"car card cat");
+        
+        
+    } 
+     @Test
+    public void test2(){
+        //3x3 matrix
+        //simple example 
+        //t is missing from grid in aparat
+        Assignment3 a = new Assignment3();
+        Assignment3.MyDictionary dictionary =  a.new MyDictionary();
+        dictionary.insert("aer");
+        dictionary.insert("apa");
+        dictionary.insert("ader");
+        dictionary.insert("amar");
+        dictionary.insert("apar");
+        dictionary.insert("aparat");
+        char[][] grid = new char[3][3];
+        grid[0][0] = 'd';
+        grid[0][1] = 'c';
+        grid[0][2] = 'b';
+        grid[1][0] = 'e';
+        grid[1][1] = 'a';
+        grid[1][2] = 'p';
+        grid[2][0] = 'r';
+        grid[2][1] = 'a';
+        grid[2][2] = 'm';
+        for(int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(grid[i][j] + " ");
+            }
+            System.out.println("");
+        }
+        a.initializare(grid, dictionary);
+        Set<String> s = a.manyDFSs();
+                System.out.println(s.size());
+        Iterator<String> it = s.iterator();
+        StringBuilder bigString = new StringBuilder("");
+        while (it.hasNext()) {            
+            String currentString = it.next();
+            System.out.println(currentString);
+            bigString.append(currentString);
+            bigString.append(" ");
+        }
+        bigString.deleteCharAt(bigString.length()-1);
+        System.out.println(bigString);
+        assertEquals(bigString.toString(),"ader aer amar apa apar");
+        
+        
+    } 
+     @Test
+    public void test3(){
+        // we have nothing in the dictionary
+        //so we cannot form anything
+        Assignment3 a = new Assignment3();
+        Assignment3.MyDictionary dictionary =  a.new MyDictionary();
+        char[][] grid = new char[3][3];
+        grid[0][0] = 'd';
+        grid[0][1] = 'c';
+        grid[0][2] = 'b';
+        grid[1][0] = 'e';
+        grid[1][1] = 'a';
+        grid[1][2] = 'p';
+        grid[2][0] = 'r';
+        grid[2][1] = 'a';
+        grid[2][2] = 'm';
+        for(int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(grid[i][j] + " ");
+            }
+            System.out.println("");
+        }
+        a.initializare(grid, dictionary);
+        Set<String> s = a.manyDFSs();
+                System.out.println(s.size());
+        Iterator<String> it = s.iterator();
+        StringBuilder bigString = new StringBuilder("");
+        while (it.hasNext()) {            
+            String currentString = it.next();
+            System.out.println(currentString);
+            bigString.append(currentString);
+            bigString.append(" ");
+        }
+        if(bigString.length()>= 1) {
+            bigString.deleteCharAt(bigString.length()-1);
+        }
+        assertEquals(bigString.toString(),"");
+        
+        
+    }
+     @Test
+    public void test4(){
+        //we have nothing also in the grid and in the dictionary
+        Assignment3 a = new Assignment3();
+        Assignment3.MyDictionary dictionary =  a.new MyDictionary();
+        char[][] grid = new char[3][3];
+        
+        a.initializare(grid, dictionary);
+        Set<String> s = a.manyDFSs();
+                System.out.println(s.size());
+        Iterator<String> it = s.iterator();
+        StringBuilder bigString = new StringBuilder("");
+        while (it.hasNext()) {            
+            String currentString = it.next();
+            System.out.println(currentString);
+            bigString.append(currentString);
+            bigString.append(" ");
+        }
+        if(bigString.length()>= 1) {
+            bigString.deleteCharAt(bigString.length()-1);
+        }
+        assertEquals(bigString.toString(),"");
+        
+        
+    }
+     @Test
+    public void test5(){
+       // TODO code application logic here
+        //3x3 matrix
+        //parada - is reapeated the "a" in the word
+        //depm - cannot be formed in dfs
+        //balustrada - cannot be formed. s is missing from grid
+        Assignment3 a = new Assignment3();
+        Assignment3.MyDictionary dictionary =  a.new MyDictionary();
+        dictionary.insert("aer");
+        dictionary.insert("apa");
+        dictionary.insert("dar");
+        dictionary.insert("mare");
+        dictionary.insert("pae");
+        dictionary.insert("parada");
+        dictionary.insert("depm");
+        dictionary.insert("balustrada");
+        char[][] grid = new char[3][3];
+        grid[0][0] = 'd';
+        grid[0][1] = 'c';
+        grid[0][2] = 'b';
+        grid[1][0] = 'e';
+        grid[1][1] = 'a';
+        grid[1][2] = 'p';
+        grid[2][0] = 'r';
+        grid[2][1] = 'a';
+        grid[2][2] = 'm';
+        for(int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(grid[i][j] + " ");
+            }
+            System.out.println("");
+        }
+        a.initializare(grid, dictionary);
+        Set<String> s = a.manyDFSs();
+                System.out.println(s.size());
+        Iterator<String> it = s.iterator();
+        StringBuilder bigString = new StringBuilder("");
+        while (it.hasNext()) {            
+            String currentString = it.next();
+            System.out.println(currentString);
+            bigString.append(currentString);
+            bigString.append(" ");
+        }
+        bigString.deleteCharAt(bigString.length()-1);
+        System.out.println(bigString);
+        assertEquals(bigString.toString(),"aer apa dar mare pae");
+        
+        
+    } 
+   
+}
