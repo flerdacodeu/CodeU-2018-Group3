@@ -14,17 +14,16 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author Laura
  */
-public class AncestorsTest extends TestCase{
-    
+public class AncestorsTest extends TestCase {
+
     public AncestorsTest() {
     }
-    
+
     Ancestors.BinaryTreeNode<Integer> buildTree1() {
         // build a binary tree
         Ancestors.BinaryTreeNode<Integer> tree = new Ancestors.BinaryTreeNode<>(7);
@@ -37,15 +36,25 @@ public class AncestorsTest extends TestCase{
         tree.addBalanced(6, 1);
         return tree;
     }
-    
-    @BeforeClass
-    public static void setUpClass() {
+
+    Ancestors.BinaryTreeNode<Integer> buildTree2() {
+        // build a binary tree
+        Ancestors.BinaryTreeNode<Integer> tree = new Ancestors.BinaryTreeNode<>(7);
+        return tree;
     }
-    
-    @AfterClass
-    public static void tearDownClass() {
+
+    Ancestors.BinaryTreeNode<Integer> buildTree3() {
+        // build a binary tree
+        Ancestors.BinaryTreeNode<Integer> tree = new Ancestors.BinaryTreeNode<>(7);
+        tree.addLeft(3);
+        tree.addLeft(8);
+        tree.addLeft(10);
+        tree.addLeft(5);
+        tree.addLeft(4);
+        tree.addLeft(1);
+        return tree;
     }
-    
+
     @Before
     public void setUp() {
         try {
@@ -54,7 +63,7 @@ public class AncestorsTest extends TestCase{
             Logger.getLogger(AncestorsTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @After
     public void tearDown() {
         try {
@@ -64,14 +73,12 @@ public class AncestorsTest extends TestCase{
         }
     }
 
-    /**
-     * Test of main method, of class Ancestors.
-     */
+    // test getAncestors
     @Test
     public void Test1() {
         // build a binary tree
         Ancestors.BinaryTreeNode<Integer> tree = buildTree1();
-        
+
         ArrayList<Integer> ancestors = new ArrayList<>();
         ArrayList<Integer> solution = new ArrayList<>();
 
@@ -79,9 +86,87 @@ public class AncestorsTest extends TestCase{
         tree.getAncestors(tree, ancestors, 6);
 
         // edit right solution 
-        solution.add(2); solution.add(3); solution.add(7);
-        
+        solution.add(2);
+        solution.add(3);
+        solution.add(7);
+
+        assertEquals(solution, ancestors);
+    }
+
+    @Test
+    public void Test2() {
+        // build a binary tree
+        Ancestors.BinaryTreeNode<Integer> tree = buildTree2();
+
+        ArrayList<Integer> ancestors = new ArrayList<>();
+        ArrayList<Integer> solution = new ArrayList<>();
+
+        // solution given by program for Q1
+        tree.getAncestors(tree, ancestors, 6);
+
         assertEquals(solution, ancestors);
     }
     
+    @Test
+    public void Test3() {
+        // build a binary tree
+        Ancestors.BinaryTreeNode<Integer> tree = buildTree3();
+
+        ArrayList<Integer> ancestors = new ArrayList<>();
+        ArrayList<Integer> solution = new ArrayList<>();
+
+        // solution given by program for Q1
+        tree.getAncestors(tree, ancestors, 10);
+
+        // edit right solution 
+        solution.add(8);
+        solution.add(3);
+        solution.add(7);
+
+        assertEquals(solution, ancestors);
+    }
+
+    // test commonAncestor
+    @Test
+    public void Test4() {
+        // build a binary tree
+        Ancestors.BinaryTreeNode<Integer> tree = buildTree2();
+
+        // solution given by program for Q2
+        Integer ancestor = tree.commonAncestor(2, 6);
+
+        // edit right solution
+        Integer solution = null;
+
+        assertEquals(solution, ancestor);
+    }
+
+    @Test
+    public void Test5() {
+        // build a binary tree
+        Ancestors.BinaryTreeNode<Integer> tree = buildTree1();
+
+        // solution given by program for Q2
+        Integer ancestor = tree.commonAncestor(5, 6);
+
+        // edit right solution
+        Integer solution = 3;
+
+        assertEquals(solution, ancestor);
+    }
+    
+    @Test
+    public void Test6() {
+        // build a binary tree
+        Ancestors.BinaryTreeNode<Integer> tree = buildTree3();
+
+        // solution given by program for Q2
+        Integer ancestor = tree.commonAncestor(5, 1);
+
+        // edit right solution
+        Integer solution = 10;
+
+        assertEquals(solution, ancestor);
+    }
+
 }
