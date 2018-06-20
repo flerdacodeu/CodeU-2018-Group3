@@ -31,54 +31,6 @@ import java.util.concurrent.LinkedBlockingDeque;
  * searches the first common value.
  * 
  */
-class AncestorsTest {
-
-    void Test1() {
-
-        // build a binary tree
-        BinaryTreeNode<Integer> tree = new BinaryTreeNode<>(7);
-        tree.addLeft(3);
-        tree.addRight(4);
-        tree.addLeft(2);
-        tree.addBalanced(5, 0);
-        tree.addBalanced(8, 1);
-        tree.addBalanced(1, 1);
-        tree.addBalanced(6, 1);
-
-        // check if it was build correctly (bfs)
-        System.out.println(tree);
-
-        ArrayList<Integer> ancestors = new ArrayList<>();
-        ArrayList<Integer> solution = new ArrayList<>();
-
-        // solution given by program for Q1
-        tree.getAncestors(tree, ancestors, 6);
-
-        // edit right solution 
-        solution.add(2); solution.add(3); solution.add(7);
-
-        // check if solution given by program is the right one
-        if(solution.equals(ancestors))
-            System.out.println("getAncestors method works fine!");
-        else {
-            System.out.println("getAncestors method does not work!");
-        }
-
-        // result given by program for Q2
-        Integer result = tree.commonAncestor(6, 5);
-
-        // edit right solution
-        Integer solutionQ2 = 3;
-
-        // check if solution given by program is the right one
-        if(result.equals(solutionQ2)) {
-            System.out.println("commonAncestor method works fine!");
-        }
-        else {
-            System.out.println("commonAncestor method does not work!");
-        }
-    }
-}
     
 public class Ancestors {
     static class BinaryTreeNode<T> {
@@ -194,8 +146,6 @@ public class Ancestors {
     }
     
     public static void main(String[] args) {
-        AncestorsTest test = new AncestorsTest();
-        test.Test1();
     }
     
 }
