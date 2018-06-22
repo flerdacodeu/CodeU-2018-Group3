@@ -27,7 +27,6 @@ public class BinaryTree<T>{
     }
 
     public BinaryTree() {
-        this.head = null;
         this.traversal = new TreeMap<>();
     }
 
@@ -63,7 +62,11 @@ public class BinaryTree<T>{
     }
 
     /**
-     * Deep-first searching for save the traversal of tree.
+     * The method for save the position for each key in the tree.
+     * The numeration of nodes looks like:
+     *       1
+     *    2       3
+     * 4   5    6   7
      * @param temp is current Node.
      * @param traversal is support traversal.
      * @param pos is the index in out tree.
@@ -78,7 +81,7 @@ public class BinaryTree<T>{
     }
 
     /**
-     * Method for call dfs with proper parameters.
+     * Method for call dfs with proper parameters for mapping keys with position in the tree.
      */
     public void treeTraversal(){
         int position = 1;
@@ -93,10 +96,10 @@ public class BinaryTree<T>{
      * return the list of all ancestors
      */
     public List<T> getAllAncestors(T value) throws BinarySearchElementException {
-        int pos = traversal.get(value);
-        if (pos == 0){
+        if (!traversal.containsKey(value)){
             throw new BinarySearchElementException("There is sno this element in BT");
         }
+        int pos = traversal.get(value);
         ArrayList<T> path = new ArrayList<>();
         Node cur = findRoute(pos, path);
         path.remove(path.size()-1);
@@ -138,11 +141,11 @@ public class BinaryTree<T>{
      * @throws BinarySearchElementException
      */
     public T getCommonAncestors(int value1, int value2) throws BinarySearchElementException {
-        int pos1 = traversal.get(value1);
-        int pos2 = traversal.get(value2);
-        if (pos1 == 0 || pos2 == 0){
+        if (!traversal.containsKey(value1) || !traversal.containsKey(value2) ){
             throw new BinarySearchElementException("The element is not in the BT.");
         }
+        int pos1 = traversal.get(value1);
+        int pos2 = traversal.get(value2);
         while (pos1 != pos2) {
             if (pos1 > pos2) {
                 pos1 /= 2;

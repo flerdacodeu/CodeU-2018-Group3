@@ -65,4 +65,17 @@ public class BinaryTreeTest {
         correctPath.add(2);
         Assert.assertTrue(correctPath.equals(path));
     }
+
+    @Test(expected = BinarySearchElementException.class)
+    public void checkIncorrectKey() throws BinarySearchElementException {
+        tree.treeTraversal();
+        tree.getAllAncestors(10);
+        //We should get in the console: 2 3 7
+    }
+
+    @Test(expected = BinarySearchElementException.class)
+    public void checkIncorrectKeyLCA() throws BinarySearchElementException {
+        tree.treeTraversal();
+        int lca = tree.getCommonAncestors(1, 10);
+    }
 }
