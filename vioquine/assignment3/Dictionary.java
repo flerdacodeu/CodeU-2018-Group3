@@ -55,7 +55,7 @@ class Dictionary {
      * @return true, if the word is a word in the dictionary, false otherwise
      */
     boolean isWord(String word) {
-        return searchWord(root, word, false);
+        return searchWord(root, word.toLowerCase(), false);
     }
 
     /**
@@ -65,7 +65,7 @@ class Dictionary {
      * @return true, if the word is a prefix, false otherwise
      */
     boolean isPrefix(String word) {
-        return searchWord(root, word, true);
+        return searchWord(root, word.toLowerCase(), true);
     }
 
     /**
@@ -84,6 +84,7 @@ class Dictionary {
             return false;
         }
         for (PrefixTreeNode node : root.children) {
+            String help = word.substring(0, node.value.length());
             if (word.substring(0, node.value.length()).equals(node.value)) {
                 return searchWord(node, word, searchPrefix);
             }
