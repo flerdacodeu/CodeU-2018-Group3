@@ -84,7 +84,6 @@ class Dictionary {
             return false;
         }
         for (PrefixTreeNode node : root.children) {
-            String help = word.substring(0, node.value.length());
             if (word.substring(0, node.value.length()).equals(node.value)) {
                 return searchWord(node, word, searchPrefix);
             }
