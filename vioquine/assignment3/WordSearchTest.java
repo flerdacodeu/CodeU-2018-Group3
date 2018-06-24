@@ -2,12 +2,22 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class WordSearchTest {
+
+    @Test
+    public void testEmptyGrid(){
+        Dictionary dictionary = new Dictionary(Arrays.asList("CAR", "CARD", "CART", "CAT"));
+        char[][] grid = new char[][]{};
+
+        Set<String> result = WordSearch.searchWords(dictionary, grid);
+
+        assertTrue(result.isEmpty());
+    }
 
     /**
      * Test for the example on the assignment
@@ -32,14 +42,5 @@ public class WordSearchTest {
         Set<String> actualResult = WordSearch.searchWords(dictionary, grid);
 
         assertEquals(expectedResult, actualResult);
-    }
-
-    @Test
-    public void testCheckForPosition() {
-        Dictionary dictionary = new Dictionary(Arrays.asList("CAR", "CARD", "CART", "CAT"));
-        char[][] grid = new char[][]{{'a', 'a', 'r'}, {'t', 'c', 'd'}};
-        boolean[][] visited = new boolean[][]{{true, false, false}, {false, true, false}};
-        assertEquals(WordSearch.checkForPosition(dictionary, grid, 0, 0, "ca", visited), Optional.empty());
-        assertEquals(WordSearch.checkForPosition(dictionary, grid, 1, 0, "ca", visited), Optional.of(new HashSet<>(Arrays.asList("cat"))));
     }
 }
