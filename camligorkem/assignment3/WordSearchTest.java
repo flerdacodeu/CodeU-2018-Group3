@@ -7,7 +7,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 public class WordSearchTest {
-    WordSearch ws;
     Dictionary dic;
     Dictionary dic2;
     Optional<HashSet<String>> answer;
@@ -15,7 +14,7 @@ public class WordSearchTest {
     char[][] grid2 = {{'a', 'a', 'r'}, {'t', 'c', 'd'},{'t','r','e'},{'e','e','e'}};
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp()  {
         dic = new Dictionary();
         String[] words = {"CAR", "CARD", "CART", "CAT"};
         for(String word: words){
