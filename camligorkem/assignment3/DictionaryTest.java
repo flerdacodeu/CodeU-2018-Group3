@@ -1,19 +1,12 @@
 import org.junit.Before;
 import org.junit.Test;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Optional;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class DictionaryTest {
-    WordSearch ws;
     Dictionary dic;
-    Optional<HashSet<String>> answer;
-    char[][] grid = {{'a', 'a', 'r'}, {'t', 'c', 'd'}};
-
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         dic = new Dictionary();
         String[] words = {"CAR", "CARD", "CART", "CAT"};
         for(String word: words){
@@ -34,7 +27,6 @@ public class DictionaryTest {
         //isPrefix
         assertTrue(dic.isPrefix("c"));
         assertTrue(dic.isPrefix("ca"));
-        assertTrue(dic.isPrefix("c"));
         assertTrue(dic.isPrefix("card"));
         assertTrue(dic.isPrefix("cart"));
         assertTrue(dic.isPrefix("cat"));
