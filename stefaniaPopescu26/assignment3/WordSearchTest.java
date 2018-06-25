@@ -17,7 +17,7 @@ public class WordSearchTest {
     @Test
     public void getWords_emptyDictionary() {
         WordSearch ws = new WordSearch("wordSearch.txt", "dictionary.txt");
-        ws.delDictionary();
+        ws.getEmptyDictionary();
         assertEquals(new ArrayList(), ws.getWords());
     }
 
