@@ -1,3 +1,4 @@
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -5,38 +6,38 @@ import static org.junit.Assert.*;
 public class DictionaryTest {
 
     @Test
-    public void isWord_null() {
+    public void isWord_emptyString() {
         Dictionary dictionary = new Dictionary("dictionary.txt");
-        assertEquals(false, dictionary.isWord(null));
+        assertFalse(dictionary.isWord(""));
     }
 
     @Test
     public void isWord_invalidWord() {
         Dictionary dictionary = new Dictionary("dictionary.txt");
-        assertEquals(false, dictionary.isWord("HELLO"));
+        assertFalse(dictionary.isWord("HELLO"));
     }
 
     @Test
     public void isWord_validWord() {
         Dictionary dictionary = new Dictionary("dictionary.txt");
-        assertEquals(true, dictionary.isWord("CAT"));
+        assertTrue(dictionary.isWord("CAT"));
     }
 
     @Test
-    public void isPrefix_null() {
+    public void isPrefix_emptyString() {
         Dictionary dictionary = new Dictionary("dictionary.txt");
-        assertEquals(false, dictionary.isPrefix(null));
+        assertFalse(dictionary.isPrefix(""));
     }
 
     @Test
     public void isPrefix_invalidPrefix() {
         Dictionary dictionary = new Dictionary("dictionary.txt");
-        assertEquals(false, dictionary.isPrefix("HE"));
+        assertFalse(dictionary.isPrefix("HE"));
     }
 
     @Test
     public void isPrefix_validPrefix() {
         Dictionary dictionary = new Dictionary("dictionary.txt");
-        assertEquals(true, dictionary.isPrefix("CA"));
+        assertTrue(dictionary.isPrefix("CA"));
     }
 }
