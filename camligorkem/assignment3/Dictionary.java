@@ -1,9 +1,12 @@
+import java.util.HashMap;
+import java.util.Map;
+
 // Trie Node class to create Dictionary based on prefixes
 class TrieNode{
-    TrieNode[] letters;
+    Map<Integer, TrieNode> letters;
     boolean isWord;
     public TrieNode(){
-        this.letters = new TrieNode[26];
+        this.letters = new HashMap<>();
     }
 }
 
@@ -25,11 +28,11 @@ public class Dictionary {
         for(int i=0; i<word.length(); i++){
             char c = word.charAt(i);
             int ind = c -'a';
-            if(pref.letters[ind] != null){
-                pref = pref.letters[ind];
+            if(pref.letters.get(ind) != null){
+                pref = pref.letters.get(ind);
             }else{
                 TrieNode temp = new TrieNode();
-                pref.letters[ind]=temp;
+                pref.letters.put(ind,temp);
                 pref = temp;
             }
         }
@@ -42,11 +45,7 @@ public class Dictionary {
      */
     public boolean isWord(String str) {
         TrieNode p = searchNode(str);
-        if(p != null) {
-            if (p.isWord)
-                return true;
-        }
-        return false;
+        return(p != null && p.isWord);
     }
 
     /**
@@ -54,12 +53,7 @@ public class Dictionary {
      * @param prefix is the string that we want to know whether is a prefix or not
      */
     public boolean isPrefix(String prefix) {
-        TrieNode p = searchNode(prefix);
-        if(p == null){
-            return false;
-        }else{
-            return true;
-        }
+        return (searchNode(prefix)!=null);
     }
 
     /**
@@ -67,19 +61,17 @@ public class Dictionary {
      * (could be either word or prefix)
      * @param s is the string to be search in the tree to see if it exists
      */
-    public TrieNode searchNode(String s){
+    private TrieNode searchNode(String s){
         TrieNode r = root;
         for(int i=0; i <s.length(); i++){
             char c = s.charAt(i);
             int ind = c-'a';
-            if(r.letters[ind]!= null){
-                r = r.letters[ind];
+            if(r.letters.get(ind)!= null){
+                r = r.letters.get(ind);
             }else{
                 return null;
             }
         }
-        if(r == root)
-            return null;
-        return r;
+        return r == root ? null : r;
     }
 }
