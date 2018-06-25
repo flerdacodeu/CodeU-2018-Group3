@@ -1,4 +1,3 @@
-import javafx.util.Pair;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,10 +20,40 @@ import java.util.Vector;
 */
 
 public class WordSearch {
+    private static final int row_offset[] =
+            new int[]{-1, -1, -1, 0, 0, 1, 1, 1};
+    private static final int col_offset[] =
+            new int[]{-1, 0, 1, -1, 1, -1, 0, 1};
     private Dictionary dictionary;
     private String[][] grid;
     private int rows;
     private int cols;
+
+    class Pair {
+        private int row;
+        private int col;
+
+        public Pair(int row, int col) {
+            this.row = row;
+            this.col = col;
+        }
+
+        public int getCol() {
+            return col;
+        }
+
+        public int getRow() {
+            return row;
+        }
+
+        public void setCol(int col) {
+            this.col = col;
+        }
+
+        public void setRow(int row) {
+            this.row = row;
+        }
+    }
 
     public WordSearch(String word_filename, String dictionary_filename) {
         readGrid(word_filename);
@@ -37,8 +66,8 @@ public class WordSearch {
         this.grid = grid;
     }
 
-    public void delDictionary() {
-        dictionary.clear();
+    public void getEmptyDictionary() {
+        dictionary = new Dictionary();
     }
 
     private void readGrid(String filename) {
@@ -70,20 +99,18 @@ public class WordSearch {
         This method returns the vector of all valid neighbours for a cell using
         two arrays of offsets, for rows and for cols.
      */
-    private Vector<Pair> getSuccessors(Pair cell) {
-        Vector<Pair> succ = new Vector<>();
-        int row_offset[] = new int[]{-1, -1, -1, 0, 0, 1, 1, 1};
-        int col_offset[] = new int[]{-1, 0, 1, -1, 1, -1, 0, 1};
+    private Vector<Pair> getNeighbours(Pair cell) {
+        Vector<Pair> neighbours = new Vector<>();
 
         for (int i = 0; i < 8; i++) {
-            int cellK = (int) cell.getKey() + row_offset[i];
-            int cellV = (int) cell.getValue() + col_offset[i];
-            if (cellK >= 0 && cellK < rows)
-                if (cellV >= 0 && cellV < cols)
-                    succ.add(new Pair(cellK, cellV));
+            int cellRow = (int) cell.getRow() + row_offset[i];
+            int cellCol = (int) cell.getCol() + col_offset[i];
+            if (cellRow >= 0 && cellRow < rows)
+                if (cellCol >= 0 && cellCol < cols)
+                    neighbours.add(new Pair(cellRow, cellCol));
         }
 
-        return succ;
+        return neighbours;
     }
 
     /*
@@ -94,20 +121,20 @@ public class WordSearch {
             visited -> keeps track of the cells already visited
 
         To continue exploration to a cell, it can't be already visited while forming the same word and
-        it needs to form a prefix when it's concatenated to the word formed so far.
+        it needs to form a prefix when its value is concatenated to the word formed so far.
      */
     private void explore(Pair cell, List<String> words, String word, Vector<Pair> visited) {
         visited.add(cell);
-        Vector<Pair> succ = getSuccessors(cell);
+        Vector<Pair> neighbours = getNeighbours(cell);
 
         if (dictionary.isWord(word) && !words.contains(word)) {
             words.add(word);
         }
 
-        for (int i = 0; i < succ.size(); i++) {
-            int nextRow = (int) succ.get(i).getKey();
-            int nextCol = (int) succ.get(i).getValue();
-            if (!visited.contains(succ.get(i)) && dictionary.isPrefix(word + grid[nextRow][nextCol])) {
+        for (int i = 0; i < neighbours.size(); i++) {
+            int nextRow = (int) neighbours.get(i).getRow();
+            int nextCol = (int) neighbours.get(i).getCol();
+            if (!visited.contains(neighbours.get(i)) && dictionary.isPrefix(word + grid[nextRow][nextCol])) {
                 Vector<Pair> visited_copy = (Vector<Pair>) visited.clone();
                 explore(new Pair(nextRow, nextCol), words, word + grid[nextRow][nextCol], visited_copy);
             }
