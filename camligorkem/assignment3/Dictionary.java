@@ -3,7 +3,7 @@ import java.util.Map;
 
 // Trie Node class to create Dictionary based on prefixes
 class TrieNode{
-    Map<Integer, TrieNode> letters;
+    Map<Character, TrieNode> letters;
     boolean isWord;
     public TrieNode(){
         this.letters = new HashMap<>();
@@ -27,12 +27,11 @@ public class Dictionary {
         TrieNode pref = root;
         for(int i=0; i<word.length(); i++){
             char c = word.charAt(i);
-            int ind = c -'a';
-            if(pref.letters.get(ind) != null){
-                pref = pref.letters.get(ind);
+            if(pref.letters.get(c) != null){
+                pref = pref.letters.get(c);
             }else{
                 TrieNode temp = new TrieNode();
-                pref.letters.put(ind,temp);
+                pref.letters.put(c,temp);
                 pref = temp;
             }
         }
@@ -65,9 +64,8 @@ public class Dictionary {
         TrieNode r = root;
         for(int i=0; i <s.length(); i++){
             char c = s.charAt(i);
-            int ind = c-'a';
-            if(r.letters.get(ind)!= null){
-                r = r.letters.get(ind);
+            if(r.letters.get(c)!= null){
+                r = r.letters.get(c);
             }else{
                 return null;
             }
