@@ -1,7 +1,7 @@
 import java.util.HashSet;
-import java.util.Optional;
 
 public class WordSearch {
+
     /**
      * Given a grid and a dictionary it finds the words (isWord=true) that exists in the dictionary
      * and returns hashset of strings that are words
@@ -9,18 +9,18 @@ public class WordSearch {
      * @param grid the board with the allowed letters
      * @return return a hashset of strings that are found to be words (isWord = true)
       */
-    public static Optional<HashSet<String>> findWords(Dictionary dictionary, char[][] grid ){
+    public static HashSet<String> findWords(Dictionary dictionary, char[][] grid ){
 
         int n1 = grid.length;
         int n2 = grid[0].length;
         boolean[][] used;
 
         // HashSet doesn't allow duplicate words, it is a good option to keep the found word
-        Optional<HashSet<String>> foundWords = Optional.of(new HashSet<>());;
+        HashSet<String> foundWords = new HashSet<>();
         for(int i=0; i < n1; i++){
             for(int j=0; j< n2; j++){
                 used = new boolean[n1][n2];
-                findWordsHelper(dictionary, grid, i, j, used, "").ifPresent(foundWords.get()::addAll);
+                foundWords.addAll(findWordsHelper(dictionary, grid, i, j, used, ""));
             }
         }
         return foundWords;
@@ -41,9 +41,9 @@ public class WordSearch {
      *     3. You can't visit the same cell twice in the same word
      * @return return a hashset of strings that are found to be words (isWord = true) starting from a certain position
      */
-    private static Optional<HashSet<String>> findWordsHelper(Dictionary dictionary, char[][] grid, int i, int j, boolean[][] used, String prefix){
+    private static HashSet<String> findWordsHelper(Dictionary dictionary, char[][] grid, int i, int j, boolean[][] used, String prefix){
 
-        Optional<HashSet<String>> group = Optional.of(new HashSet<>());
+        HashSet<String> group = new HashSet<>();
         if(i > grid.length || j > grid[0].length) return group;
         if( i < 0 || j < 0) return group;
 
@@ -51,24 +51,15 @@ public class WordSearch {
         String currWord = prefix.concat(Character.toString(c));
 
         if(dictionary.isWord(currWord)){
-            if(group.isPresent())
-                group.get().add(currWord);
-            else{
-                HashSet<String> set = new HashSet<>();
-                set.add(currWord);
-                group = Optional.of(set);
-            }
+            group.add(currWord);
         }
         if(dictionary.isPrefix(currWord)){
             for(Element elementNeighbours: getNeighbours(i, j, grid.length , grid[0].length)){
                 if(!used[elementNeighbours.row][elementNeighbours.col])
-                    findWordsHelper(dictionary, grid, elementNeighbours.row, elementNeighbours.col, used,  currWord).ifPresent(group.get()::addAll);
+                    group.addAll(findWordsHelper(dictionary, grid, elementNeighbours.row, elementNeighbours.col, used,  currWord));
             }
         }
-        if(group.isPresent())
-            return group;
-        else
-            return Optional.empty();
+        return group;
     }
 
     static HashSet<Element> getNeighbours(int row, int col, int rowUpperBound, int colUpperBound ){
@@ -76,6 +67,7 @@ public class WordSearch {
         boolean colLimit;
         boolean rowLimit ;
         boolean sameElement ;
+
         HashSet<Element> neighbours = new HashSet<>(8);
         for(int i=-1; i <=1; i++){
             for(int j=-1; j <=1; j++){
