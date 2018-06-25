@@ -2,7 +2,6 @@ import java.util.HashSet;
 import java.util.Optional;
 
 public class WordSearch {
-
     /**
      * Given a grid and a dictionary it finds the words (isWord=true) that exists in the dictionary
      * and returns hashset of strings that are words
@@ -17,19 +16,11 @@ public class WordSearch {
         boolean[][] used;
 
         // HashSet doesn't allow duplicate words, it is a good option to keep the found word
-        Optional<HashSet<String>> foundWords = Optional.empty();
-        Optional<HashSet<String>> res;
+        Optional<HashSet<String>> foundWords = Optional.of(new HashSet<>());;
         for(int i=0; i < n1; i++){
             for(int j=0; j< n2; j++){
                 used = new boolean[n1][n2];
-                res = Optional.ofNullable(findWordsHelper(dictionary, grid, i, j, used, "").orElse(null));
-               if(res !=null){
-                   if(foundWords.isPresent()){
-                       foundWords.get().addAll(res.get());
-                   }else{
-                       foundWords = Optional.of(res.get());
-                   }
-               }
+                findWordsHelper(dictionary, grid, i, j, used, "").ifPresent(foundWords.get()::addAll);
             }
         }
         return foundWords;
@@ -50,7 +41,7 @@ public class WordSearch {
      *     3. You can't visit the same cell twice in the same word
      * @return return a hashset of strings that are found to be words (isWord = true) starting from a certain position
      */
-    public static Optional<HashSet<String>> findWordsHelper(Dictionary dictionary, char[][] grid, int i, int j, boolean[][] used, String prefix){
+    private static Optional<HashSet<String>> findWordsHelper(Dictionary dictionary, char[][] grid, int i, int j, boolean[][] used, String prefix){
 
         Optional<HashSet<String>> group = Optional.of(new HashSet<>());
         if(i > grid.length || j > grid[0].length) return group;
@@ -67,57 +58,43 @@ public class WordSearch {
                 set.add(currWord);
                 group = Optional.of(set);
             }
-            //System.out.println("added "+currWord);
         }
-
         if(dictionary.isPrefix(currWord)){
-
-            // to make sure we don't exceed the upper or lower bound position of the grid and used board
-            boolean colUpLimit = (j+1) < grid[0].length ? true:false;
-            boolean rowUpLimit = (i+1) < grid.length ? true:false;
-            boolean colDownLimit = (j-1) >= 0 ? true:false;
-            boolean rowDownLimit = (i-1) >= 0 ? true:false;
-
-            // --  VERTICAL ---
-            if( colUpLimit ){ // go right
-                if(!used[i][j+1])
-                    findWordsHelper(dictionary, grid, i, j+1, used,  currWord).ifPresent(group.get()::addAll);
-            }
-            if(colDownLimit ){  // go left
-                if(!used[i][j-1] )
-                    findWordsHelper(dictionary, grid, i, j-1, used, currWord).ifPresent(group.get()::addAll);
-            }
-            // --  HORIZONTAL ---
-            if(rowDownLimit){ // go up
-                if(!used[i-1][j])
-                    findWordsHelper(dictionary, grid, i-1, j, used, currWord).ifPresent(group.get()::addAll);
-            }
-            if(rowUpLimit){ // go down
-                if(!used[i+1][j])
-                    findWordsHelper(dictionary, grid, i+1, j, used, currWord).ifPresent(group.get()::addAll);
-            }
-            // --  DIAGONAL ---
-            if(rowDownLimit && colUpLimit ){ // go up-right
-                if(!used[i-1][j+1]  )
-                    findWordsHelper(dictionary, grid, i-1, j+1, used, currWord).ifPresent(group.get()::addAll);
-            }
-            if(rowUpLimit && colUpLimit ){ // go down-right
-                if(!used[i+1][j+1] )
-                    findWordsHelper(dictionary, grid, i+1, j+1, used, currWord).ifPresent(group.get()::addAll);
-            }
-            if(rowDownLimit && colDownLimit ){ // go up-left
-                if(!used[i-1][j-1])
-                    findWordsHelper(dictionary, grid, i-1, j-1, used, currWord).ifPresent(group.get()::addAll);
-            }
-            if(rowUpLimit && colDownLimit ){ // go down-left
-                if(!used[i+1][j-1]  )
-                    findWordsHelper(dictionary, grid, i+1, j-1, used, currWord).ifPresent(group.get()::addAll);
+            for(Element elementNeighbours: getNeighbours(i, j, grid.length , grid[0].length)){
+                if(!used[elementNeighbours.row][elementNeighbours.col])
+                    findWordsHelper(dictionary, grid, elementNeighbours.row, elementNeighbours.col, used,  currWord).ifPresent(group.get()::addAll);
             }
         }
-
         if(group.isPresent())
             return group;
         else
             return Optional.empty();
+    }
+
+    static HashSet<Element> getNeighbours(int row, int col, int rowUpperBound, int colUpperBound ){
+        // to make sure we don't exceed the upper or lower bound position of the grid and used board
+        boolean colLimit;
+        boolean rowLimit ;
+        boolean sameElement ;
+        HashSet<Element> neighbours = new HashSet<>(8);
+        for(int i=-1; i <=1; i++){
+            for(int j=-1; j <=1; j++){
+                colLimit = (j+col) >= colUpperBound ||  (j+col) < 0;
+                rowLimit = (i+row) >= rowUpperBound || (i+row) < 0 ;
+                sameElement = (i==0) && (j==0);
+                if(!colLimit && !rowLimit && !sameElement)
+                    neighbours.add(new Element(row+i,col+j));
+            }
+        }
+        return neighbours;
+    }
+
+    static class Element {
+        int row;
+        int col;
+        private Element(int row, int col) {
+            this.row = row;
+            this.col = col;
+        }
     }
 }
