@@ -30,8 +30,8 @@ public class WordSearch {
     private int cols;
 
     class Pair {
-        private int row;
-        private int col;
+        private final int row;
+        private final int col;
 
         public Pair(int row, int col) {
             this.row = row;
@@ -44,14 +44,6 @@ public class WordSearch {
 
         public int getRow() {
             return row;
-        }
-
-        public void setCol(int col) {
-            this.col = col;
-        }
-
-        public void setRow(int row) {
-            this.row = row;
         }
     }
 
