@@ -16,17 +16,19 @@ import org.junit.BeforeClass;
  * @author maria
  */
 public class LowestAncestorTest {
-
-    public LowestAncestor<Integer> getTree() {
-        final LowestAncestor<Integer> low = new LowestAncestor<>();
-        low.first = low.new Node(4, null, null);
-        low.first.setLeft(low.new Node(5, null, null));
-        low.first.setRight(low.new Node(3, null, null));
-        low.first.getLeft().setLeft(low.new Node(8, null, null));
-        low.first.getLeft().setRight(low.new Node(9, null, null));
-        low.first.getRight().setLeft(low.new Node(1, null, null));
-        low.first.getRight().setRight(low.new Node(15, null, null));
-        low.first.getRight().getRight().setRight(low.new Node(7, null, null));
+    LowestAncestor<Integer> theTree;
+    @Before
+    public void constructAndAnnounce() {
+        System.out.println("Start ! ");
+        theTree = new LowestAncestor<>();
+        theTree.first = new Node(4, null, null);
+        theTree.first.setLeft(new Node(5, null, null));
+        theTree.first.setRight(new Node(3, null, null));
+        theTree.first.getLeft().setLeft(new Node(8, null, null));
+        theTree.first.getLeft().setRight(new Node(9, null, null));
+        theTree.first.getRight().setLeft(new Node(1, null, null));
+        theTree.first.getRight().setRight(new Node(15, null, null));
+        theTree.first.getRight().getRight().setRight(new Node(7, null, null));
         //             4
         //           /   \
         //          5     3
@@ -34,44 +36,41 @@ public class LowestAncestorTest {
         //        8   9 1   15
         //                   \
         //                    7  
-        return low;
+        
     }
-    
+    @After
+    public void tearDown(){
+        System.out.println("");
+    }
     @Test
     public void testIfSameNode(){
         
-        LowestAncestor<Integer>.Node expected = getTree().isARealAncestor(5, 5);
+        Node<Integer> expected = theTree.lowestCommonAncestor(5, 5);
         int theBigKey = expected.getKey();
         assertEquals(5, theBigKey);
     }
     @Test
     public void testIfNodesThatBothDoNotExist(){
-        LowestAncestor<Integer>.Node expected = getTree().isARealAncestor(92, 95);
+        Node<Integer> expected = theTree.lowestCommonAncestor(92, 95);
         assertEquals(null, expected);
     }
     @Test
     public void testIfOneNodeDoesNotExist(){
-        LowestAncestor<Integer>.Node expected = getTree().isARealAncestor(5, 0);
+        Node<Integer> expected = theTree.lowestCommonAncestor(5, 0);
         assertEquals(null, expected);
     }
     @Test
     public void testIfUsualNodes1(){
-        LowestAncestor<Integer>.Node expected = getTree().isARealAncestor(8, 9);
+        Node<Integer> expected = theTree.lowestCommonAncestor(8, 9);
         int theBigKey = expected.getKey();
         assertEquals(5, theBigKey);
-    }
-    @Test
-    public void testIfUsualNodes2(){
-        LowestAncestor<Integer>.Node expected = getTree().isARealAncestor(5, 15);
-        int theBigKey = expected.getKey();
+        expected = theTree.lowestCommonAncestor(5, 15);
+        theBigKey = expected.getKey();
         assertEquals(4, theBigKey);
-    }
-    @Test
-    public void testIfUsualNodes3(){
-        LowestAncestor<Integer>.Node expected = getTree().isARealAncestor(1, 7);
-        int theBigKey = expected.getKey();
+        expected = theTree.lowestCommonAncestor(1, 7);
+        theBigKey = expected.getKey();
         assertEquals(3, theBigKey);
     }
-    
+ 
     
 }
