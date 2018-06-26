@@ -1,5 +1,6 @@
 package edu.codeU.assignment3;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -26,81 +27,70 @@ public class WordSearch {
      */
     private List<String> dict;
     /**
-     * Graph structure to present grid.
-     */
-    private List<List<Integer>> graph;
-    /**
      * Flag array that use in dfs to check existing of current cell of grid at current string.
      */
-    private boolean flag[];
+    private boolean flag[][];
 
     public WordSearch(int rows, int columns, char[][] grid, List<String> dict) {
         this.rows = rows;
         this.columns = columns;
         this.grid = grid.clone();
         this.dict = dict;
-        graph = new ArrayList<>();
-        for (int i = 0; i < rows*columns; i++){
-            graph.add(new ArrayList<>());
-        }
-        this.gridToGraph();
-        flag = new boolean[rows*columns];
+        flag = new boolean[rows][columns];
     }
 
     /**
-     * The method that represent the grid as a graph.
+     * We find x, y - coordinates in grid of all neighbors.
+     * @param x is the current row.
+     * @param y is the current column.
+     * @param neighborX the x - coordinates of all neighbors.
+     * @param neighborY the y - coordinates of all neighbors.
      */
-    private void gridToGraph(){
-        for (int i = 0; i < rows; i++){
-            for (int j = 0; j < columns; j++){
-                if (i+1 < rows){
-                    graph.get((i*columns) + j).add(((i+1)*columns) + j);
-                    graph.get(((i+1)*columns) + j).add((i*columns) + j);
-                }
-                if (j+1 < columns){
-                    graph.get((i*columns) + j).add((i*columns) + j+1);
-                    graph.get((i*columns) + j+1).add((i*columns) + j);
-                }
-                if (i+1 < rows && j + 1 < columns){
-                    graph.get((i*columns) + j).add(((i+1)*columns) + j + 1);
-                    graph.get(((i+1)*columns) + j + 1).add((i*columns) + j);
-                }
-                if (i+1 < rows && j-1 >= 0){
-                    graph.get((i*columns) + j).add(((i+1)*columns) + j - 1);
-                    graph.get(((i+1)*columns) + j - 1).add((i*columns) + j);
+    private void getAllNeighbors(int x, int y, List<Integer> neighborX, List<Integer> neighborY){
+        int SIZE_DELTAS = 3;
+        int[] deltaX = {-1, 0, 1};
+        int[] deltaY = {-1, 0, 1};
+        for (int i = 0; i < SIZE_DELTAS; i++){
+            for (int j = 0; j < SIZE_DELTAS; j++){
+                if ( (deltaX[i] != 0  || deltaY[j] != 0) && x+deltaX[i] >= 0 && x+deltaX[i] < rows && y+deltaY[j] >= 0 && y+deltaY[j] < columns){
+                    neighborX.add(x+deltaX[i]);
+                    neighborY.add(y+deltaY[j]);
                 }
             }
         }
     }
 
-    /**
-     * The method to make traversal in graph starting at position v and current word curWord.
+     /**
+     * The method to make traversal in the grid starting at position (x,y) and current word curWord.
      * If we find a word we add it ti words set.
      * We don't go far in graph if current string are not prefix of any word in dictionary.
-     * @param v is current vertex.
+     * @param x is current rows.
+     * @paran y pd current column.
      * @param curWord is the current word that was formed before in traversal.
      * @param words is the set that contains all words that we found at the current moment.
      */
-    private void dfs(int v, String curWord, Set<String> words){
-        flag[v] = true;
-        int curRow = v / columns;
-        int curColumn = v - columns * curRow;
-        char curChar = grid[curRow][curColumn];
+    private void dfs(int x, int y, String curWord, Set<String> words){
+        flag[x][y] = true;
+        char curChar = grid[x][y];
         curWord += curChar;
         if (!isPrefix(curWord)){
-            flag[v] = false;
+            flag[x][y] = false;
             return;
         }
         if (isWord((curWord))){
             words.add(curWord);
         }
-        for (int i = 0; i < graph.get(v).size(); i++){
-            int to = graph.get(v).get(i);
-            if (!flag[to]){
-                dfs(to, curWord, words);
+        List<Integer> neighborX = new ArrayList<>();
+        List<Integer> neighborY = new ArrayList<>();
+        getAllNeighbors(x,y, neighborX, neighborY);
+        for (int i = 0; i < neighborX.size(); i++){
+            int newX = neighborX.get(i);
+            int newY = neighborY.get(i);
+            if (!flag[newX][newY]){
+                dfs(newX, newY, curWord, words);
             }
         }
-        flag[v] = false;
+        flag[x][y] = false;
     }
 
     /**
@@ -110,8 +100,10 @@ public class WordSearch {
      */
     public Set<String> findAllWords(){
         Set<String> words = new TreeSet<>();
-        for (int i = 0; i < rows*columns; i++){
-            dfs(i, "", words);
+        for (int i = 0; i < rows; i++){
+            for (int j = 0; j < columns; j++){
+                dfs(i, j, "", words);
+            }
         }
         return words;
     }
