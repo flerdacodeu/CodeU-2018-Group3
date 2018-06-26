@@ -8,6 +8,7 @@ package assignment3;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
+import jdk.nashorn.internal.ir.Assignment;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -21,11 +22,11 @@ import static org.junit.Assert.*;
  */
 public class Assignment3Test {
     @Test
-    public void test1(){
+    public void SimpleTest(){
         //2x3 matrix !
         //simple example
-        Assignment3 a = new Assignment3();
-        Assignment3.MyDictionary dictionary =  a.new MyDictionary();
+        Assignment3 b = new Assignment3();
+        Assignment3.MyDictionary dictionary =  b.new MyDictionary();
         dictionary.insert("card");
         dictionary.insert("cat");
         dictionary.insert("cart");
@@ -43,9 +44,9 @@ public class Assignment3Test {
             }
             System.out.println("");
         }
-        a.initializare(grid, dictionary);
+        Assignment3 a = new Assignment3(grid, dictionary);
         Set<String> s = a.manyDFSs();
-                System.out.println(s.size());
+        System.out.println(s.size());
         Iterator<String> it = s.iterator();
         StringBuilder bigString = new StringBuilder("");
         while (it.hasNext()) {            
@@ -61,12 +62,12 @@ public class Assignment3Test {
         
     } 
      @Test
-    public void test2(){
+    public void WordCannotBeFormedTest(){
         //3x3 matrix
         //simple example 
         //t is missing from grid in aparat
-        Assignment3 a = new Assignment3();
-        Assignment3.MyDictionary dictionary =  a.new MyDictionary();
+        Assignment3 b = new Assignment3();
+        Assignment3.MyDictionary dictionary =  b.new MyDictionary();
         dictionary.insert("aer");
         dictionary.insert("apa");
         dictionary.insert("ader");
@@ -89,7 +90,7 @@ public class Assignment3Test {
             }
             System.out.println("");
         }
-        a.initializare(grid, dictionary);
+        Assignment3 a = new Assignment3(grid, dictionary);
         Set<String> s = a.manyDFSs();
                 System.out.println(s.size());
         Iterator<String> it = s.iterator();
@@ -107,11 +108,11 @@ public class Assignment3Test {
         
     } 
      @Test
-    public void test3(){
+    public void EmptyDictionaryTest(){
         // we have nothing in the dictionary
         //so we cannot form anything
-        Assignment3 a = new Assignment3();
-        Assignment3.MyDictionary dictionary =  a.new MyDictionary();
+        Assignment3 b = new Assignment3();
+        Assignment3.MyDictionary dictionary =  b.new MyDictionary();
         char[][] grid = new char[3][3];
         grid[0][0] = 'd';
         grid[0][1] = 'c';
@@ -128,7 +129,7 @@ public class Assignment3Test {
             }
             System.out.println("");
         }
-        a.initializare(grid, dictionary);
+        Assignment3 a = new Assignment3(grid, dictionary);
         Set<String> s = a.manyDFSs();
                 System.out.println(s.size());
         Iterator<String> it = s.iterator();
@@ -147,13 +148,13 @@ public class Assignment3Test {
         
     }
      @Test
-    public void test4(){
+    public void EmptyDictionaryAndGridTest(){
         //we have nothing also in the grid and in the dictionary
-        Assignment3 a = new Assignment3();
-        Assignment3.MyDictionary dictionary =  a.new MyDictionary();
+        Assignment3 b = new Assignment3();
+        Assignment3.MyDictionary dictionary =  b.new MyDictionary();
         char[][] grid = new char[3][3];
         
-        a.initializare(grid, dictionary);
+        Assignment3 a = new Assignment3(grid, dictionary);
         Set<String> s = a.manyDFSs();
                 System.out.println(s.size());
         Iterator<String> it = s.iterator();
@@ -172,14 +173,14 @@ public class Assignment3Test {
         
     }
      @Test
-    public void test5(){
+    public void ComplexTest(){
        // TODO code application logic here
         //3x3 matrix
         //parada - is reapeated the "a" in the word
         //depm - cannot be formed in dfs
         //balustrada - cannot be formed. s is missing from grid
-        Assignment3 a = new Assignment3();
-        Assignment3.MyDictionary dictionary =  a.new MyDictionary();
+        Assignment3 b = new Assignment3();
+        Assignment3.MyDictionary dictionary =  b.new MyDictionary();
         dictionary.insert("aer");
         dictionary.insert("apa");
         dictionary.insert("dar");
@@ -204,7 +205,7 @@ public class Assignment3Test {
             }
             System.out.println("");
         }
-        a.initializare(grid, dictionary);
+        Assignment3 a = new Assignment3(grid, dictionary);
         Set<String> s = a.manyDFSs();
                 System.out.println(s.size());
         Iterator<String> it = s.iterator();
