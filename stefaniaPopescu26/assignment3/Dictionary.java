@@ -79,46 +79,35 @@ public class Dictionary {
          node.isWord = true;
     }
 
-    public boolean isPrefix(String prefix) {
-        if (prefix.isEmpty()) {
-            return false;
-        }
-
-        TrieNode node = root;
-
-        do {
-            char letter = prefix.charAt(0);
-
-            if (!node.children.containsKey(letter)) {
-                return false;
-            }
-
-            node = node.children.get(letter);
-            prefix = prefix.substring(1);
-        } while (!prefix.isEmpty());
-
-        return true;
-    }
-
-    public boolean isWord(String word) {
+    private boolean search(String word, String type) {
         if (word.isEmpty()) {
             return false;
         }
 
         TrieNode node = root;
 
-        do {
-            char letter = word.charAt(0);
+        for (int i = 0; i < word.length(); i++) {
+            char letter = word.charAt(i);
 
             if (!node.children.containsKey(letter)) {
                 return false;
             }
 
             node = node.children.get(letter);
-            word = word.substring(1);
-        } while (!word.isEmpty());
+        }
 
-        return node.isWord;
+        if (type.equals("isWord"))
+            return node.isWord;
+
+        return true;
+    }
+
+    public boolean isPrefix(String prefix) {
+        return search(prefix, "isPrefix");
+    }
+
+    public boolean isWord(String word) {
+        return search(word, "isWord");
     }
 
     public boolean isEmpty() {
