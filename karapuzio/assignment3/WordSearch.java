@@ -34,7 +34,7 @@ public class WordSearch {
     public WordSearch(int rows, int columns, char[][] grid, List<String> dict) {
         this.rows = rows;
         this.columns = columns;
-        this.grid = grid.clone();
+        this.grid = grid;
         this.dict = dict;
         flag = new boolean[rows][columns];
     }
