@@ -17,64 +17,48 @@ import java.util.TreeSet;
  */
 public class Assignment3 {
     //dictionary of the words and the grid
-    private char[][] grid;
-    private MyDictionary dictionary;
+    private final char[][] grid;
+    private final MyDictionary dictionary;
     private int n,m;
 
-    public MyDictionary getDictionary() {
-        return dictionary;
+    public Assignment3() {
+        this.grid = null;
+        this.dictionary = null;
     }
 
-    public void setDictionary(MyDictionary dictionary) {
-        this.dictionary = dictionary;
-    }
-
-    public char[][] getGrid() {
-        return grid;
-    }
-
-    public void setGrid(char[][] grid) {
-        this.grid = grid;
-    }
-    
-    public void initializare(char[][] grid, MyDictionary dictionary){
-        //here you receive the structures from somewhere
+    public Assignment3(char[][] grid, MyDictionary dictionary) {
         this.grid = grid;
         this.dictionary = dictionary;
         n = grid.length;
         m = grid[0].length;
     }
-    
+
     //i need many DFS to start from any position
-    //i am using a set because
-    //it can appear duplicate words if a cell has the same character as
-    //another one
+    //ManyDFS has the role to start from any point of the
+    //grid and after it verifies if it is a prefix in 
+    //the dictionary it can start the DFS from the
+    //specific starting point ! 
+    //The TreeSet helps me keep the words in order
     public Set<String> manyDFSs() {
-        //ManyDFS has the role to start from any point of the
-        //grid and after it verifies if it is a prefix in 
-        //the dictionary it can start the DFS from the
-        //specific starting point ! 
-        //The TreeSet helps me keep the words in order
         Set<String> theList = new TreeSet<String>();
         for(int i = 0; i < n; i++){
             for(int j = 0; j < m;j++) {
                 if (dictionary.isPrefix(String.valueOf(grid[i][j]))) {
                     //visited is used not to take more than once a cell
-                    int[][] visited = new int[n][m];
-                    visited[i][j] = 1;
+                    boolean[][] visited = new boolean[n][m];
+                    visited[i][j] = true;
                     DFSonGrid(theList,new StringBuilder(String.valueOf(grid[i][j])),i,j,visited);
-                    visited[i][j] = 0;
+                    visited[i][j] = false;
                 }
             }
         }
         return theList;
     }
-    private void DFSonGrid(Set<String> theList,StringBuilder start,int x,int y,int[][] visited) {
-        //the neighbours will be vertical horizontal and diagonal.
-        //Simple DFS that also verifies if it has
-        //any reason to take a new neighbour and
-        //to expand the word with that neighbour.
-        String currentString = start.toString();
+    //the neighbours will be vertical horizontal and diagonal.
+    //Simple DFS that also verifies if it has
+    //any reason to take a new neighbour and
+    //to expand the word with that neighbour.
+    private void DFSonGrid(Set<String> theList,StringBuilder start,int x,int y,boolean[][] visited) {
         int[] dx = {-1,-1,-1,0,0,1,1,1};
         int[] dy = {-1,0,1,-1,1,-1,0,1};
         for (int i = 0; i < 8; i++) {
@@ -82,8 +66,8 @@ public class Assignment3 {
             int newY = y + dy[i];
             if (newX >= 0 && newX < n) {
                 if (newY >= 0 && newY < m) {
-                    if(visited[newX][newY] == 0) {
-                        visited[newX][newY] = 1;
+                    if(visited[newX][newY] == false) {
+                        visited[newX][newY] = true;
                         StringBuilder hopa = start.append(grid[newX][newY]);
                         if (dictionary.isPrefix(hopa.toString())){
                             if (dictionary.isWord(hopa.toString())) {
@@ -93,22 +77,20 @@ public class Assignment3 {
                         }
                         //restart the state after a deep search ! 
                         start.deleteCharAt(hopa.length()-1);
-                        visited[newX][newY] = 0;
+                        visited[newX][newY] = false;
                     }
                 }
             }
         }
         
     }
+    //A dictionary based on a trie ! 
+    //It has a better complexity than
+    //a hashmap !
     class MyDictionary{
-        //A dictionary based on a trie ! 
-        //It has a better complexity than
-        //a hashmap !
         private class TrieNode{
             private HashMap<Character,TrieNode> children;
             private boolean endOfWord;
-            //endOfWord is like.. here in this node
-            //a word ends even if it is not a leaf !
             public TrieNode() {
                 children = new HashMap<>();
                 endOfWord = false;
@@ -116,22 +98,21 @@ public class Assignment3 {
             
         }
         private final TrieNode root;
-        
+        //the idea is very simple
+        //you start from root
+        //you go deep down in the trie 
+        //with the current node
+        //if theChildren (the character that need to be added)
+        //exists you only pass it and go deep down
         public void insert(String word) {
-            //the idea is very simple
-            //you start from root
-            //you go deep down in the trie 
-            //with the current node
-            //if theChildren (the character that need to be added)
-            //exists you only pass it and go deep down
             TrieNode current = root;
             for(int i = 0; i < word.length();i++) {
-                TrieNode theChildren = current.children.get(word.charAt(i));
-                if (theChildren == null) {  
-                    theChildren = new TrieNode();
-                    current.children.put(word.charAt(i), theChildren);
+                TrieNode theChild = current.children.get(word.charAt(i));
+                if (theChild == null) {  
+                    theChild = new TrieNode();
+                    current.children.put(word.charAt(i), theChild);
                 }
-                current = theChildren;
+                current = theChild;
             }
             //after you add the last node and move your
             //current there
@@ -139,50 +120,48 @@ public class Assignment3 {
             current.endOfWord = true;
             
         }
-        public boolean isWordHelper(TrieNode current,String word) {
-            if (word.equals("")) {
-                return current.endOfWord;
+        public boolean isGeneralHelper(String action,TrieNode current,String word,int index) {
+            if(action.equals("word")) {
+                if (index == word.length()) {
+                    return current.endOfWord;
+                }
+            } else {
+                if (index == word.length()) {
+                    if(current == null) {
+                        return false;
+                    }
+                return true;
+                }
             }
-            TrieNode theChildren = current.children.get(word.charAt(0));
+            
+            TrieNode theChildren = current.children.get(word.charAt(index));
             if (theChildren == null) {
-                return false;
+               return false;
             }
-            return isWordHelper(theChildren, word.substring(1));
+            index ++;
+            return isGeneralHelper(action,theChildren, word, index);
             
         }
+
+        //it will call a recursive function that will 
+        //try at each step to find in the children
+        //of the node expanded the character from the word
+        //the auxiliary function get into recursion
+        //with a cut word (shorter) and wait 
+        //the end of the word
+        //to return the value of endOfWord
         public boolean isWord(String word) {
-           //it will call a recursive function that will 
-           //try at each step to find in the children
-           //of the node expanded the character from the word
-           //the auxiliary function get into recursion
-           //with a cut word (shorter) and wait 
-           //the end of the word
-           //to return the value of endOfWord
-           return isWordHelper(root,word);
+           return isGeneralHelper("word",root,word,0);
         }
-        public TrieNode isPrefixHelper(TrieNode current,String word) {
-            
-            if (word.equals("")) {
-                return current;
-            }
-            TrieNode theChildren = current.children.get(word.charAt(0));
-            if (theChildren == null) {
-               return null;
-            }
-            return isPrefixHelper(theChildren, word.substring(1));
-        }
-            
+  
+        //the idea is similar with the isWord but here
+        //you need a node in return.
+        //it helps me to know if there
+        //something exists and is not the end/ is the end = > prefix
+        //something doesn't exists => not a prefix
         public boolean isPrefix(String s) {
-            //the idea is similar with the isWord but here
-            //you need a node in return.
-            //it helps me to know if there
-            //something exists and is not the end/ is the end = > prefix
-            //something doesn't exists => not a prefix
-            TrieNode x = isPrefixHelper(root,s);
-            if (x == null) {
-                return false;
-            } 
-            return true;
+            boolean x = isGeneralHelper("prefix",root,s,0);
+            return x;
         }
         public MyDictionary() {
             this.root = new TrieNode();
