@@ -65,16 +65,15 @@ public class Dictionary {
 
         TrieNode node = root;
 
-         do {
-            char letter = word.charAt(0);
+         for (int i = 0; i < word.length(); i++) {
+            char letter = word.charAt(i);
 
             if (!node.children.containsKey(letter)) {
                 node.children.put(letter, new TrieNode());
             }
 
             node = node.children.get(letter);
-            word = word.substring(1);
-        } while (!word.isEmpty());
+        }
 
          node.isWord = true;
     }
