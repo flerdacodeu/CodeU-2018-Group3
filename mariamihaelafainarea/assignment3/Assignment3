@@ -120,26 +120,22 @@ public class Assignment3 {
             current.endOfWord = true;
             
         }
-        public boolean isGeneralHelper(String action,TrieNode current,String word,int index) {
-            if(action.equals("word")) {
+        private boolean isGeneralHelper(boolean action,TrieNode current,String word,int index) {
+            if(action) {
                 if (index == word.length()) {
                     return current.endOfWord;
                 }
             } else {
                 if (index == word.length()) {
-                    if(current == null) {
-                        return false;
-                    }
-                return true;
+                    return current != null;
                 }
             }
             
-            TrieNode theChildren = current.children.get(word.charAt(index));
-            if (theChildren == null) {
+            TrieNode theChild = current.children.get(word.charAt(index));
+            if (theChild == null) {
                return false;
             }
-            index ++;
-            return isGeneralHelper(action,theChildren, word, index);
+            return isGeneralHelper(action,theChild, word, ++index);
             
         }
 
@@ -151,7 +147,7 @@ public class Assignment3 {
         //the end of the word
         //to return the value of endOfWord
         public boolean isWord(String word) {
-           return isGeneralHelper("word",root,word,0);
+           return isGeneralHelper(true,root,word,0);
         }
   
         //the idea is similar with the isWord but here
@@ -160,8 +156,7 @@ public class Assignment3 {
         //something exists and is not the end/ is the end = > prefix
         //something doesn't exists => not a prefix
         public boolean isPrefix(String s) {
-            boolean x = isGeneralHelper("prefix",root,s,0);
-            return x;
+            return isGeneralHelper(false,root,s,0);
         }
         public MyDictionary() {
             this.root = new TrieNode();
