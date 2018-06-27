@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeSet;
 import junit.framework.TestCase;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -20,11 +18,11 @@ public class WordTest extends TestCase{
 
     @Test
     public void testWords1() {
-        HashMap<String, String> dictionary = new HashMap();
-        dictionary.put("CART", "EXPLANATION1");
-        dictionary.put("CAR", "EXPLANATION2");
-        dictionary.put("CARD", "EXPLANATION3");
-        dictionary.put("CAT", "EXPLANATION4");
+        TreeSet<String> dictionary = new TreeSet<>();
+        dictionary.add("CART");
+        dictionary.add("CAR");
+        dictionary.add("CARD");
+        dictionary.add("CAT");
         Dictionary dict = new Dictionary(dictionary);
         char[][] letterMatrix = new char[2][3];
         ArrayList<Character> letters = new ArrayList<>();
@@ -34,6 +32,10 @@ public class WordTest extends TestCase{
         letters.add('T');
         letters.add('C');
         letters.add('D');
+        
+        // A A R
+        // T C D
+        
         int k = 0;
         for(int i = 0; i < 2; i++)
             for(int j = 0; j < 3; j++)
@@ -42,13 +44,12 @@ public class WordTest extends TestCase{
         
         TreeSet<String> solution = new TreeSet<>();
         solution.add("CAR"); solution.add("CARD"); solution.add("CAT");
-        
         assertEquals(solution, Word.words(g));
     }
 
     @Test
     public void testWords2() {
-        HashMap<String, String> dictionary = new HashMap();
+        TreeSet<String> dictionary = new TreeSet<>();
         Dictionary dict = new Dictionary(dictionary);
         char[][] letterMatrix = new char[0][0];
         Grid g = new Grid(0, 0, letterMatrix, dict);
@@ -57,4 +58,40 @@ public class WordTest extends TestCase{
         
     }
     
+    @Test
+    public void testWords3() {
+        TreeSet<String> dictionary = new TreeSet<>();
+        dictionary.add("MAKE");
+        dictionary.add("MEET");
+        dictionary.add("TEAM");
+        dictionary.add("BUG");
+        dictionary.add("MUG");
+        Dictionary dict = new Dictionary(dictionary);
+        
+        char[][] letterMatrix = new char[2][5];
+        ArrayList<Character> letters = new ArrayList<>();
+        letters.add('B');
+        letters.add('M');
+        letters.add('A');
+        letters.add('M');
+        letters.add('I');
+        letters.add('G');
+        letters.add('U');
+        letters.add('K');
+        letters.add('E');
+        letters.add('T');
+        
+        // B M A M I
+        // G U K E T
+        
+        int k = 0;
+        for(int i = 0; i < 2; i++)
+            for(int j = 0; j < 5; j++)
+                letterMatrix[i][j] = letters.get(k++);
+        Grid g = new Grid(2, 5, letterMatrix, dict);
+        
+        TreeSet<String> solution = new TreeSet<>();
+        solution.add("BUG"); solution.add("MAKE"); solution.add("MUG"); solution.add("TEAM");
+        assertEquals(solution, Word.words(g));
+    }
 }
