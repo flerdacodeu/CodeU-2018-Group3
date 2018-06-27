@@ -1,0 +1,85 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+import java.util.ArrayList;
+import java.util.Stack;
+import org.junit.After;
+import org.junit.Test;
+import static org.junit.Assert.*;
+import org.junit.Before;
+
+/**
+ *
+ * @author maria
+ */
+public class PrintPathTest {
+    
+    PrintPath<Integer> theTree;
+    @Before
+    public void announce() {
+        System.out.println("Start ! ");
+        theTree = new PrintPath<>();
+        theTree.setFirst(new Node(4, null, null));
+        theTree.getFirst().setLeft(new Node(5, null, null));
+        theTree.getFirst().setRight(new Node(3, null, null));
+        theTree.getFirst().getLeft().setLeft(new Node(8, null, null));
+        theTree.getFirst().getLeft().setRight(new Node(9, null, null));
+        theTree.getFirst().getRight().setLeft(new Node(1, null, null));
+        theTree.getFirst().getRight().setRight(new Node(15, null, null));
+        theTree.getFirst().getRight().getRight().setRight(new Node(7, null, null));
+        //             4
+        //           /   \
+        //          5     3
+        //         / \   / \
+        //        8   9 1   15
+        //                   \
+        //                    7  
+        
+    }
+    
+    @After
+    public void tearDown(){
+    }
+    @Test
+    public void test1(){
+        ArrayList<Integer> actual = theTree.getPathTo(5);
+        ArrayList<Integer> expected = new ArrayList<>();
+        expected.add(5);
+        expected.add(4);
+        assertEquals(expected, actual);
+    }
+    
+     @Test
+    public void test2(){
+        ArrayList<Integer> actual = theTree.getPathTo(8);
+        ArrayList<Integer> expected = new ArrayList<>();
+        expected.add(8);
+        expected.add(5);
+        expected.add(4);
+        assertEquals(expected, actual);
+    }
+    
+      @Test
+    public void test3(){
+        ArrayList<Integer> actual = theTree.getPathTo(7);
+        ArrayList<Integer> expected = new ArrayList<>();
+        expected.add(7);
+        expected.add(15);
+        expected.add(3);
+        expected.add(4);
+        assertEquals(expected, actual);
+    } 
+    @Test
+    public void test4(){
+        ArrayList<Integer> actual = theTree.getPathTo(1);
+        ArrayList<Integer> expected = new ArrayList<>();
+        expected.add(1);
+        expected.add(3);
+        expected.add(4);
+        assertEquals(expected, actual);
+    }
+    
+}

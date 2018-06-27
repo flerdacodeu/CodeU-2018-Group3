@@ -1,0 +1,76 @@
+
+import java.util.ArrayList;
+import java.util.Stack;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author maria
+ */
+public class PrintPath<T> {  
+    private Node first;
+    //store the path in myStack
+    private Stack<Node> myStack;
+
+    public Node getFirst() {
+        return first;
+    }
+
+    public void setFirst(Node first) {
+        this.first = first;
+    }
+
+    private boolean pathExists (Node root,T x) {
+        //this method go recursively
+        //through the entire tree
+        //and if it get to the wrong way
+        //and doesn't find what is supposed
+        //to find it stops with false.
+        
+        if (root == null) {
+            return false;
+        }
+        //all the nodes will be stored in this way.
+        //because i need to print the path from the
+        //destination to the source
+        myStack.add(root);
+        
+        if (root.getKey().equals(x)) {
+          
+            return true;
+        } else {
+            //use recursively the same function
+            //to find in which direction my node is
+            if (pathExists(root.getLeft(), x) || pathExists(root.getRight(), x)) {
+                return true;
+            }
+        }
+        //the direction is not good
+        myStack.pop();
+        return false;
+    }
+ 
+    public ArrayList<Integer> getPathTo(final T x) {
+        //reinitialize the stack and
+        //find if the node really exists in here
+        myStack = new Stack<>();
+        ArrayList<Integer> array = new ArrayList<>();
+        if (pathExists(first, x)) {
+            while(!myStack.empty()) {
+                int value = (int) myStack.pop().getKey();
+                array.add(value);
+                System.out.println(myStack.pop().getKey());
+            }
+        } else {
+            System.out.println("There is no node like "+ x + " in here. Sorry!");
+            return null;
+        }
+        return null;
+    }
+   
+}

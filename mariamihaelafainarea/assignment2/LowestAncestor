@@ -1,0 +1,80 @@
+
+import java.util.concurrent.atomic.AtomicBoolean;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author maria
+ *//*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author maria
+ */
+
+public class LowestAncestor<T> {
+     
+    Node first;
+    //these parameters help me find
+    //if the two values searched were found
+        
+   
+    private Node lowestAncestorHelper(T x, Node root,T y,AtomicBoolean params1,AtomicBoolean params2){
+        //it is a recursive searching
+        //of the x,y.
+        if (root == null) {
+            return null;
+        }
+        if (root.getKey().equals(x)) {
+            params1.set(true);
+        }
+        if (root.getKey().equals(y)) {
+            params2.set(true);
+        }
+        Node left = lowestAncestorHelper(x, root.getLeft(), y,params1,params2); 
+        Node right = lowestAncestorHelper(x, root.getRight(), y,params1,params2); 
+        if(root.getKey().equals(x) || root.getKey().equals(y)){
+            return root;
+        }
+        //if here are both x and y propagate root.
+        if(left != null && right != null){
+            return root;
+        }
+        //propagate what is not null
+        if (left != null) {
+            return left;
+        }
+        else if (right != null) {
+           return right;
+       }
+        return null;
+    }
+    public Node lowestCommonAncestor(T x,T y) {
+        //this functions and param1,param2 verifies if "findLowstAncestor"
+        //is correct because it can happen
+        //to have an x or an y that do not exists
+        //in the tree.     
+        AtomicBoolean params1 = new AtomicBoolean(false);
+        AtomicBoolean params2 = new AtomicBoolean(false);
+        Node result = lowestAncestorHelper(x, first, y,params1,params2);
+        if (result == null || !(params1.get() && params2.get())) {
+            System.out.println("I haven't found what you've been looking!");
+            return null;
+        } else if (params1.get() && params2.get()){
+        System.out.println("Lowest ancestor of " 
+                + x + " and " + y + " is: " + result.getKey());
+                return result;
+        }
+        return null;
+
+    }
+ }
