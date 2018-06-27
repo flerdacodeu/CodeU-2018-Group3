@@ -28,7 +28,7 @@ public class LowestAncestor<T> {
     //if the two values searched were found
         
    
-    private Node LowestAncestorHelper(T x, Node root,T y,AtomicBoolean params1,AtomicBoolean params2){
+    private Node lowestAncestorHelper(T x, Node root,T y,AtomicBoolean params1,AtomicBoolean params2){
         //it is a recursive searching
         //of the x,y.
         if (root == null) {
@@ -40,8 +40,8 @@ public class LowestAncestor<T> {
         if (root.getKey().equals(y)) {
             params2.set(true);
         }
-        Node left = LowestAncestorHelper(x, root.getLeft(), y,params1,params2); 
-        Node right = LowestAncestorHelper(x, root.getRight(), y,params1,params2); 
+        Node left = lowestAncestorHelper(x, root.getLeft(), y,params1,params2); 
+        Node right = lowestAncestorHelper(x, root.getRight(), y,params1,params2); 
         if(root.getKey().equals(x) || root.getKey().equals(y)){
             return root;
         }
@@ -65,11 +65,11 @@ public class LowestAncestor<T> {
         //in the tree.     
         AtomicBoolean params1 = new AtomicBoolean(false);
         AtomicBoolean params2 = new AtomicBoolean(false);
-        Node result = LowestAncestorHelper(x, first, y,params1,params2);
-        if (result == null || !(params1.get() == true && params2.get() == true)) {
+        Node result = lowestAncestorHelper(x, first, y,params1,params2);
+        if (result == null || !(params1.get() && params2.get())) {
             System.out.println("I haven't found what you've been looking!");
             return null;
-        } else if (params1.get() == true && params2.get() == true){
+        } else if (params1.get() && params2.get()){
         System.out.println("Lowest ancestor of " 
                 + x + " and " + y + " is: " + result.getKey());
                 return result;
