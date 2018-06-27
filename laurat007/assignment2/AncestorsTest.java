@@ -21,9 +21,6 @@ import org.junit.Test;
  */
 public class AncestorsTest extends TestCase {
 
-    public AncestorsTest() {
-    }
-
     Ancestors.BinaryTreeNode<Integer> buildTree1() {
         // build a binary tree
         Ancestors.BinaryTreeNode<Integer> tree = new Ancestors.BinaryTreeNode<>(7);
@@ -75,7 +72,7 @@ public class AncestorsTest extends TestCase {
 
     // test getAncestors
     @Test
-    public void Test1() {
+    public void Test_getAncestors_1() {
         // build a binary tree
         Ancestors.BinaryTreeNode<Integer> tree = buildTree1();
 
@@ -94,7 +91,7 @@ public class AncestorsTest extends TestCase {
     }
 
     @Test
-    public void Test2() {
+    public void Test_getAncestors_emptyTree() {
         // build a binary tree
         Ancestors.BinaryTreeNode<Integer> tree = buildTree2();
 
@@ -108,7 +105,7 @@ public class AncestorsTest extends TestCase {
     }
     
     @Test
-    public void Test3() {
+    public void Test_getAncestors_2() {
         // build a binary tree
         Ancestors.BinaryTreeNode<Integer> tree = buildTree3();
 
@@ -128,7 +125,7 @@ public class AncestorsTest extends TestCase {
 
     // test commonAncestor
     @Test
-    public void Test4() {
+    public void Test_commonAncestor_emptyTree() {
         // build a binary tree
         Ancestors.BinaryTreeNode<Integer> tree = buildTree2();
 
@@ -142,7 +139,7 @@ public class AncestorsTest extends TestCase {
     }
 
     @Test
-    public void Test5() {
+    public void Test_commonAncestor_1() {
         // build a binary tree
         Ancestors.BinaryTreeNode<Integer> tree = buildTree1();
 
@@ -156,7 +153,7 @@ public class AncestorsTest extends TestCase {
     }
     
     @Test
-    public void Test6() {
+    public void Test_commonAncestor_2() {
         // build a binary tree
         Ancestors.BinaryTreeNode<Integer> tree = buildTree3();
 
