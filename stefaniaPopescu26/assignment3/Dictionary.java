@@ -78,7 +78,11 @@ public class Dictionary {
          node.isWord = true;
     }
 
-    private boolean search(String word, String type) {
+    /*
+        type = false for isPrefix
+        type = true for isWord
+     */
+    private boolean search(String word, boolean type) {
         if (word.isEmpty()) {
             return false;
         }
@@ -95,18 +99,18 @@ public class Dictionary {
             node = node.children.get(letter);
         }
 
-        if (type.equals("isWord"))
+        if (type)
             return node.isWord;
 
         return true;
     }
 
     public boolean isPrefix(String prefix) {
-        return search(prefix, "isPrefix");
+        return search(prefix, false);
     }
 
     public boolean isWord(String word) {
-        return search(word, "isWord");
+        return search(word, true);
     }
 
     public boolean isEmpty() {
