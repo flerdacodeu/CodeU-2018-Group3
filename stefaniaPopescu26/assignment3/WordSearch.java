@@ -95,8 +95,8 @@ public class WordSearch {
         Vector<Pair> neighbours = new Vector<>();
 
         for (int i = 0; i < 8; i++) {
-            int cellRow = (int) cell.getRow() + row_offset[i];
-            int cellCol = (int) cell.getCol() + col_offset[i];
+            int cellRow = cell.getRow() + row_offset[i];
+            int cellCol = cell.getCol() + col_offset[i];
             if (cellRow >= 0 && cellRow < rows)
                 if (cellCol >= 0 && cellCol < cols)
                     neighbours.add(new Pair(cellRow, cellCol));
@@ -124,8 +124,8 @@ public class WordSearch {
         }
 
         for (int i = 0; i < neighbours.size(); i++) {
-            int nextRow = (int) neighbours.get(i).getRow();
-            int nextCol = (int) neighbours.get(i).getCol();
+            int nextRow = neighbours.get(i).getRow();
+            int nextCol = neighbours.get(i).getCol();
             if (!visited.contains(neighbours.get(i)) && dictionary.isPrefix(word + grid[nextRow][nextCol])) {
                 Vector<Pair> visited_copy = (Vector<Pair>) visited.clone();
                 explore(new Pair(nextRow, nextCol), words, word + grid[nextRow][nextCol], visited_copy);
