@@ -2,6 +2,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 class CountingIslands {
+
+    /**
+     * Counts the islands in a given grid
+     *
+     * @param rows    number of rows
+     * @param columns number of columns
+     * @param tiles   grid with land(true) and see(false)
+     * @return number of islands in the grid
+     */
     static int countIslands(int rows, int columns, boolean[][] tiles) {
         int count = 0;
         for (int i = 0; i < rows; i++) {
@@ -15,6 +24,14 @@ class CountingIslands {
         return count;
     }
 
+    /**
+     * Removes one island recursively
+     *
+     * @param tiles  grid with land and see
+     * @param row row of the current point
+     * @param column column of the current point
+     * @return grid with land tiles of the island marked as false
+     */
     private static boolean[][] markIsland(boolean[][] tiles, int row, int column) {
         tiles[row][column] = false;
         for (GridPos pos : getNeighbors(row, column, tiles.length, tiles[row].length)) {
@@ -25,6 +42,15 @@ class CountingIslands {
         return tiles;
     }
 
+    /**
+     * Creates a list of the direct neighbors of a point
+     *
+     * @param row     row of the point
+     * @param column  column of the point
+     * @param rows    number of rows in the grid
+     * @param columns number of columns in the grid
+     * @return list of grid positions with the neighbors
+     */
     private static List<GridPos> getNeighbors(int row, int column, int rows, int columns) {
         List<GridPos> positions = new ArrayList<>();
         if (row + 1 < rows) {
@@ -42,6 +68,9 @@ class CountingIslands {
         return positions;
     }
 
+    /**
+     * Represents a position in a grid
+     */
     private static class GridPos {
         int row;
         int column;
