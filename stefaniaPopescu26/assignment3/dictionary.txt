@@ -1,0 +1,5 @@
+4
+CAR
+CARD
+CART
+CAT
