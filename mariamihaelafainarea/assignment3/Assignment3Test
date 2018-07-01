@@ -22,7 +22,7 @@ import static org.junit.Assert.*;
  */
 public class Assignment3Test {
     @Test
-    public void SimpleTest(){
+    public void simple(){
         //2x3 matrix !
         //simple example
         Assignment3 b = new Assignment3();
@@ -62,7 +62,7 @@ public class Assignment3Test {
         
     } 
      @Test
-    public void WordCannotBeFormedTest(){
+    public void wordCannotBeFormed(){
         //3x3 matrix
         //simple example 
         //t is missing from grid in aparat
@@ -108,7 +108,7 @@ public class Assignment3Test {
         
     } 
      @Test
-    public void EmptyDictionaryTest(){
+    public void emptyDictionary(){
         // we have nothing in the dictionary
         //so we cannot form anything
         Assignment3 b = new Assignment3();
@@ -148,7 +148,7 @@ public class Assignment3Test {
         
     }
      @Test
-    public void EmptyDictionaryAndGridTest(){
+    public void emptyDictionaryAndGrid(){
         //we have nothing also in the grid and in the dictionary
         Assignment3 b = new Assignment3();
         Assignment3.MyDictionary dictionary =  b.new MyDictionary();
@@ -173,7 +173,7 @@ public class Assignment3Test {
         
     }
      @Test
-    public void ComplexTest(){
+    public void moreComplex(){
        // TODO code application logic here
         //3x3 matrix
         //parada - is reapeated the "a" in the word
