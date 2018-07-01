@@ -83,7 +83,7 @@ public class CountIslands {
      * @return returns the number of islands
      * Note: assumes non-empty tiles map
      */
-    public static int countIslandsNoRecursion(boolean[][] tilesMap, int rows, int cols){
+    public static int countIslandsIterative(boolean[][] tilesMap, int rows, int cols){
         // false= water, true =land
         Point p;
         boolean[][] visited = new boolean[rows][cols];
@@ -123,3 +123,4 @@ public class CountIslands {
     }
 
 }
+
