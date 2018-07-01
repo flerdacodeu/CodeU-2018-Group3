@@ -120,8 +120,10 @@ public class Assignment3 {
             current.endOfWord = true;
             
         }
-        private boolean isGeneralHelper(boolean action,TrieNode current,String word,int index) {
-            if(action) {
+        //if isWord is not true, what i want to search
+        //is a prefix !!!
+        private boolean isGeneralHelper(boolean isWord,TrieNode current,String word,int index) {
+            if(isWord) {
                 if (index == word.length()) {
                     return current.endOfWord;
                 }
@@ -135,7 +137,7 @@ public class Assignment3 {
             if (theChild == null) {
                return false;
             }
-            return isGeneralHelper(action,theChild, word, ++index);
+            return isGeneralHelper(isWord,theChild, word, ++index);
             
         }
 
