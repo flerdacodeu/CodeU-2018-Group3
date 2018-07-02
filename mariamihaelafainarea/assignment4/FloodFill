@@ -1,0 +1,64 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package assignment4;
+
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+/**
+ *
+ * @author maria
+ */
+public class FloodFill {
+     public static void floodFill(DijointSet ds,AtomicBoolean[][] verificare,
+            boolean[][] matrix,int n,int m,int x,int y) {
+        Queue<Pair> myQueue = new LinkedList <Pair>();
+        myQueue.add(new Pair(x,y));
+        while(!myQueue.isEmpty()) {
+            Pair p = myQueue.remove();
+            //if here is land and i have not
+            //been there before
+            //find all the lands in the neighbourhood
+            //and get together the neighbours.
+            if (matrix[p.x][p.y] &&  !verificare[p.x][p.y].get()) {
+                verificare[p.x][p.y].set(true);
+                int valueX = p.x+1;
+                int valueY = p.y;
+                if ( valueX < n && matrix[valueX][valueY] && !verificare[valueX][valueY].get())  {
+                    myQueue.add(new Pair(valueX, valueY));
+                    ds.union(valueX * m +valueY, p.x * m + p.y);
+                }
+                valueX = p.x - 1;
+                if (valueX >= 0 && matrix[valueX][valueY] && !verificare[valueX][valueY].get())  {
+                    myQueue.add(new Pair(valueX, valueY));
+                    ds.union(valueX * m +valueY, p.x * m + p.y);
+                }
+                valueX = p.x;
+                valueY = p.y + 1;
+                if (valueY < m && matrix[valueX][valueY] && !verificare[valueX][valueY].get())  {
+                    myQueue.add(new Pair(valueX, valueY));
+                    ds.union(valueX * m +valueY, p.x * m + p.y);
+                }
+                valueY = p.y - 1;
+                if ( valueY >= 0 && matrix[valueX][valueY] && !verificare[valueX][valueY].get())  {
+                    myQueue.add(new Pair(valueX, valueY));
+                    ds.union(valueX * m +valueY, p.x * m + p.y);
+                }
+            }
+      } 
+   }
+    public static class Pair {
+        int x,y;
+        public Pair(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+}
