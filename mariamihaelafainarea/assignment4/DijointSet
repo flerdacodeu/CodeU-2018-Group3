@@ -1,0 +1,70 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package assignment4;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ *
+ * @author maria
+ */
+public class DijointSet {
+    private Map<Integer, Node> map = new HashMap<>();
+
+    class Node {
+        int data;
+        Node parent;
+        int rank;
+    }
+    //put value data in a different tree
+    public void makeSet(int data) {
+        Node current = new Node();
+        current.data = data;
+        current.rank = 0;
+        current.parent = current;
+        map.put(data, current);
+    }
+    //get together 2 trees 
+    //by comparing their rank and parent.
+    //rank option is an optimization not to
+    //obtain a huge tree.
+    public boolean union(int data1, int data2) {
+        Node node1 = map.get(data1);
+        Node node2 = map.get(data2);
+        
+        if (node1.parent.equals(node2.parent)) {
+            return false;
+        } 
+        Node parent1 = findSet(node1);
+        Node parent2 = findSet(node2);
+        if (parent1.rank >= parent2.rank) {
+            if (parent1.rank == parent2.rank) {
+                parent1.rank ++;
+            }
+            parent2.parent = parent1;
+        } else {
+            parent1.parent = parent2;
+        }
+        return true;   
+    }
+    public int findSet(int data) {
+         return findSet(map.get(data)).data;
+    }
+    private Node findSet(Node node) {
+        Node parent = node.parent;
+        if (parent.equals(node)) {
+            //we have found the arrow returning to the same node.
+            return parent;
+        }
+        //here we assign to each node processed in the recursion
+        //the final value of the parent.
+        //after that all nodes in a path will be 
+        //bound to the parent directly
+        node.parent = findSet(node.parent);
+        return node.parent;
+    }
+}
