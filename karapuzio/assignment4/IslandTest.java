@@ -27,7 +27,7 @@ public class IslandTest {
         island = new Island(rows, columns, map);
         int islands = island.countIslanads();
         int correctAnswer = 3;
-        Assert.assertTrue(islands == correctAnswer);
+        Assert.assertEquals(islands, correctAnswer);
     }
 
     @Test
@@ -37,5 +37,25 @@ public class IslandTest {
         int islands = island.countIslanads();
         int correctAnswer = 3;
         Assert.assertFalse(islands == correctAnswer);
+    }
+
+    @Test
+    public void checkIslandAsWholeMap(){
+        island = new Island(2, 2,
+                new boolean[][]{{true,true},
+                                {true, true}});
+        int islands = island.countIslanads();
+        int correctAnswer = 1;
+        Assert.assertEquals(islands, correctAnswer);
+    }
+
+    @Test
+    public void checkEmptyMap(){
+        island = new Island(2, 2,
+                new boolean[][]{{false, false},
+                                {false, false}});
+        int islands = island.countIslanads();
+        int correctAnswer = 0;
+        Assert.assertEquals(islands, correctAnswer);
     }
 }
