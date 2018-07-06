@@ -17,7 +17,7 @@ public class Assignment4 {
 
     int n,m;
     boolean[][] matrix;
-    DijointSet d;
+    DisjointSet d;
     //false - water
     //true - land
     //Please return number of islands ! 
@@ -29,14 +29,14 @@ public class Assignment4 {
     }
     //First, assign for each cell a different set
     public void putIntoDifferentSets() {
-        d = new DijointSet();
+        d = new DisjointSet();
         for (int i = 0; i < n*m; i++) {
             d.makeSet(i);
         }
     }
     //Then, the flood fill alg will get together
     //the cells in the neighbourhood => set of islands
-    public void applyFloodFillOnMe(AtomicBoolean[][] verified) {
+    public void applyFloodFillOnMe(boolean[][] verified) {
         FloodFill f = new FloodFill();
         for (int i = 0; i < n ;i++) {
             for(int j = 0; j < m; j++) {
@@ -50,11 +50,11 @@ public class Assignment4 {
     //that were processed.
     //if the node isn't verrified there
     //is water, not land
-    public int getNrOfDifferentSetsWithIslands(AtomicBoolean[][] verified) {
+    public int getNrOfDifferentSetsWithIslands(boolean[][] verified) {
         Set<Integer> x = new TreeSet<>();
         for (int i = 0; i < n ; i++) {
             for(int j = 0; j < m; j++) {
-                if(verified[i][j].get()) {
+                if(verified[i][j]) {
                     //only if i have put it into a set! 
                     //otherwise it is not a land
                     x.add(d.findSet(i*m + j));
@@ -65,10 +65,10 @@ public class Assignment4 {
     }
     public int findNumberOfIslandsProcedure() {
         putIntoDifferentSets();
-        AtomicBoolean[][] verified = new AtomicBoolean[n][m];
+        boolean[][] verified = new boolean[n][m];
         for (int i = 0; i < n ;i++) {
             for(int j = 0; j < m; j++) {
-                verified[i][j] = new AtomicBoolean(false);
+                verified[i][j] = false;
             }
         }
         applyFloodFillOnMe(verified);
