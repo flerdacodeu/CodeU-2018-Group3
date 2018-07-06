@@ -24,3 +24,14 @@ false true false true
 true true true true
 false false true false
 false false true false
+
+
+
+NoMerging.txt
+
+5 5
+true false true false true
+false true false true false
+true false true false true
+false true false true false
+true false true false true
