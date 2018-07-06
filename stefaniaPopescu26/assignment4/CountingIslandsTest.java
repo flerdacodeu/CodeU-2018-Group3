@@ -16,8 +16,14 @@ public class CountingIslandsTest {
     }
 
     @Test
-    public void countIslands_NormalInput() {
+    public void countIslands_AssignmentInput() {
         CountingIslands islands = new CountingIslands("CountingIslands.txt");
         assertEquals(3, islands.countIslands());
+    }
+
+    @Test
+    public void countIslands_NoMerging() {
+        CountingIslands islands = new CountingIslands("NoMerging.txt");
+        assertEquals(13, islands.countIslands());
     }
 }
