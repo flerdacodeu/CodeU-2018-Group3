@@ -12,7 +12,29 @@ import java.util.Map;
  *
  * @author maria
  */
-public class DijointSet {
+/*This function is a data structure
+that starts his functionality by 
+putting each element in a different
+set(here the set is a tree)
+with makeSet function.
+Then, after you verify some 
+properties of 2 elements 
+like your problem requires
+you can get toghether the two elements
+with the function "union".
+If any other element has the same 
+properties you add it to the tree
+with union function.
+In the end you have one or many trees.
+In each tree the elements have
+specific properties. 
+Here: in each tree we get together
+only the cells that are in the
+neighbourhood(cell x is above,below,
+to the right or to the left of 
+the y cell)
+*/
+public class DisjointSet {
     private Map<Integer, Node> map = new HashMap<>();
 
     class Node {
