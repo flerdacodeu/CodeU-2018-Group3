@@ -8,13 +8,13 @@ class CountingIslands {
      *
      * @param rows    number of rows
      * @param columns number of columns
-     * @param tiles   grid with land(true) and see(false)
+     * @param tiles   grid with land(true) and sea(false)
      * @return number of islands in the grid
      */
-    static int countIslands(int rows, int columns, boolean[][] tiles) {
+    static int countIslands(boolean[][] tiles) {
         int count = 0;
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles[i].length; j++) {
                 if (tiles[i][j]) {
                     tiles = markIsland(tiles, i, j);
                     count++;

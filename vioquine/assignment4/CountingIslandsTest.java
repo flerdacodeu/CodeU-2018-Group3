@@ -6,7 +6,7 @@ public class CountingIslandsTest {
 
     @Test
     public void testEmptyMap() {
-        assertEquals(0, CountingIslands.countIslands(0, 0, new boolean[0][0]));
+        assertEquals(0, CountingIslands.countIslands( new boolean[0][0]));
     }
 
     @Test
@@ -15,7 +15,7 @@ public class CountingIslandsTest {
                 {false, false, false, false},
                 {false, false, false, false},
                 {false, false, false, false}};
-        assertEquals(0, CountingIslands.countIslands(tiles.length, tiles[0].length, tiles));
+        assertEquals(0, CountingIslands.countIslands(tiles));
     }
 
     @Test
@@ -24,7 +24,7 @@ public class CountingIslandsTest {
                 {true, true, true, true},
                 {true, true, true, true},
                 {true, true, true, true}};
-        assertEquals(1, CountingIslands.countIslands(tiles.length, tiles[0].length, tiles));
+        assertEquals(1, CountingIslands.countIslands(tiles));
     }
 
     @Test
@@ -34,6 +34,6 @@ public class CountingIslandsTest {
                 {true, true, false, false},
                 {false, false, true, false},
                 {false, false, true, false}};
-        assertEquals(3, CountingIslands.countIslands(tiles.length, tiles[0].length, tiles));
+        assertEquals(3, CountingIslands.countIslands(tiles));
     }
 }
