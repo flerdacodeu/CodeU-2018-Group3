@@ -96,8 +96,8 @@ public class CountingIslands {
             Pair current = iterator.next();
 
             for (int i = 0; i < 2; i++) {
-                int row = current.getRow() + offset[i].getCol();
-                int col = current.getRow() + offset[i].getCol();
+                int row = current.getRow() + offset[i].getRow();
+                int col = current.getCol() + offset[i].getCol();
 
                 if (landTiles.contains(new Pair(row, col))) {
                     merged++;
