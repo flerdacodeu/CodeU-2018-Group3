@@ -22,11 +22,7 @@ class Grid {
         dictionary = dict;
         rows = r;
         columns = c;
-        grid = new char[rows][columns];
-        for(int i = 0; i < rows; i++)
-            for(int j = 0; j < columns; j++) {
-                grid[i][j] = letterMatrix[i][j];
-            }
+        grid = letterMatrix;
     }
     
     // check if the cell exists in grid and is not visited yet
