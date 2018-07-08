@@ -1,3 +1,9 @@
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.TreeSet;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -22,21 +28,16 @@ public class Trie {
     
     class TrieNode
     {
-        TrieNode[] children = new TrieNode[MAX_LETTERS];
+        HashMap<Integer,TrieNode> children = new HashMap<>();
       
         boolean isEndOfWord;
-         
-        TrieNode(){
-            isEndOfWord = false;
-            for (int i = 0; i < MAX_LETTERS; i++)
-                children[i] = null;
-        }
         
         void print() {
-            for(int i = 0; i < children.length; i++) {
-                if(children[i] != null) {
-                    children[i].print();
-                }
+            Iterator it = children.keySet().iterator();
+            while(it.hasNext()) {
+                TrieNode current = (TrieNode) it.next();
+                System.out.println(children.get(current));
+                current.print();
             }
         }
     };
@@ -56,16 +57,25 @@ public class Trie {
             int index = key.charAt(level) - 'A';
             
             // need new child instance
-            if (aux.children[index] == null) {
-                aux.children[index] = new TrieNode();
+            if (!aux.children.containsKey(index)) {
+                aux.children.put(index, new TrieNode());
             }
-            aux = aux.children[index];
+            aux = aux.children.get(index);
         }
       
         // mark last node as leaf
         aux.isEndOfWord = true;
     }
-      
+    
+    /*  this method returns:
+        2 if the key is a word (it is contained
+          in the trie and its last letter is marked 
+          as end of the word
+        1 if the key is a prefix (it is contained
+          in the trie but its last letter is not marked 
+          as end of the word)
+        0 if the key is neither word or prefix
+    */
     int searchWord(String key)
     {   
         TrieNode aux = root;
@@ -76,10 +86,10 @@ public class Trie {
             
             // the word given is longer than the 
             // word in dictionary that should match
-            if (aux.children[index] == null)
+            if (aux.children.get(index) == null)
                 return 0;
       
-            aux = aux.children[index];
+            aux = aux.children.get(index);
         }
         
         // word
