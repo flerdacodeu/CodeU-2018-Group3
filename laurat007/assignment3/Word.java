@@ -28,7 +28,6 @@ public class Word {
             for(int j = 0; j < G.columns; j++) {
                 backtrack(i, j, G, solution, 
                     Character.toString(G.grid[i][j]), visited);
-                visited[i][j] = false;
             }
         }
         return solution;
@@ -41,6 +40,7 @@ public class Word {
         
         // stop condition
         if(! G.dictionary.isPrefix(word)) {
+            visited[startingCellX][startingCellY] = false;
             return;
         }
         // if solution found, will be added
@@ -48,61 +48,25 @@ public class Word {
             solution.add(word);
         
         // try moving
-        // left up
-        if(G.isValid(startingCellX - 1, startingCellY - 1, visited)) {
-            backtrack(startingCellX - 1, startingCellY - 1, G, solution, 
-                word + G.grid[startingCellX - 1][startingCellY - 1], visited);
-            visited[startingCellX - 1][startingCellY - 1] = false;
-        }
-        
-        // up
-        if(G.isValid(startingCellX - 1, startingCellY, visited)) {
-            backtrack(startingCellX - 1, startingCellY, G, solution, 
-                word + G.grid[startingCellX - 1][startingCellY], visited);
-            visited[startingCellX - 1][startingCellY] = false;
-        }
-        
-        // right up
-        if(G.isValid(startingCellX - 1, startingCellY + 1, visited)) {
-            backtrack(startingCellX - 1, startingCellY + 1, G, solution, 
-                word + G.grid[startingCellX - 1][startingCellY + 1], visited);
-            visited[startingCellX - 1][startingCellY + 1] = false;
-        }
-        
-        // left
-        if(G.isValid(startingCellX, startingCellY - 1, visited)) {
-            backtrack(startingCellX, startingCellY - 1, G, solution, 
-                word + G.grid[startingCellX][startingCellY - 1], visited);
-            visited[startingCellX][startingCellY - 1] = false;
-        }
-        
-        // right
-        if(G.isValid(startingCellX, startingCellY + 1, visited)) {
-            backtrack(startingCellX, startingCellY + 1, G, solution, 
-                word + G.grid[startingCellX][startingCellY + 1], visited);
-            visited[startingCellX][startingCellY + 1] = false;
-        }
-        
-        // left down
-        if(G.isValid(startingCellX + 1, startingCellY - 1, visited)) {
-            backtrack(startingCellX + 1, startingCellY - 1, G, solution, 
-                word + G.grid[startingCellX + 1][startingCellY - 1], visited);
-            visited[startingCellX + 1][startingCellY - 1] = false;
-        }
-        
-        // down
-        if(G.isValid(startingCellX + 1, startingCellY, visited)) {
-            backtrack(startingCellX + 1, startingCellY, G, solution, 
-                word + G.grid[startingCellX + 1][startingCellY], visited);
-            visited[startingCellX + 1][startingCellY] = false;
-        }
-        
-        // right down
-        if(G.isValid(startingCellX + 1, startingCellY + 1, visited)) {
-            backtrack(startingCellX + 1, startingCellY + 1, G, solution, 
-                word + G.grid[startingCellX + 1][startingCellY + 1], visited);
-            visited[startingCellX + 1][startingCellY + 1] = false;
-        }
+        int[] deltaX = {startingCellX + 1, startingCellX, startingCellX - 1};
+        int[] deltaY = {startingCellY + 1, startingCellY, startingCellY - 1};
+        for(int i = 0; i < 3; i++)
+            for(int j = 0; j < 3; j++) {
+                
+                // initial position
+                if(i == 1 && j == 1) 
+                    continue;
+                
+                else {
+                    if(G.isValid(deltaX[i], deltaY[j], visited)) {
+                        backtrack(deltaX[i], deltaY[j], G, solution, 
+                            word + G.grid[deltaX[i]][deltaY[j]], visited);
+                        visited[deltaX[i]][deltaY[j]] = false;
+                    }
+                }
+            }
+       
+        visited[startingCellX][startingCellY] = false;
         
     }
     
