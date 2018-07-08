@@ -17,7 +17,7 @@ import org.junit.Test;
 public class WordTest extends TestCase{
 
     @Test
-    public void testWords1() {
+    public void testWordsEasyShortGrid() {
         TreeSet<String> dictionary = new TreeSet<>();
         dictionary.add("CART");
         dictionary.add("CAR");
@@ -48,7 +48,7 @@ public class WordTest extends TestCase{
     }
 
     @Test
-    public void testWords2() {
+    public void testWordsEmptyGrid() {
         TreeSet<String> dictionary = new TreeSet<>();
         Dictionary dict = new Dictionary(dictionary);
         char[][] letterMatrix = new char[0][0];
@@ -59,7 +59,7 @@ public class WordTest extends TestCase{
     }
     
     @Test
-    public void testWords3() {
+    public void testWordsBiggerGrid() {
         TreeSet<String> dictionary = new TreeSet<>();
         dictionary.add("MAKE");
         dictionary.add("MEET");
@@ -94,4 +94,66 @@ public class WordTest extends TestCase{
         solution.add("BUG"); solution.add("MAKE"); solution.add("MUG"); solution.add("TEAM");
         assertEquals(solution, Word.words(g));
     }
+    
+    @Test 
+    public void testIsPrefixEmptyGridEmptyPrefix() {
+        TreeSet<String> dictionary = new TreeSet<>();
+        Dictionary dict = new Dictionary(dictionary);
+        assertFalse(dict.isPrefix(""));
+    }
+    
+    @Test 
+    public void testIsPrefixEmptyGridOneLetterPrefix() {
+        TreeSet<String> dictionary = new TreeSet<>();
+        Dictionary dict = new Dictionary(dictionary);
+        assertFalse(dict.isPrefix("A"));
+    }
+    
+    @Test
+    public void testisPrefixNotEmptyGrid() {
+        TreeSet<String> dictionary = new TreeSet<>();
+        dictionary.add("CART");
+        dictionary.add("CAR");
+        dictionary.add("CARD");
+        dictionary.add("CAT");
+        Dictionary dict = new Dictionary(dictionary);
+        
+        assertTrue(dict.isPrefix("C"));
+        assertTrue(dict.isPrefix("CA"));
+        assertTrue(dict.isPrefix("CAR"));
+        assertTrue(dict.isPrefix("CART"));
+        assertFalse(dict.isPrefix("CAPT"));
+        assertTrue(dict.isPrefix("CA"));
+    }
+    
+    @Test 
+    public void testIsWordEmptyGridEmptyWord() {
+        TreeSet<String> dictionary = new TreeSet<>();
+        Dictionary dict = new Dictionary(dictionary);
+        assertFalse(dict.isWord(""));
+    }
+    
+    @Test 
+    public void testIsWordEmptyGridOneLetterWord() {
+        TreeSet<String> dictionary = new TreeSet<>();
+        Dictionary dict = new Dictionary(dictionary);
+        assertFalse(dict.isWord("A"));
+    }
+    
+    @Test
+    public void testisWordNotEmptyGrid() {
+        TreeSet<String> dictionary = new TreeSet<>();
+        dictionary.add("CART");
+        dictionary.add("CAR");
+        dictionary.add("CARD");
+        dictionary.add("CAT");
+        Dictionary dict = new Dictionary(dictionary);
+        
+        assertFalse(dict.isWord("C"));
+        assertFalse(dict.isWord("MUST"));
+        assertTrue(dict.isWord("CAR"));
+        assertTrue(dict.isWord("CART"));
+        assertFalse(dict.isWord("CAPT"));
+    }
+    
 }
