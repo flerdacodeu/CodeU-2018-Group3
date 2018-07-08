@@ -18,18 +18,24 @@ class Dictionary {
     Trie dictionary = new Trie();
     
     Dictionary(TreeSet<String> wordsSet) {
-        while(!wordsSet.isEmpty()) {
-            dictionary.insert(wordsSet.pollFirst()); 
+        Iterator it = wordsSet.iterator();
+        while(it.hasNext()) {
+            dictionary.insert(it.next().toString());
+
         }
     }
     
     boolean isPrefix(String prefix) {
+        if(prefix == "")
+            return false;
         if (dictionary.searchWord(prefix) != 0)
             return true;
         return false; 
     }
     
     boolean isWord(String word) {
+        if(word == "")
+            return false;
         if (dictionary.searchWord(word) == 2)
             return true;
         return false;
