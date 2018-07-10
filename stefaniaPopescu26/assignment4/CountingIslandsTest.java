@@ -26,4 +26,10 @@ public class CountingIslandsTest {
         CountingIslands islands = new CountingIslands("NoMerging.txt");
         assertEquals(13, islands.countIslands());
     }
+
+    @Test
+    public void countIslands_MergeAll() {
+        CountingIslands islands = new CountingIslands("MergeAll.txt");
+        assertEquals(1, islands.countIslands());
+    }
 }
