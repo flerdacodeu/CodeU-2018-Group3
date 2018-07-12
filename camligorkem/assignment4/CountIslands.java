@@ -2,6 +2,8 @@ import java.util.HashSet;
 import java.util.Stack;
 import static java.lang.Math.abs;
 
+// This class contains 2 solution to the problem the first one is chosen and reasons are stated below
+// but both solutions are kept in the file
 public class CountIslands {
     /**
      * General Note:
@@ -71,6 +73,7 @@ public class CountIslands {
      * @param col column index of the selected tile
      * @param rowUpperLimit number of rows in the tiles map
      * @param colUpperLimit number of columns in the tiles map
+     *  only used for iterative version
      */
     private static HashSet<Neighbour> getNeighbours(int row, int col, int rowUpperLimit, int colUpperLimit){
         //only horizontal and vertical
@@ -139,4 +142,3 @@ public class CountIslands {
         }
     }
 }
-
