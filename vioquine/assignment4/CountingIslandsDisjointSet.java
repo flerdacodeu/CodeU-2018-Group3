@@ -26,7 +26,7 @@ class CountingIslandsDisjointSet {
                 }
             }
         }
-        return landSet.size();
+        return landSet.getSize();
     }
 
     private static List<Integer> getNeighbors(int[][] field, int row, int column) {

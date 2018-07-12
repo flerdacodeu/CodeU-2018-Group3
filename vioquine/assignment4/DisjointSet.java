@@ -1,20 +1,14 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 class DisjointSet<T> {
-    private List<DisjointItem> subsets;
+    private HashMap<T, DisjointItem> subsets;
 
     DisjointSet() {
-        this.subsets = new ArrayList<>();
-    }
-
-    int size() {
-        return subsets.size();
+        this.subsets = new HashMap<>();
     }
 
     void makeSet(T content) {
-        subsets.add(new DisjointItem(content));
+        subsets.put(content, new DisjointItem());
     }
 
     void union(T a, T b) {
@@ -22,44 +16,41 @@ class DisjointSet<T> {
             find(b).ifPresent(parentOfB -> {
                 if (parentOfA != parentOfB) {
                     parentOfA.addChild(parentOfB);
-                    subsets.remove(parentOfB);
+                    updateParent(parentOfB, parentOfA);
                 }
             });
         });
     }
 
+    private void updateParent(DisjointItem item, DisjointItem newParent) {
+        item.setParent(newParent);
+        for (DisjointItem child : item.getChildren()) {
+            updateParent(child, newParent);
+        }
+    }
+
     private Optional<DisjointItem> find(T item) {
-        for (DisjointItem subset : subsets) {
-            if (isInSubSet(subset, item)) {
-                return Optional.of(subset);
-            }
+        if (subsets.containsKey(item)) {
+            return Optional.of(subsets.get(item).getParent());
         }
         return Optional.empty();
     }
 
-    private boolean isInSubSet(DisjointItem subset, T item) {
-        if (subset.getContent() == item) {
-            return true;
+    int getSize() {
+        Set<DisjointItem> parents = new HashSet<>();
+        for (T key : subsets.keySet()) {
+            find(key).ifPresent(parents::add);
         }
-        for (DisjointItem child : subset.getChildren()) {
-            if (isInSubSet(child, item)) {
-                return true;
-            }
-        }
-        return false;
+        return parents.size();
     }
 
     private class DisjointItem {
-        private T content;
         private List<DisjointItem> children;
+        private DisjointItem parent;
 
-        DisjointItem(T content) {
-            this.content = content;
+        DisjointItem() {
             this.children = new ArrayList<>();
-        }
-
-        T getContent() {
-            return content;
+            this.parent = this;
         }
 
         void addChild(DisjointItem child) {
@@ -68,6 +59,14 @@ class DisjointSet<T> {
 
         List<DisjointItem> getChildren() {
             return children;
+        }
+
+        DisjointItem getParent() {
+            return parent;
+        }
+
+        void setParent(DisjointItem parent) {
+            this.parent = parent;
         }
     }
 }
