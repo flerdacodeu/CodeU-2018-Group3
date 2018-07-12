@@ -2,6 +2,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class CountIslandsTest {
+
     /**
      * In each test case first call test the recursive solution and second call tests the iterative solution
      *  Recursive solution calls made to CountIslands.countIslands() function
@@ -11,12 +12,23 @@ public class CountIslandsTest {
     public void testBasic() {
         // test case given in the question
         boolean[][] tilesMap = {{false, true, false, true},
-                {true, true, false, false},
-                {false, false, true, false},
-                {false, false, true, false}};
+                                {true, true, false, false},
+                                {false, false, true, false},
+                                {false, false, true, false}};
         assertEquals(3, CountIslands.countIslands(tilesMap, tilesMap.length, tilesMap[0].length));
         assertEquals(3, CountIslands.countIslandsIterative(tilesMap, tilesMap.length, tilesMap[0].length));
     }
+
+    @Test
+    public void testBasic2() {
+        // test case given in the question
+        boolean[][] tilesMap = {{false, false, false, true},
+                                {false, false, false, false},
+                                {false, false, false, false}};
+        assertEquals(1, CountIslands.countIslands(tilesMap, tilesMap.length, tilesMap[0].length));
+        assertEquals(1, CountIslands.countIslandsIterative(tilesMap, tilesMap.length, tilesMap[0].length));
+    }
+
 
     @Test
     public void testEdgeCases() {
