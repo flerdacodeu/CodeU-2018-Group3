@@ -31,13 +31,7 @@ public class Assignment3Test {
         dictionary.insert("cat");
         dictionary.insert("cart");
         dictionary.insert("car");
-        char[][] grid = new char[2][3];
-        grid[0][0] = 'a';
-        grid[0][1] = 'a';
-        grid[0][2] = 'r';
-        grid[1][0] = 't';
-        grid[1][1] = 'c';
-        grid[1][2] = 'd';
+        char[][] grid = {{'a','a','r'},{'t', 'c', 'd'}};
         for(int i = 0; i < 2; i++) {
             for (int j = 0; j < 3; j++) {
                 System.out.print(grid[i][j] + " ");
@@ -74,16 +68,7 @@ public class Assignment3Test {
         dictionary.insert("amar");
         dictionary.insert("apar");
         dictionary.insert("aparat");
-        char[][] grid = new char[3][3];
-        grid[0][0] = 'd';
-        grid[0][1] = 'c';
-        grid[0][2] = 'b';
-        grid[1][0] = 'e';
-        grid[1][1] = 'a';
-        grid[1][2] = 'p';
-        grid[2][0] = 'r';
-        grid[2][1] = 'a';
-        grid[2][2] = 'm';
+        char[][] grid = {{'d','c','b'},{'e', 'a', 'p'},{'r','a','m'}};
         for(int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 System.out.print(grid[i][j] + " ");
@@ -113,16 +98,7 @@ public class Assignment3Test {
         //so we cannot form anything
         Assignment3 b = new Assignment3();
         Assignment3.MyDictionary dictionary =  b.new MyDictionary();
-        char[][] grid = new char[3][3];
-        grid[0][0] = 'd';
-        grid[0][1] = 'c';
-        grid[0][2] = 'b';
-        grid[1][0] = 'e';
-        grid[1][1] = 'a';
-        grid[1][2] = 'p';
-        grid[2][0] = 'r';
-        grid[2][1] = 'a';
-        grid[2][2] = 'm';
+        char[][] grid = {{'d','c','b'},{'e', 'a', 'p'},{'r','a','m'}};
         for(int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 System.out.print(grid[i][j] + " ");
@@ -174,7 +150,6 @@ public class Assignment3Test {
     }
      @Test
     public void moreComplex(){
-       // TODO code application logic here
         //3x3 matrix
         //parada - is reapeated the "a" in the word
         //depm - cannot be formed in dfs
@@ -189,16 +164,7 @@ public class Assignment3Test {
         dictionary.insert("parada");
         dictionary.insert("depm");
         dictionary.insert("balustrada");
-        char[][] grid = new char[3][3];
-        grid[0][0] = 'd';
-        grid[0][1] = 'c';
-        grid[0][2] = 'b';
-        grid[1][0] = 'e';
-        grid[1][1] = 'a';
-        grid[1][2] = 'p';
-        grid[2][0] = 'r';
-        grid[2][1] = 'a';
-        grid[2][2] = 'm';
+        char[][] grid = {{'d','c','b'},{'e', 'a', 'p'},{'r','a','m'}};
         for(int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 System.out.print(grid[i][j] + " ");
