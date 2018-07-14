@@ -37,6 +37,10 @@ the y cell)
 public class DisjointSet {
     private Map<Integer, Node> map = new HashMap<>();
 
+    public Map<Integer, Node> getMap() {
+        return map;
+    }
+    
     class Node {
         int data;
         Node parent;
@@ -57,7 +61,9 @@ public class DisjointSet {
     public boolean union(int data1, int data2) {
         Node node1 = map.get(data1);
         Node node2 = map.get(data2);
-        
+        if(node1 == null || node2 == null) {
+            return false;
+        }
         if (node1.parent.equals(node2.parent)) {
             return false;
         } 
@@ -74,7 +80,11 @@ public class DisjointSet {
         return true;   
     }
     public int findSet(int data) {
-         return findSet(map.get(data)).data;
+        if (map.get(data) == null ) {
+            return -1;
+        } else {
+            return findSet(map.get(data)).data;
+        }
     }
     private Node findSet(Node node) {
         Node parent = node.parent;
