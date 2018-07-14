@@ -5,6 +5,11 @@
  */
 package assignment4;
 
+import assignment4.DisjointSet.Node;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -28,10 +33,12 @@ public class Assignment4 {
         this.matrix = matrix;
     }
     //First, assign for each cell a different set
-    public void putIntoDifferentSets() {
+    private void putIntoDifferentSets() {
         d = new DisjointSet();
         for (int i = 0; i < n*m; i++) {
-            d.makeSet(i);
+            if (matrix[i/n][i%m]) {
+                d.makeSet(i);
+            }
         }
     }
     //Then, the flood fill alg will get together
@@ -40,7 +47,9 @@ public class Assignment4 {
         FloodFill f = new FloodFill();
         for (int i = 0; i < n ;i++) {
             for(int j = 0; j < m; j++) {
-                f.floodFill(d, verified, matrix, n, m,i,j);
+                if (matrix[i][j] && !verified[i][j]) {
+                    f.floodFill(d, verified, matrix, n, m,i,j);
+                }
             }
         }
     
@@ -51,28 +60,17 @@ public class Assignment4 {
     //if the node isn't verrified there
     //is water, not land
     public int getNrOfDifferentSetsWithIslands(boolean[][] verified) {
-        Set<Integer> x = new TreeSet<>();
-        for (int i = 0; i < n ; i++) {
-            for(int j = 0; j < m; j++) {
-                if(verified[i][j]) {
-                    //only if i have put it into a set! 
-                    //otherwise it is not a land
-                    x.add(d.findSet(i*m + j));
-                }
-            } 
+        Set<Integer> x = d.getMap().keySet();
+        Set<Integer> rezult = new TreeSet<>();
+        for(Integer elem : x) {
+           rezult.add(d.findSet(elem));
         }
-        return x.size();
+        return rezult.size();
     }
     public int findNumberOfIslandsProcedure() {
         putIntoDifferentSets();
         boolean[][] verified = new boolean[n][m];
-        for (int i = 0; i < n ;i++) {
-            for(int j = 0; j < m; j++) {
-                verified[i][j] = false;
-            }
-        }
         applyFloodFillOnMe(verified);
         return getNrOfDifferentSetsWithIslands(verified);
     }
-    
 }
