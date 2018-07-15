@@ -2,6 +2,12 @@ import java.util.*;
 
 class UnknownAlphabet{
 
+    /**
+     * Builds the alphabet for a given dictionary
+     * Using a graph implemented as a map with nodes as keys and lists of successors as values
+     * @param dictionary ordered list with all words in the dictionary
+     * @return alphabet for the given dictionary
+     */
     static List<Character> findAlphabet(List<String> dictionary){
         Map<Character, List<Character>> graph = new HashMap<>();
         insertWords(graph, dictionary);
@@ -18,6 +24,11 @@ class UnknownAlphabet{
         return alphabet;
     }
 
+    /**
+     * Creates a set of all nodes that have no predecessors for a given graph
+     * @param graph map with nodes as keys and lists of successors as values
+     * @return set of nodes which have no predecessors
+     */
     private static Set<Character> getStartNodes(Map<Character, List<Character>> graph) {
         Set<Character> startNodes = new HashSet<>(graph.keySet());
         for(Character node:graph.keySet()){
@@ -26,6 +37,11 @@ class UnknownAlphabet{
         return startNodes;
     }
 
+    /**
+     * Inserts a given lists of words into a given graph
+     * @param graph map with nodes as keys and lists of successors as values
+     * @param words list of words to be inserted
+     */
     private static  void insertWords(Map<Character, List<Character>> graph, List<String> words) {
         String lastword = "";
         for(String  word: words){
