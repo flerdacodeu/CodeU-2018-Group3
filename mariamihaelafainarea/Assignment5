@@ -1,0 +1,148 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package assignment5;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Stack;
+
+/**
+ *
+ * @author maria
+ */
+//The method is based on
+//building the adiacency matrix
+//of a graph and then doing TopSort on it.
+//Bulding of the adiacency:
+//Traverse the string of elements and then
+//find the order of letters in the alphabet
+//by comparing the letters of 2 adiacent 
+//words that differ in some point.
+//The order of the letters in this point will be delivered
+//by the order of the two words in the dictionary
+public class Assignment5 {
+
+    /**
+     * @param args the command line arguments
+     */
+    class Node {
+        List<Node> sons = new ArrayList<>();
+        Character value;
+        Node parent;
+        boolean vizited;
+
+        public Node(Character value, Node parent) {
+            this.value = value;
+            this.parent = parent;
+        }
+
+        public Node() {
+        }          
+    }
+    HashMap<Character, Node> adiacencyMatrix = new HashMap<>();
+    //this helps me to find the order
+    //of some characters
+    //if two strings differ in some point
+    private int findPrefix(String a, String b) {
+        int length1 = a.length();
+        int length2 = b.length();
+        if (length1 > length2) {
+            int aux =  length1;
+            length1 = length2;
+            length2 = aux;
+        }
+        for(int i = 0; i < length1; i++) {
+            if (a.charAt(i) != b.charAt(i)) {
+                return i;
+            }
+        }
+        return -2;
+        //a is substring of b;
+        //i cannot obtain any information about alphabet
+    }
+    //here i connect a letter with his son
+    //by adding a new entry in the hashmap
+    //with the parent (value of a) and son (value of b)
+    //I also add a new entry with the son 
+    //because maybe later it will be also 
+    //a parent :)
+    private void createEdge(String a, String b) {
+        int index = findPrefix(a, b);
+        if (index == -2) {
+            return;
+        }
+        Node newNode1;
+        Node newNode2;
+        Character aLetter = a.charAt(index);
+        Character bLetter = b.charAt(index);
+        if (!adiacencyMatrix.containsKey(aLetter)) {
+            newNode1 = new Node(); 
+            newNode1.value = aLetter;
+        } else {
+            newNode1 = adiacencyMatrix.get(aLetter);
+        }
+         if (!adiacencyMatrix.containsKey(bLetter)) {
+            newNode2 = new Node();       
+            newNode2.value = bLetter;
+        } else {
+            newNode2 = adiacencyMatrix.get(bLetter);
+        }
+        if (!newNode1.sons.contains(newNode2)) {
+            newNode1.sons.add(newNode2);
+        }
+        if (!adiacencyMatrix.containsKey(aLetter)) {
+            adiacencyMatrix.put(aLetter,newNode1);
+        }
+        if (!adiacencyMatrix.containsKey(bLetter)) {
+            adiacencyMatrix.put(bLetter, newNode2);
+        }
+    }
+    //putting characters in a stack at the end of the 
+    //function helps me obtain the order of the characters
+    //without any additional variables.
+    private void DFS(Character u,Stack<Character> stack) {
+        adiacencyMatrix.get(u).vizited = true;
+        List<Node> sons = adiacencyMatrix.get(u).sons;
+        for(int i = 0; i < sons.size(); i++) {
+            if (!sons.get(i).vizited) {
+                DFS(sons.get(i).value,stack);
+            }
+
+        }
+        stack.push(u);
+    }
+    //i traverse
+    //the whole matrix
+    //and i try to DFS until
+    //every node is visited.
+    private Stack<Character> makeTopSort() {
+        Stack<Character> alphabet = new Stack<>();
+        for(Entry<Character,Node> entry : adiacencyMatrix.entrySet()) {
+            if(!entry.getValue().vizited) {
+                System.out.println("KEY: " + entry.getKey());
+                DFS(entry.getKey(),alphabet);               
+            } 
+        }
+        return alphabet;
+       
+    }
+    //Make the Adiacency Matrix by connecting each node
+    //with his sons. Save all sons in a list and atach it 
+    //to the value of the parent node into a bucket in a hashmap 
+    //Once you have an adiacency matrix
+    //apply TOPSORT to find the alphabet
+    public Stack<Character> whatIsTheAlphabetOf(String[] sir) {
+        for(int i = 0; i < sir.length -1; i++) {
+            createEdge(sir[i], sir[i+1]);
+        }
+        return makeTopSort();
+        
+    }
+     
+}
