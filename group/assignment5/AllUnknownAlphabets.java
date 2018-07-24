@@ -31,7 +31,7 @@ public class AllUnknownAlphabets {
             }
         }
 
-        return findAllTopSorts(dictionary, ingoingEdgeMap, dictionaryGraph, visited);
+        return findAllTopologicalSorts(dictionary, ingoingEdgeMap, dictionaryGraph, visited);
     }
 
     /**
@@ -44,9 +44,9 @@ public class AllUnknownAlphabets {
      *         have incoming edges to certain chars
      * @param visited represents the evidence of the visited nodes and it is sent as parameter because of the time
      *         complexity, to avoid going through all the chars again
-     * Returns all the alphabets to its caller function
+     * @return  all the alphabets to its caller function
      */
-    private static List<List<Character>> findAllTopSorts(List<String> dictionary,
+    private static List<List<Character>> findAllTopologicalSorts(List<String> dictionary,
                                                          Map<Character, Integer> ingoingEdgeMap,
                                                          Map<Character, Set<Character>> dictionaryGraph,
                                                          Map<Character, Boolean> visited) {
@@ -67,7 +67,7 @@ public class AllUnknownAlphabets {
             }
         }
 
-        allTopSorts(ingoingEdgeMap,dictionaryGraph, result, visited, new LinkedList<>());
+        allTopologicalSorts(ingoingEdgeMap,dictionaryGraph, result, visited, new LinkedList<>());
         return result;
     }
 
@@ -81,7 +81,7 @@ public class AllUnknownAlphabets {
      * @param list used to form all the alphabets using backtracking
      * Adds all the alphabets to result list
      */
-    private static void allTopSorts(Map<Character, Integer> ingoingEdgeMap, Map<Character, Set<Character>> dictionaryGraph,
+    private static void allTopologicalSorts(Map<Character, Integer> ingoingEdgeMap, Map<Character, Set<Character>> dictionaryGraph,
                              List<List<Character>> result, Map<Character, Boolean> visited, LinkedList<Character> list){
 
         boolean done = false;
@@ -94,7 +94,7 @@ public class AllUnknownAlphabets {
 
                 list.add(c);
                 visited.put(c, true);
-                allTopSorts(ingoingEdgeMap, dictionaryGraph, result, visited, list);
+                allTopologicalSorts(ingoingEdgeMap, dictionaryGraph, result, visited, list);
 
                 visited.put(c, false);
                 list.removeLast();
