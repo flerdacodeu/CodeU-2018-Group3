@@ -95,37 +95,37 @@ public class UnknownAlphabet {
     /**
      * Checks, if a given dictionary is inconsistent
      * @param dictionary list of strings
-     * @return minimal set of constrains that cannot be satisfied or empty Optional
+     * @return minimal set of constraints that cannot be satisfied or empty Optional
      */
     public static Optional<Set<List<Character>>> checkInconsistency(List<String> dictionary) {
-        Map<Character, Set<Character>> contrains = new HashMap<>();
+        Map<Character, Set<Character>> constraints = new HashMap<>();
         for (int i = 0; i < dictionary.size() - 1; i++) {
             String w1 = dictionary.get(i);
             String w2 = dictionary.get(i + 1);
 
             for (int j = 0; j < Math.min(w1.length(), w2.length()); j++) {
                 if (w1.charAt(j) != w2.charAt(j)) {
-                    if (!contrains.containsKey(dictionary.get(i).charAt(j))) {
+                    if (!constraints.containsKey(dictionary.get(i).charAt(j))) {
                         // adds all the chars in the dictionary into the maps
-                        contrains.put(dictionary.get(i).charAt(j), new HashSet<>());
+                        constraints.put(dictionary.get(i).charAt(j), new HashSet<>());
                     }
-                    contrains.get(w1.charAt(j)).add(w2.charAt(j));
+                    constraints.get(w1.charAt(j)).add(w2.charAt(j));
                     break;
                 }
             }
         }
-        return checkForCircles(contrains);
+        return checkForCircles(constraints);
     }
 
     /**
-     * Checks for any circles in the contrains
-     * @param contrains map ot the contrains
-     * @return minimal set of constrains that cannot be satisfied or empty Optional
+     * Checks for any circles in the constraints
+     * @param constraints map ot the constraints
+     * @return minimal set of constraints that cannot be satisfied or empty Optional
      */
-    private static Optional<Set<List<Character>>> checkForCircles(Map<Character, Set<Character>> contrains) {
-        for (Character before : contrains.keySet()) {
-            for (Character after : contrains.get(before)) {
-                Optional<List<Character>> path = findPath(contrains, after, before, new ArrayList<>(Arrays.asList(after)));
+    private static Optional<Set<List<Character>>> checkForCircles(Map<Character, Set<Character>> constraints) {
+        for (Character before : constraints.keySet()) {
+            for (Character after : constraints.get(before)) {
+                Optional<List<Character>> path = findPath(constraints, after, before, new ArrayList<>(Arrays.asList(after)));
                 if (path.isPresent()) {
                     Set<List<Character>> inconsistent = new HashSet<>();
                     inconsistent.add(new ArrayList<>(Arrays.asList(before, after)));
@@ -138,21 +138,21 @@ public class UnknownAlphabet {
     }
 
     /**
-     * Searches for a path in the contrains between from and to
-     * @param contrains map of the contrains
+     * Searches for a path in the constraints between from and to
+     * @param constraints map of the constraints
      * @param from start node
      * @param to end node
      * @param path list, which represents the current path
      * @return the complete path, if it was found; Optional.empty otherwise
      */
-    private static Optional<List<Character>> findPath(Map<Character, Set<Character>> contrains, Character from, Character to, List<Character> path) {
+    private static Optional<List<Character>> findPath(Map<Character, Set<Character>> constraints, Character from, Character to, List<Character> path) {
         if (from == to) {
             return Optional.of(path);
         }
-        if (contrains.containsKey(from)) {
-            for (Character after : contrains.get(from)) {
+        if (constraints.containsKey(from)) {
+            for (Character after : constraints.get(from)) {
                 path.add(after);
-                Optional<List<Character>> foundPath = findPath(contrains, after, to, path);
+                Optional<List<Character>> foundPath = findPath(constraints, after, to, path);
                 if (foundPath.isPresent()) {
                     return foundPath;
                 }
