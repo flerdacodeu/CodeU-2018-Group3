@@ -34,6 +34,26 @@ public class RearrangingCarsTest {
         assertEquals(expectedSteps, RearrangingCars.rearrangeCars(start, end));
     }
 
+    @Test
+    public void testSwap() {
+        Map<Character, Integer> start = new HashMap<>();
+        start.put('A', 3);
+        start.put('B', 0);
+        start.put('C', 2);
+        start.put('D', 1);
+        Map<Character, Integer> end = new HashMap<>();
+        end.put('A', 0);
+        end.put('B', 3);
+        end.put('C', 1);
+        end.put('D', 2);
+        List<RearrangingCars.Step> expectedSteps = new LinkedList<>();
+        expectedSteps.add(new RearrangingCars.Step(3,'A','B'));
+        expectedSteps.add(new RearrangingCars.Step(2,'C','A'));
+        expectedSteps.add(new RearrangingCars.Step(1,'D','C'));
+        expectedSteps.add(new RearrangingCars.Step(2,'A','D'));
+        assertEquals(expectedSteps, RearrangingCars.rearrangeCars(start, end));
+    }
+
 
     @Test
     public void testComplex() {

@@ -23,9 +23,11 @@ public class RearrangingCars {
         List<Step> steps = new LinkedList<>();
         while (!startState.equals(endState)) {
             Step step = findNextStep(startState, endState);
-            steps.add(step);
-            startState.put(step.from, 0);
-            startState.put(step.to, step.car);
+            if (step != null) {
+                steps.add(step);
+                startState.put(step.from, 0);
+                startState.put(step.to, step.car);
+            }
         }
         return steps;
     }
@@ -49,9 +51,16 @@ public class RearrangingCars {
         // find car on freespace in end state
         int car = end.get(freeSpace);
         // search car in start state
+        if (car != 0) {
+            for (Character space : start.keySet()) {
+                if (start.get(space) == car) {
+                    return new Step(car, space, freeSpace);
+                }
+            }
+        }
         for (Character space : start.keySet()) {
-            if (start.get(space) == car) {
-                return new Step(car, space, freeSpace);
+            if (space != freeSpace && !start.get(space).equals(end.get(space))) {
+                return new Step(start.get(space), space, freeSpace);
             }
         }
         return null;
