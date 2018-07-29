@@ -35,6 +35,7 @@ public class UnknownAlphabetTest {
         assertEquals(alphabetExpected, UnknownAlphabet.findUnkownAlphabet(dictionary));
     }
 
+
     //  ******************* Challenge 2: Check Inconsistency Test Cases *******************
     @Test
     public void testInconsistencyEmpty() {
@@ -70,7 +71,8 @@ public class UnknownAlphabetTest {
         assertEquals(Optional.of(inconsistent), UnknownAlphabet.checkInconsistency(dictionary));
     }
 
-    //  ******************* Challenge 3: Make Consistent Test Cases *******************
+  
+  //  ******************* Challenge 3: Make Consistent Test Cases *******************
     @Test
     public void testMakeConsistentEmpty() {
         // empty test case
