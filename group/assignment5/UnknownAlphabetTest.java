@@ -10,6 +10,7 @@ import static org.junit.Assert.assertEquals;
 
 public class UnknownAlphabetTest {
 
+    //  ******************* Assignment 5: Unknown Alphabet Test Cases *******************
     @Test
     public void testBasic() {
         // test case given in the question
@@ -34,6 +35,8 @@ public class UnknownAlphabetTest {
         assertEquals(alphabetExpected, UnknownAlphabet.findUnkownAlphabet(dictionary));
     }
 
+
+    //  ******************* Challenge 2: Check Inconsistency Test Cases *******************
     @Test
     public void testInconsistencyEmpty() {
         // empty test case
@@ -66,6 +69,38 @@ public class UnknownAlphabetTest {
         inconsistent.add(new ArrayList<>(Arrays.asList('A', 'R')));
         inconsistent.add(new ArrayList<>(Arrays.asList('R', 'C', 'A')));
         assertEquals(Optional.of(inconsistent), UnknownAlphabet.checkInconsistency(dictionary));
+    }
+
+  
+  //  ******************* Challenge 3: Make Consistent Test Cases *******************
+    @Test
+    public void testMakeConsistentEmpty() {
+        // empty test case
+        List<String> dictionary = new LinkedList<>();
+        assertEquals(dictionary, UnknownAlphabet.makeConsistent(dictionary));
+    }
+
+    @Test
+    public void testMakeConsistentBasic() {
+        // test case given in the question
+        List<String> dictionary = Arrays.asList("ART", "RAT", "CAT", "CAR");
+        assertEquals(dictionary, UnknownAlphabet.makeConsistent(dictionary));
+    }
+
+    @Test
+    public void testMakeConsistentBasic2() {
+        // additional test case
+        List<String> dictionary =  new LinkedList<>(Arrays.asList("ART", "RAT", "ACT", "CAT", "CAR"));
+        List<String> subSetDictionary =  new LinkedList<>(Arrays.asList("ART", "ACT", "CAT", "CAR"));
+        assertEquals(subSetDictionary, UnknownAlphabet.makeConsistent(dictionary));
+    }
+
+    @Test
+    public void testMakeConsistentBasic3() {
+        // additional test case
+        List<String> dictionary =  new LinkedList<>(Arrays.asList("ART", "RAT", "CAT", "CAR", "ACT"));
+        List<String> subSetDictionary =  new LinkedList<>(Arrays.asList("RAT", "CAT", "CAR", "ACT"));
+        assertEquals(subSetDictionary, UnknownAlphabet.makeConsistent(dictionary));
     }
 
 }
