@@ -2,6 +2,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/*
+    This class is like a node for the final list, which will store all the moves.
+ */
 class Move{
     private int car;
     private String old_space;
@@ -42,6 +45,10 @@ public class RearrangingCars {
         this.end_state = end_state;
     }
 
+    /*
+        @param state: start_state or end_state
+        @return the first empty space in the required state
+     */
     private String getEmptySpace(Map<String, Integer> state) {
         for (String space : state.keySet()) {
             if (state.get(space) == 0)
@@ -50,7 +57,10 @@ public class RearrangingCars {
         return null;
     }
 
-    private String isFinished() {
+    /*
+        @return the first different space between start and end state or null if they are the same
+     */
+    private String getNextSpace() {
         for (String space : end_state.keySet()) {
             if (!end_state.get(space).equals(start_state.get(space))) {
                 return space;
@@ -59,6 +69,10 @@ public class RearrangingCars {
         return null;
     }
 
+    /*
+        @param car: the number of the car
+        @return the space in the start_state where that car is placed
+     */
     private String spaceOf(int car) {
         for (String space : start_state.keySet()) {
             if (start_state.get(space) == car) {
@@ -68,33 +82,70 @@ public class RearrangingCars {
         return null;
     }
 
+    /*
+        @param new_space: the space where the car will be moved
+        @param old-space: the space where the car is now
+        @param car: number of the car
+        @param moves: the list where this move is added
+
+        @return the old space of the car, which after the move will be empty
+
+        It continuously compares the empty space from the start state with the one from the
+        end state. If these spaces are the same, there is a possibility that the end state is
+        reached. At this time, it compares all the spaces between start and end state with the
+        getNextSpace method. If it returns null, the end state has been reached. Otherwise,
+        an additional move needs to be done to continue, meaning moving the first car that stays
+        in a wrong place and move it in the empty space. Than, the loop starts again.
+
+        Here is an example of a case where an additional move is required:
+        Current state:
+        A-1 B-2 C-3 D-0
+        End stateL
+        A-2 B-1 C-3 D-0
+     */
+    private String makeMove(String new_space,
+                            String old_space,
+                            int car,
+                            List<Move> moves) {
+        start_state.put(new_space, car);
+        start_state.put(old_space, 0);
+        moves.add(new Move(car, old_space, new_space));
+
+        return old_space;
+    }
+
+    /*
+        @return moves: the list of the moves that have to be done in order to reach end_state with
+            as few moves as possible
+     */
     public List<Move> rearrangeCars() {
         List<Move> moves = new LinkedList<>();
         String empty_space_start = getEmptySpace(start_state);
         String empty_space_end = getEmptySpace(end_state);
-        String next_space = isFinished();
-        boolean stop = false;
+        String car_space, next_space;
 
-        while (next_space != null) {
-            if (stop) {
-                start_state.put(empty_space_start, start_state.get(next_space));
-                start_state.put(next_space, 0);
-                moves.add(new Move(start_state.get(empty_space_start), next_space, empty_space_start));
-                empty_space_start = next_space;
-            }
+        if (empty_space_start == null || empty_space_end == null) {
+            return moves;
+        }
 
+        while (true) {
             while (!empty_space_start.equals(empty_space_end)) {
                 int car = end_state.get(empty_space_start);
-                String space = spaceOf(car);
+                car_space = spaceOf(car);
 
-                start_state.put(empty_space_start, car);
-                start_state.put(space, 0);
-                moves.add(new Move(car, space, empty_space_start));
-                empty_space_start = space;
+                empty_space_start = makeMove(empty_space_start, car_space, car, moves);
             }
 
-            stop = true;
-            next_space = isFinished();
+            next_space = getNextSpace();
+
+            if (next_space != null) {
+                empty_space_start = makeMove(empty_space_start,
+                        next_space,
+                        start_state.get(next_space),
+                        moves);
+            } else {
+                break;
+            }
         }
         return moves;
     }
