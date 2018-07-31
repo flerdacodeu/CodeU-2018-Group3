@@ -23,8 +23,6 @@ import static org.junit.Assert.*;
  */
 public class Assignment6Test {
     
-    public Assignment6Test() {
-    }
      @Test
    public void noChangeTest() {
         ArrayList<Character> firstPosition = new ArrayList<>();
@@ -55,9 +53,6 @@ public class Assignment6Test {
         Assignment6 x = new Assignment6(firstPosition,endPositon,n);
         List<Translation> sol = x.arangeTheCars();
         String verify = sol.get(0).toString();
-        for (int i = 0; i < sol.size(); i++) {
-            System.out.println(sol.get(i));
-        }
         assertEquals(verify, "a d 1");
         verify = sol.get(1).toString();
         assertEquals(verify, "c a 3");
