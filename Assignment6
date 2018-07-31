@@ -55,10 +55,10 @@ public class Assignment6 {
         }
     }
     //iterate through the whole 
-    //array of position and arrange there
+    //array of positions and put in the right place
     //the right car
     public List<Translation> arangeTheCars() {
-        for(char i = 'a'; i < 'a' + n ; i++) {
+        for(char i : myMap.keySet()) {
             //if there do not have to be
             //any car just pass over it
             if (target.get(i) == null) { 
