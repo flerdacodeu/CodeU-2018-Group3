@@ -20,9 +20,6 @@ package assignment6;
             this.car = car;
         }
         
-        public Translation() {
-        }
-
     @Override
     public String toString() {
         return placeLast + " " + placeNext + " " + car;
