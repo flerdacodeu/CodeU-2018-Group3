@@ -1,15 +1,17 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class RearrangingCars {
 
-    public static ArrayList<Car> reArrangeCars(ArrayList<Car> cars){
+    public static LinkedList<Move> reArrangeCars(LinkedList<Car> cars){
         if(cars.size() == 0)
             return null;
 
-        boolean[] N = markInitialPlaces(cars);
+        boolean[] spaces = markInitialPlaces(cars);
         Queue<Car> carQueue = new LinkedList<>();
+        LinkedList<Move> movements = new LinkedList<>();
 
         for(int i=0; i<cars.size(); i++){
             if(!checkCarsInState(cars.get(i))) {
@@ -17,30 +19,27 @@ public class RearrangingCars {
                 // to do one swap do we add the car to the stack
                 carQueue.add(cars.get(i));
             }
-            else
-                System.out.println("Car "+cars.get(i).id+" is placed on "+cars.get(i).currentState);
         }
 
-        int moves =0;
+        int tempSpace;
+        Car c;
         while(!carQueue.isEmpty()){
-            Car c = carQueue.remove();
+            c = carQueue.remove();
             //change place
-            int tempSpace = c.currentState;
-            c.currentState = getEmptyPlace(N);
-            N[c.currentState] = true;
-            N[tempSpace] = false;
-            moves ++;
-            System.out.print("\nCar "+c.id+" is moved to place "+tempSpace+" to "+c.currentState);
+            tempSpace= c.currentState;
+            c.currentState = getEmptyPlace(spaces);
+            spaces[c.currentState] = true;
+            spaces[tempSpace] = false;
+           // System.out.print("\nCar "+c.id+" is moved to place "+tempSpace+" to "+c.currentState);
+            movements.add(new Move(c.id, tempSpace,c.currentState));
             if(!checkCarsInState(c))
                 carQueue.add(c);
-            else
-                System.out.print(" and Car "+c.id+" is placed on "+c.currentState);
         }
-        System.out.println("\nProcess done in "+moves+" steps");
-        return cars;
+
+        return movements;
     }
 
-    private static boolean[] markInitialPlaces(ArrayList<Car> cars){
+    private static boolean[] markInitialPlaces(LinkedList<Car> cars){
         boolean[] numSpace = new boolean[cars.size()+1];
         for(Car c:cars){
             numSpace[c.startState]=true;
@@ -58,6 +57,18 @@ public class RearrangingCars {
                 return i;
         }
         return -1;
+    }
+
+
+    public static class Move {
+        int startState;
+        int endState;
+        int carId;
+        public Move(int carId, int startState, int endState) {
+            this.carId=carId;
+            this.startState = startState;
+            this.endState = endState;
+        }
     }
 
     public static class Car {
