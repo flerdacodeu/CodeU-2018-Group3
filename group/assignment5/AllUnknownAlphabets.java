@@ -1,113 +1,42 @@
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.HashSet;
 import java.util.LinkedList;
 
-public class AllUnknownAlphabets {
+import org.junit.Test;
 
-    /**
-     * Takes a dictionary that contains ordered words and returns all the alphabets in a List of Character Lists
-     * @param dictionary list of string that language's words.
-     */
-    public static List<List<Character>> findAllUnknownAlphabets (List<String> dictionary) {
-        Map<Character, Set<Character>> dictionaryGraph = new HashMap<>();
-        Map<Character, Integer> ingoingEdgeMap = new HashMap<>();
-        Map<Character, Boolean> visited = new HashMap<>();
+import static org.junit.Assert.assertEquals;
 
-        // Creating the char graph for the dictionary
-        for (int i = 0; i < dictionary.size(); i++) {
-            for (int j = 0; j < dictionary.get(i).length(); j++) {
-                if (!dictionaryGraph.containsKey(dictionary.get(i).charAt(j))) {
-                    char letter = dictionary.get(i).charAt(j);
-                    // adds all the chars in the dictionary into the maps
-                    dictionaryGraph.put(letter, new HashSet<>());
-                    // initially ingoingEdges to the chars are 0
-                    ingoingEdgeMap.put(letter, 0);
-                    // initially none of the nodes is visited
-                    visited.put(letter, false);
-                }
-            }
-        }
+public class RearrangingCarsTest {
+    @Test
+    public void testBasic() {
+        // test case given in the question
+        LinkedList<RearrangingCars.Car> cars = new LinkedList<>();
+        cars.add(new RearrangingCars.Car(1,0,1));
+        cars.add(new RearrangingCars.Car(2,1,2));
+        cars.add(new RearrangingCars.Car(3,3,0));
 
-        return findAllTopologicalSorts(dictionary, ingoingEdgeMap, dictionaryGraph, visited);
-    }
+        LinkedList<RearrangingCars.Move> moves = new LinkedList<>();
+        moves.add(new RearrangingCars.Move(1,0,2));
+        moves.add(new RearrangingCars.Move(2,1,0));
+        moves.add(new RearrangingCars.Move(3,3,1));
+        moves.add(new RearrangingCars.Move(1,2,3));
+        moves.add(new RearrangingCars.Move(2,0,2));
+        moves.add(new RearrangingCars.Move(3,1,0));
+        moves.add(new RearrangingCars.Move(1,3,1));
 
-    /**
-     * Compares each pair of neighboring words to find the incoming edges to a character
-     * This is important for topological sorting and understanding the precedence of the characters
-     * @param dictionary list of string that language's words.
-     * @param ingoingEdgeMap takes the initialized 0 incoming edge maps for chars and after every comparison if
-     *        we find a precedence between letters increments the corresponding letters incoming edge
-     * @param dictionaryGraph takes the dictionary graph created to, it adds the chars that
-     *         have incoming edges to certain chars
-     * @param visited represents the evidence of the visited nodes and it is sent as parameter because of the time
-     *         complexity, to avoid going through all the chars again
-     * @return  all the alphabets to its caller function
-     */
-    private static List<List<Character>> findAllTopologicalSorts(List<String> dictionary,
-                                                         Map<Character, Integer> ingoingEdgeMap,
-                                                         Map<Character, Set<Character>> dictionaryGraph,
-                                                         Map<Character, Boolean> visited) {
-        List<List<Character>> result = new LinkedList<>();
+        LinkedList<RearrangingCars.Move> results=RearrangingCars.reArrangeCars(cars);
 
-        for (int i = 0; i < dictionary.size()-1; i++) {
-            String w1 = dictionary.get(i);
-            String w2 = dictionary.get(i+1);
-
-            for (int j = 0; j < Math.min(w1.length(), w2.length()); j++){
-                if(w1.charAt(j) != w2.charAt(j)){
-                    if (!dictionaryGraph.get(w1.charAt(j)).contains(w2.charAt(j))) {
-                        dictionaryGraph.get(w1.charAt(j)).add(w2.charAt(j));
-                        ingoingEdgeMap.put(w2.charAt(j), ingoingEdgeMap.get(w2.charAt(j)) + 1);
-                    }
-                    break;
-                }
-            }
-        }
-
-        allTopologicalSorts(ingoingEdgeMap,dictionaryGraph, result, visited, new LinkedList<>());
-        return result;
-    }
-
-    /**
-     * Does topological sorting and backtracking, in order to obtain all the alphabets.
-     * @param ingoingEdgeMap use it in order to find the number of incoming edges and order between the chars
-     * @param dictionaryGraph takes the dictionary graph in order to iterate through the chars that
-     *        has incoming edges between each other
-     * @param result used to store the resulting alphabets
-     * @param visited used to keep evidence of the visited nodes
-     * @param list used to form all the alphabets using backtracking
-     * Adds all the alphabets to result list
-     */
-    private static void allTopologicalSorts(Map<Character, Integer> ingoingEdgeMap, Map<Character, Set<Character>> dictionaryGraph,
-                             List<List<Character>> result, Map<Character, Boolean> visited, LinkedList<Character> list){
-
-        boolean done = false;
-
-        for (char c : dictionaryGraph.keySet()) {
-            if (ingoingEdgeMap.get(c) == 0 && !visited.get(c)) {
-                for (char incomingEdge : dictionaryGraph.get(c)) {
-                    ingoingEdgeMap.put(incomingEdge, ingoingEdgeMap.get(incomingEdge) - 1);
-                }
-
-                list.add(c);
-                visited.put(c, true);
-                allTopologicalSorts(ingoingEdgeMap, dictionaryGraph, result, visited, list);
-
-                visited.put(c, false);
-                list.removeLast();
-                for (char incomingEdge : dictionaryGraph.get(c)) {
-                    ingoingEdgeMap.put(incomingEdge, ingoingEdgeMap.get(incomingEdge) + 1);
-                }
-
-                done = true;
-            }
-        }
-
-        if (!done) {
-            result.add((LinkedList)list.clone());
+        for(int i = 0; i < results.size(); i++){
+            assertEquals(moves.get(i).carId, results.get(i).carId);
+            assertEquals(moves.get(i).startState, results.get(i).startState);
+            assertEquals(moves.get(i).endState, results.get(i).endState);
         }
     }
+
+    @Test
+    public void testEmpty() {
+        // test case given in the question
+        LinkedList<RearrangingCars.Car> cars = new LinkedList<>();
+        LinkedList<RearrangingCars.Move> results=RearrangingCars.reArrangeCars(cars);
+        assertEquals(null, RearrangingCars.reArrangeCars(cars));
+    }
+
 }
