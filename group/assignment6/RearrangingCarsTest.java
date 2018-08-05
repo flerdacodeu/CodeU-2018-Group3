@@ -1,4 +1,6 @@
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -92,5 +94,36 @@ public class RearrangingCarsTest {
         moves.add(new Move(1, "B", "D"));
 
         assertEquals(moves, cars.rearrangeCars());
+    }
+
+
+    @Test
+    public void testChallenge4() {
+        Map<String, Integer> start = new HashMap<>();
+        Map<String, Integer> end = new HashMap<>();
+
+        start.put("A", 1);
+        start.put("B", 2);
+        start.put("C", 0);
+
+        end.put("A", 0);
+        end.put("B", 1);
+        end.put("C", 2);
+
+        RearrangingCars cars = new RearrangingCars(start, end);
+        List<Move> moves1 = new LinkedList<>();
+
+        moves1.add(new Move(1, "A", "C"));
+        moves1.add(new Move(2, "B", "A"));
+        moves1.add(new Move(1, "C", "B"));
+        moves1.add(new Move(2, "A", "C"));
+        List<Move> moves2 = new LinkedList<>();
+
+        moves2.add(new Move(2, "B", "C"));
+        moves2.add(new Move(1, "A", "B"));
+
+        List<List<Move>> results = cars.rearrangeCarsAllPossibilities();
+        assertTrue(results.contains(moves1));
+        assertTrue(results.contains(moves2));
     }
 }
