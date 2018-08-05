@@ -139,10 +139,8 @@ public class RearrangingCars {
             next_space = getNextSpace();
 
             if (next_space != null) {
-                empty_space_start = makeMove(empty_space_start,
-                        next_space,
-                        start_state.get(next_space),
-                        moves);
+                empty_space_start = makeMove(empty_space_start, next_space,
+                        start_state.get(next_space), moves);
             } else {
                 break;
             }
