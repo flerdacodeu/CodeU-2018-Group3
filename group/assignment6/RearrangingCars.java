@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -143,6 +144,62 @@ public class RearrangingCars {
                         start_state.get(next_space), moves);
             } else {
                 break;
+            }
+        }
+        return moves;
+    }
+
+    /**
+     * Optional challenge #4
+     *
+     * @return list with all possible sequences of moves
+     */
+    public List<List<Move>> rearrangeCarsAllPossibilities() {
+        List<List<Move>> sequences = new LinkedList<>();
+        rearrangeCarsAllPossibilitiesRecursive(start_state, sequences, new LinkedList<>());
+        return sequences;
+    }
+
+    private void rearrangeCarsAllPossibilitiesRecursive(Map<String, Integer> state, List<List<Move>> possibilities, List<Map<String, Integer>> oldStates) {
+        if (!end_state.equals(state)) {
+            List<Move> moves = possibilities.isEmpty() ? new LinkedList<>() : new LinkedList<>(possibilities.remove(possibilities.size() - 1));
+            oldStates.add(state);
+            Map<String, Integer> current_state = new HashMap<>(state);
+            List<Move> possibleMoves = getAllPossibleMoves(state, oldStates);
+            for (Move move : possibleMoves) {
+                moves.add(move);
+                possibilities.add(new LinkedList<>(moves));
+                current_state.put(move.getNew_space(), move.getCar());
+                current_state.put(move.getOld_space(), 0);
+                rearrangeCarsAllPossibilitiesRecursive(current_state, possibilities, oldStates);
+                current_state.put(move.getOld_space(), move.getCar());
+                current_state.put(move.getNew_space(), 0);
+                moves.remove(move);
+            }
+            oldStates.remove(state);
+        }
+    }
+
+    /**
+     * Calculates all possible moves from the current state
+     *
+     * @param state     current parking lot state
+     * @param oldStates old states that shouldn't been repeated
+     * @return list of possible moves
+     */
+    private List<Move> getAllPossibleMoves(Map<String, Integer> state, List<Map<String, Integer>> oldStates) {
+        List<Move> moves = new LinkedList<>();
+        String empty_space = getEmptySpace(state);
+        for (String space : state.keySet()) {
+            if (!space.equals(empty_space)) {
+                boolean valid = true;
+                for (Map<String, Integer> old : oldStates) {
+                    if (old.get(empty_space) == state.get(space) && old.get(space) == state.get(empty_space)) {
+                        valid = false;
+                    }
+                }
+                if (valid)
+                    moves.add(new Move(state.get(space), space, empty_space));
             }
         }
         return moves;
