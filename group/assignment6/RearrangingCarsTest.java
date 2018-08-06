@@ -96,6 +96,72 @@ public class RearrangingCarsTest {
         assertEquals(moves, cars.rearrangeCars());
     }
 
+    @Test
+    public void testChallenge3() {
+        Map<String, Integer> start = new HashMap<>();
+        Map<String, Integer> end = new HashMap<>();
+        Map<String, Integer> constraints = new HashMap<>();
+
+        start.put("A", 1);
+        start.put("B", 2);
+        start.put("C", 0);
+        start.put("D", 3);
+
+        end.put("A", 3);
+        end.put("B", 1);
+        end.put("C", 0);
+        end.put("D", 2);
+
+        constraints.put("C",1);
+
+        RearrangingCars cars = new RearrangingCars(start, end, constraints);
+        List<Move> moves = new LinkedList<>();
+
+        moves.add(new Move(2, "B", "C"));
+        moves.add(new Move(3, "D", "B"));
+        moves.add(new Move(1, "A", "D"));
+        moves.add(new Move(2, "C", "A"));
+        moves.add(new Move(3, "B", "C"));
+        moves.add(new Move(1, "D", "B"));
+        moves.add(new Move(2, "A", "D"));
+        moves.add(new Move(3, "C", "A"));
+
+        assertEquals(moves, cars.rearrangeCarsConstraint());
+
+    }
+
+    @Test
+    public void testChallenge3Complex() {
+        Map<String, Integer> start = new HashMap<>();
+        Map<String, Integer> end = new HashMap<>();
+        Map<String, Integer> constraints = new HashMap<>();
+
+        start.put("A", 1);
+        start.put("B", 2);
+        start.put("C", 0);
+        start.put("D", 3);
+
+        end.put("A", 3);
+        end.put("B", 1);
+        end.put("C", 0);
+        end.put("D", 2);
+
+        constraints.put("C",1);
+        constraints.put("B",3);
+
+        RearrangingCars cars = new RearrangingCars(start, end, constraints);
+        List<Move> moves = new LinkedList<>();
+
+        moves.add(new Move(2, "B", "C"));
+        moves.add(new Move(1, "A", "B"));
+        moves.add(new Move(2, "C", "A"));
+        moves.add(new Move(3, "D", "C"));
+        moves.add(new Move(2, "A", "D"));
+        moves.add(new Move(3, "C", "A"));
+
+        assertEquals(moves, cars.rearrangeCarsConstraint());
+
+    }
 
     @Test
     public void testChallenge4() {
@@ -126,4 +192,3 @@ public class RearrangingCarsTest {
         assertTrue(results.contains(moves1));
         assertTrue(results.contains(moves2));
     }
-}

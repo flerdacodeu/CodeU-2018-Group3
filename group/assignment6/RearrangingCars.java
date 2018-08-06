@@ -1,7 +1,4 @@
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /*
     This class is like a node for the final list, which will store all the moves.
@@ -40,10 +37,21 @@ public class RearrangingCars {
 
     private Map<String, Integer> start_state;
     private Map<String, Integer> end_state;
+    private Map<String, Integer> constraints;
+    private boolean constraintOn;
+
 
     public RearrangingCars(Map<String, Integer> start_state, Map<String, Integer> end_state) {
         this.start_state = start_state;
         this.end_state = end_state;
+        this.constraintOn = false;
+    }
+
+    public RearrangingCars(Map<String, Integer> start_state, Map<String, Integer> end_state, Map<String, Integer> constraints) {
+        this.start_state = start_state;
+        this.end_state = end_state;
+        this.constraintOn = true;
+        this.constraints = constraints;
     }
 
     /*
@@ -88,7 +96,6 @@ public class RearrangingCars {
         @param old-space: the space where the car is now
         @param car: number of the car
         @param moves: the list where this move is added
-
         @return the old space of the car, which after the move will be empty
 
         It continuously compares the empty space from the start state with the one from the
@@ -134,13 +141,17 @@ public class RearrangingCars {
                 int car = end_state.get(empty_space_start);
                 car_space = spaceOf(car);
 
+
                 empty_space_start = makeMove(empty_space_start, car_space, car, moves);
+
             }
 
             next_space = getNextSpace();
 
             if (next_space != null) {
+
                 empty_space_start = makeMove(empty_space_start, next_space,
+
                         start_state.get(next_space), moves);
             } else {
                 break;
@@ -148,6 +159,69 @@ public class RearrangingCars {
         }
         return moves;
     }
+
+    /**
+     * Optional challenge #3
+     * # changes made in the rearrangeCars method by introducing conditions for the constraints
+     * @return list with all possible sequences of moves
+     */
+    public List<Move> rearrangeCarsConstraint() {
+
+        List<Move> moves = new LinkedList<>();
+        List <Integer> cars = new LinkedList<>();
+        for (String space : start_state.keySet()) {
+            cars.add(start_state.get(space));
+        }
+       // boolean[] spaces = markInitialPlaces(cars);
+        Queue<Integer> carQueue = new LinkedList<>();
+
+        for(int i=0; i<cars.size(); i++){
+            if(!checkCarsInState(cars.get(i))) {
+                // if initial state not equals the end state then we at least need
+                // to do one swap do we add the car to the stack
+                carQueue.add(cars.get(i));
+            }
+        }
+
+        String car_space;
+        int car;
+        while(!carQueue.isEmpty()){
+            car = carQueue.remove();
+            //change place
+            car_space= spaceOf(car);
+            String empty_space_start = getEmptySpace(start_state);
+            if(constraintOn && hasConstraint(car,empty_space_start)){
+                carQueue.add(car);
+                continue;
+            }
+            makeMove(empty_space_start, car_space, car, moves);
+            if(!checkCarsInState(car))
+                carQueue.add(car);
+        }
+
+        return moves;
+    }
+
+    private boolean checkCarsInState(int car){
+        for (String space : end_state.keySet()) {
+            if (end_state.get(space) == car) {
+                return spaceOf(car).equals(space);
+            }
+        }
+        return false;
+    }
+
+    private boolean hasConstraint(int car, String constrainedSpace){
+        for(String s:constraints.keySet()){
+            if(s.equals(constrainedSpace))
+                return constraints.get(constrainedSpace)==(car);
+        }
+        return false;
+
+    }
+
+
+
 
     /**
      * Optional challenge #4
