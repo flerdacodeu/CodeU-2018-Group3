@@ -193,4 +193,5 @@ public class RearrangingCarsTest {
         assertTrue(results.contains(moves1));
         assertTrue(results.contains(moves2));
     }
+
 }

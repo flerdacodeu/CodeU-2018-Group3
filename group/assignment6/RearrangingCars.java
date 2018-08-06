@@ -1,5 +1,6 @@
 import java.util.*;
 
+
 /*
     This class is like a node for the final list, which will store all the moves.
  */
@@ -40,6 +41,7 @@ public class RearrangingCars {
     private Map<String, Integer> constraints;
     private boolean constraintOn;
 
+
     public RearrangingCars(Map<String, Integer> start_state, Map<String, Integer> end_state) {
         this.start_state = start_state;
         this.end_state = end_state;
@@ -52,6 +54,7 @@ public class RearrangingCars {
         this.constraintOn = true;
         this.constraints = constraints;
     }
+
     /*
         @param state: start_state or end_state
         @return the first empty space in the required state
@@ -95,12 +98,14 @@ public class RearrangingCars {
         @param car: number of the car
         @param moves: the list where this move is added
         @return the old space of the car, which after the move will be empty
+
         It continuously compares the empty space from the start state with the one from the
         end state. If these spaces are the same, there is a possibility that the end state is
         reached. At this time, it compares all the spaces between start and end state with the
         getNextSpace method. If it returns null, the end state has been reached. Otherwise,
         an additional move needs to be done to continue, meaning moving the first car that stays
         in a wrong place and move it in the empty space. Than, the loop starts again.
+
         Here is an example of a case where an additional move is required:
         Current state:
         A-1 B-2 C-3 D-0
@@ -137,13 +142,17 @@ public class RearrangingCars {
                 int car = end_state.get(empty_space_start);
                 car_space = spaceOf(car);
 
-                 empty_space_start = makeMove(empty_space_start, car_space, car, moves);
+
+                empty_space_start = makeMove(empty_space_start, car_space, car, moves);
+
             }
 
             next_space = getNextSpace();
 
             if (next_space != null) {
-                 empty_space_start = makeMove(empty_space_start, next_space,
+
+                empty_space_start = makeMove(empty_space_start, next_space,
+
                         start_state.get(next_space), moves);
             } else {
                 break;
