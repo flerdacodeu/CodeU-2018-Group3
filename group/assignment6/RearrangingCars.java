@@ -1,6 +1,5 @@
 import java.util.*;
 
-
 /*
     This class is like a node for the final list, which will store all the moves.
  */

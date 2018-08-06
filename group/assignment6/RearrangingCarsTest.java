@@ -163,7 +163,6 @@ public class RearrangingCarsTest {
 
     }
 
-
     @Test
     public void testChallenge4() {
         Map<String, Integer> start = new HashMap<>();
@@ -193,5 +192,3 @@ public class RearrangingCarsTest {
         assertTrue(results.contains(moves1));
         assertTrue(results.contains(moves2));
     }
-
-}
