@@ -1,0 +1,47 @@
+CountingIslands.txt:
+
+4 4
+false true false true
+true true false false
+false false true false
+false false true false
+
+
+
+NoLand.txt:
+
+3 3
+False False False
+False False False
+False False False
+
+
+
+OneBigIsland.txt:
+
+4 4
+false true false true
+true true true true
+false false true false
+false false true false
+
+
+
+NoMerging.txt
+
+5 5
+true false true false true
+false true false true false
+true false true false true
+false true false true false
+true false true false true
+
+
+
+MergeAll.txt
+
+4 4
+true true true true
+true true true true
+true true true true
+true true true true
