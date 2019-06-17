@@ -1,0 +1,102 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+import assignment4.Assignment4;
+import assignment4.DisjointSet;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.concurrent.atomic.AtomicBoolean;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+/**
+ *
+ * @author maria
+ */
+public class Assignment4Test {
+    @Test
+    public void simpleTest() {
+        int n,m;
+        n = 4;
+        m = 4;
+        boolean[][] matrix = {
+            {false,true,true,true},
+            {true,true,false,false},
+            {false,false,true,false},
+            {false,false,true,false}
+        };
+        assignment4.Assignment4 newInstance = new Assignment4(n, m, matrix);
+        int numberOfIslands = newInstance.findNumberOfIslandsProcedure();
+        assertEquals(numberOfIslands, 2);
+    }
+    @Test
+    public void biggerMatrix() {
+        int n,m;
+        n = 5;
+        m = 5;
+        boolean[][] matrix = {
+            {false,true,false,true,false},
+            {true,true,false,false,true},
+            {false,false,true,false,false},
+            {false,false,true,false,true},
+            {false,false,true,false,true}
+        };
+        assignment4.Assignment4 newInstance = new Assignment4(n, m, matrix);
+        int numberOfIslands = newInstance.findNumberOfIslandsProcedure();
+        assertEquals(numberOfIslands, 5);
+    }
+    @Test
+    public void noIsland() {
+        int n,m;
+        n = 4;
+        m = 4;
+        boolean[][] matrix = {
+            {false,false,false,false},
+            {false,false,false,false},
+            {false,false,false,false},
+            {false,false,false,false},
+        };        
+        assignment4.Assignment4 newInstance = new Assignment4(n, m, matrix);
+        int numberOfIslands = newInstance.findNumberOfIslandsProcedure();
+        assertEquals(numberOfIslands, 0);
+    }
+     @Test
+    public void oneElemMatrix() {
+        int n,m;
+        n = 0;
+        m = 0;
+        boolean[][] matrix = new boolean[1][1];
+        matrix[0][0] = false;    
+        assignment4.Assignment4 newInstance = new Assignment4(n, m, matrix);
+        int numberOfIslands = newInstance.findNumberOfIslandsProcedure();
+        assertEquals(numberOfIslands, 0);
+        matrix[0][0] = true;
+        newInstance = new Assignment4(n, m, matrix);
+        numberOfIslands = newInstance.findNumberOfIslandsProcedure();
+        assertEquals(numberOfIslands, 0);
+    }
+    @Test
+    public void aLotOfIslands() {
+        int n,m;
+        n = 5;
+        m = 5;
+        boolean[][] matrix = {
+            {true,false,true,false,true},
+            {false,true,false,true,false},
+            {true,false,true,false,true},
+            {false,true,false,true,false},
+            {true,false,true,false,true}
+        };    
+        assignment4.Assignment4 newInstance = new Assignment4(n, m, matrix);
+        int numberOfIslands = newInstance.findNumberOfIslandsProcedure();
+        assertEquals(numberOfIslands, 13);
+    }
+}

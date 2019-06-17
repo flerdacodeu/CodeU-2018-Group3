@@ -1,0 +1,76 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package assignment4;
+
+import assignment4.DisjointSet.Node;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+/**
+ *
+ * @author maria
+ */
+public class Assignment4 {
+
+    int n,m;
+    boolean[][] matrix;
+    DisjointSet d;
+    //false - water
+    //true - land
+    //Please return number of islands ! 
+
+    public Assignment4(int n, int m, boolean[][] matrix) {
+        this.n = n;
+        this.m = m;
+        this.matrix = matrix;
+    }
+    //First, assign for each cell a different set
+    private void putIntoDifferentSets() {
+        d = new DisjointSet();
+        for (int i = 0; i < n*m; i++) {
+            if (matrix[i/n][i%m]) {
+                d.makeSet(i);
+            }
+        }
+    }
+    //Then, the flood fill alg will get together
+    //the cells in the neighbourhood => set of islands
+    public void applyFloodFillOnMe(boolean[][] verified) {
+        FloodFill f = new FloodFill();
+        for (int i = 0; i < n ;i++) {
+            for(int j = 0; j < m; j++) {
+                if (matrix[i][j] && !verified[i][j]) {
+                    f.floodFill(d, verified, matrix, n, m,i,j);
+                }
+            }
+        }
+    
+    }
+    //to obtain the number of islands
+    //we get the parent nodes of all sets 
+    //that were processed.
+    //if the node isn't verrified there
+    //is water, not land
+    public int getNrOfDifferentSetsWithIslands(boolean[][] verified) {
+        Set<Integer> x = d.getMap().keySet();
+        Set<Integer> rezult = new TreeSet<>();
+        for(Integer elem : x) {
+           rezult.add(d.findSet(elem));
+        }
+        return rezult.size();
+    }
+    public int findNumberOfIslandsProcedure() {
+        putIntoDifferentSets();
+        boolean[][] verified = new boolean[n][m];
+        applyFloodFillOnMe(verified);
+        return getNrOfDifferentSetsWithIslands(verified);
+    }
+}

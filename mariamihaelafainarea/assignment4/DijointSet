@@ -1,0 +1,102 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package assignment4;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ *
+ * @author maria
+ */
+/*This function is a data structure
+that starts his functionality by 
+putting each element in a different
+set(here the set is a tree)
+with makeSet function.
+Then, after you verify some 
+properties of 2 elements 
+like your problem requires
+you can get toghether the two elements
+with the function "union".
+If any other element has the same 
+properties you add it to the tree
+with union function.
+In the end you have one or many trees.
+In each tree the elements have
+specific properties. 
+Here: in each tree we get together
+only the cells that are in the
+neighbourhood(cell x is above,below,
+to the right or to the left of 
+the y cell)
+*/
+public class DisjointSet {
+    private Map<Integer, Node> map = new HashMap<>();
+
+    public Map<Integer, Node> getMap() {
+        return map;
+    }
+    
+    class Node {
+        int data;
+        Node parent;
+        int rank;
+    }
+    //put value data in a different tree
+    public void makeSet(int data) {
+        Node current = new Node();
+        current.data = data;
+        current.rank = 0;
+        current.parent = current;
+        map.put(data, current);
+    }
+    //get together 2 trees 
+    //by comparing their rank and parent.
+    //rank option is an optimization not to
+    //obtain a huge tree.
+    public boolean union(int data1, int data2) {
+        Node node1 = map.get(data1);
+        Node node2 = map.get(data2);
+        if(node1 == null || node2 == null) {
+            return false;
+        }
+        if (node1.parent.equals(node2.parent)) {
+            return false;
+        } 
+        Node parent1 = findSet(node1);
+        Node parent2 = findSet(node2);
+        if (parent1.rank >= parent2.rank) {
+            if (parent1.rank == parent2.rank) {
+                parent1.rank ++;
+            }
+            parent2.parent = parent1;
+        } else {
+            parent1.parent = parent2;
+        }
+        return true;   
+    }
+    public int findSet(int data) {
+        if (map.get(data) == null ) {
+            return -1;
+        } else {
+            return findSet(map.get(data)).data;
+        }
+    }
+    private Node findSet(Node node) {
+        Node parent = node.parent;
+        if (parent.equals(node)) {
+            //we have found the arrow returning to the same node.
+            return parent;
+        }
+        //here we assign to each node processed in the recursion
+        //the final value of the parent.
+        //after that all nodes in a path will be 
+        //bound to the parent directly
+        node.parent = findSet(node.parent);
+        return node.parent;
+    }
+}
