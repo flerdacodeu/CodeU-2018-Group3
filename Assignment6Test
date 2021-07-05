@@ -1,0 +1,114 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+import assignment6.Assignment6;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import assignment6.*;
+import java.util.Arrays;
+import static org.junit.Assert.*;
+
+/**
+ *
+ * @author maria
+ */
+public class Assignment6Test {
+    
+     @Test
+   public void noChangeTest() {
+        ArrayList<Character> firstPosition = new ArrayList<>();
+        firstPosition.add('a');
+        firstPosition.add('b');
+        firstPosition.add('c');
+        ArrayList<Character> endPositon = new ArrayList<>();
+        endPositon.add('a');
+        endPositon.add('b');
+        endPositon.add('c');
+        int n = 4;
+        Assignment6 x = new Assignment6(firstPosition,endPositon,n);
+        List<Translation> sol = x.arangeTheCars();
+        List<Translation> empty = new ArrayList<>();
+        assertEquals(sol,empty);
+    }    
+    @Test
+   public void reverseTest() {
+        ArrayList<Character> firstPosition = new ArrayList<>();
+        firstPosition.add('a');
+        firstPosition.add('b');
+        firstPosition.add('c');
+        ArrayList<Character> endPositon = new ArrayList<>();
+        endPositon.add('c');
+        endPositon.add('b');
+        endPositon.add('a');
+        int n = 4;
+        Assignment6 x = new Assignment6(firstPosition,endPositon,n);
+        List<Translation> sol = x.arangeTheCars();
+        String verify = sol.get(0).toString();
+        assertEquals(verify, "a d 1");
+        verify = sol.get(1).toString();
+        assertEquals(verify, "c a 3");
+        verify = sol.get(2).toString();
+        assertEquals(verify, "d c 1");      
+    }    
+    @Test
+   public void simpleTest() {
+        ArrayList<Character> firstPosition = new ArrayList<>();
+        firstPosition.add('a');
+        firstPosition.add('b');
+        firstPosition.add('d');
+        ArrayList<Character> endPositon = new ArrayList<>();
+        endPositon.add('b');
+        endPositon.add('c');
+        endPositon.add('a');
+        int n = 4;
+        Assignment6 x = new Assignment6(firstPosition,endPositon,n);
+        List<Translation> sol = x.arangeTheCars();
+        String verify = sol.get(0).toString();
+        assertEquals(verify, "a c 1");
+        verify = sol.get(1).toString();
+        assertEquals(verify, "d a 3");
+        verify = sol.get(2).toString();
+        assertEquals(verify, "b d 2");
+        verify = sol.get(3).toString();
+        assertEquals(verify, "c b 1");
+        verify = sol.get(4).toString();
+        assertEquals(verify, "d c 2");
+        
+    }    
+   @Test
+   public void biggerTest() {
+        ArrayList<Character> firstPosition = new ArrayList<>();
+        firstPosition.add('a');
+        firstPosition.add('b');
+        firstPosition.add('c');
+        firstPosition.add('d');
+        firstPosition.add('e');
+        ArrayList<Character> endPositon = new ArrayList<>();
+        endPositon.add('b');
+        endPositon.add('d');
+        endPositon.add('c');
+        endPositon.add('a');
+        endPositon.add('e');
+        int n = 6;
+        Assignment6 x = new Assignment6(firstPosition,endPositon,n);
+        List<Translation> sol = x.arangeTheCars();
+        String verify = sol.get(0).toString();
+        assertEquals(verify, "a f 1");
+        verify = sol.get(1).toString();
+        assertEquals(verify, "d a 4");
+        verify = sol.get(2).toString();
+        assertEquals(verify, "b d 2");
+        verify = sol.get(3).toString();
+        assertEquals(verify, "f b 1");
+    }   
+    
+}

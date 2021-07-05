@@ -1,0 +1,102 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package assignment6;
+
+import com.sun.javafx.scene.control.skin.VirtualFlow;
+import com.sun.xml.internal.fastinfoset.tools.FI_DOM_Or_XML_DOM_SAX_SAXEvent;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * myMap = here there is an association between the parking place and the car that sits there
+ * target = how the parking places must look like
+ * solution = here i collect all the moves
+ * space = the parking place that is free
+ * n = number of parking places
+ * @author maria
+ */
+public class Assignment6 {
+    LinkedHashMap<Character,Integer> myMap = new LinkedHashMap<>();
+    ArrayList<Translation> solution = new ArrayList<>();
+    HashMap<Character,Integer> target = new HashMap<>();
+    Character space;
+    int n;
+  
+    public Assignment6(ArrayList<Character> firstPosition,ArrayList<Character> endPositon,int n) {
+        char character = 'a';
+        this.n = n;
+        //put all names of the parking place
+        //in a hashmap and do not assign
+        //any car there
+        for(int i = 0; i < n ; i ++) {
+            myMap.put((char)(character + i), null);
+        }
+        //fill the places were cars are parked
+        for(int i = 0; i < n - 1 ; i ++) {
+           myMap.put(firstPosition.get(i), i+1);           
+        }
+        //find where is some space in the parking place;
+        for (Map.Entry<Character, Integer> entry : myMap.entrySet()) {
+            if(entry.getValue() == null) {
+                space = entry.getKey();
+                break;
+            }
+        }
+        //save the target in a hashmap 
+        for(int i = 0; i < n - 1 ; i ++) {
+           target.put(endPositon.get(i), i+1);
+        }
+    }
+    //iterate through the whole 
+    //array of positions and put in the right place
+    //the right car
+    public List<Translation> arangeTheCars() {
+        for(char i : myMap.keySet()) {
+            //if there do not have to be
+            //any car just pass over it
+            if (target.get(i) == null) { 
+                continue;
+            }
+            //if in this positon is the 
+            //right car, pass over it
+            if (target.get(i) == myMap.get(i)) {
+                continue;
+            }
+            int carCurrent = myMap.get(i);
+            //this is the wrong car ^ in the current place
+            //swap it with the space parking plaace
+            if (i != space) {
+                //if in this positon there is not car
+                //this swap is passed
+                myMap.put(space, carCurrent);
+                solution.add(new Translation(i,space, carCurrent));
+            }
+            //the car that might be in the position i
+            int aux = target.get(i);
+            //get the space that will be
+            //obtained after the move of 
+            //the car 
+            for(Character c : myMap.keySet()) {
+                if (myMap.get(c) == aux ) {
+                    space = c;
+                    // 0 = there is no car
+                    myMap.put(c, 0);
+                }
+            }
+            myMap.put(i, aux);
+            solution.add(new Translation(space,i, target.get(i)));
+            
+        }
+        return solution;
+        
+    
+    }
+    
+}
